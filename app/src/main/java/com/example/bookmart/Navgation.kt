@@ -55,6 +55,9 @@ fun Navigation() {
         composable("Terms_and_Conditions") {
             TermsAndConditionsScreen(navController = navController)
         }
+        composable("User_Profile") {
+            UserProfile(navController = navController)
+        }
 
         composable("BookDisplay/{itemId}") { backStackEntry ->
             val arguments = requireNotNull(backStackEntry.arguments)

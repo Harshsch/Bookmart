@@ -118,7 +118,7 @@ fun BottomBarScreen(
                         }
                     },
                     actions = {
-                        IconButton(onClick = { /* do something */ }) {
+                        IconButton(onClick = { navController.navigate("User_Profile") }) {
                             Icon(
                                 imageVector = Icons.Filled.AccountCircle,
                                 contentDescription = "Localized description"
@@ -131,7 +131,8 @@ fun BottomBarScreen(
             bottomBar = {
                 NavigationBar {
                     items.forEachIndexed { index, item ->
-                      val isSelected = selectedItemIndex == index
+
+                        val isSelected = selectedItemIndex == index
                         NavigationBarItem(
                             selected = isSelected,
                             onClick = {

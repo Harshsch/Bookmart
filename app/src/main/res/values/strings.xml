@@ -23,4 +23,6 @@
     <string name="navigation_header">App Drawer</string>
 
     <string name="ready_for_exam">Are you ready for your exams ?</string>
+    <string name="mobile_number">Mobile Number</string>
+    <string name="update">Update</string>
 </resources>
