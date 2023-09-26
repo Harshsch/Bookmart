@@ -163,7 +163,7 @@ fun HeadingTextComponent(value: String) {
 fun MyTextFieldComponent(
     labelValue: String, painterResource: Painter,
     onTextChanged: (String) -> Unit,
-//    errorStatus: Boolean = false
+     errorStatus: Boolean = false
 ) {
 
     val textValue = remember {
@@ -185,7 +185,7 @@ fun MyTextFieldComponent(
         leadingIcon = {
             Icon(painter = painterResource, contentDescription = "")
         },
-        //isError = !errorStatus
+        isError = !errorStatus
     )
 }
 
@@ -194,8 +194,8 @@ fun MyTextFieldComponent(
 @Composable
 fun PasswordTextFieldComponent(
     labelValue: String, painterResource: Painter,
-//    onTextSelected: (String) -> Unit,
-//    errorStatus: Boolean = false
+    onTextSelected: (String) -> Unit,
+    errorStatus: Boolean = false
 ) {
 
     val localFocusManager = LocalFocusManager.current
@@ -230,7 +230,7 @@ fun PasswordTextFieldComponent(
         value = password.value,
         onValueChange = {
             password.value = it
-            //onTextSelected(it)
+            onTextSelected(it)
         },
         leadingIcon = {
             Icon(painter = painterResource, contentDescription = "")
@@ -255,7 +255,7 @@ fun PasswordTextFieldComponent(
 
         },
         visualTransformation = if (passwordVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
-       // isError = !errorStatus
+        isError = !errorStatus
     )
 }
 
@@ -263,7 +263,7 @@ fun PasswordTextFieldComponent(
 fun CheckboxComponent(
     value: String,
      onTextSelected: (String) -> Unit,
-//    onCheckedChange: (Boolean) -> Unit
+    onCheckedChange: (Boolean) -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -279,7 +279,7 @@ fun CheckboxComponent(
         Checkbox(checked = checkedState.value,
             onCheckedChange = {
                 checkedState.value = !checkedState.value
-              //  onCheckedChange.invoke(it)
+                onCheckedChange.invoke(it)
             })
 
         ClickableTextComponent(value = value, onTextSelected)
@@ -334,7 +334,7 @@ fun ButtonComponent(value: String,
         contentPadding = PaddingValues(),
         colors = ButtonDefaults.buttonColors(Color.Transparent),
         shape = RoundedCornerShape(50.dp),
-        //enabled = isEnabled
+        enabled = isEnabled
     ) {
         Box(
             modifier = Modifier

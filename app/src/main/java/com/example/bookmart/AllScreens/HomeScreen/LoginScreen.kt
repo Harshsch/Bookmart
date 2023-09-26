@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -28,8 +29,6 @@ import com.example.bookmart.R
 import com.example.bookmart.UnderLinedTextComponent
 import com.nativemobilebits.loginflow.data.login.LoginUIEvent
 import com.nativemobilebits.loginflow.data.login.LoginViewModel
-import com.nativemobilebits.loginflow.data.signup.SignupUIEvent
-import com.nativemobilebits.loginflow.data.signup.SignupViewModel
 
 
 @Composable
@@ -61,16 +60,16 @@ fun LoginScreen(navController: NavController,loginViewModel: LoginViewModel = vi
                     onTextChanged = {
                         loginViewModel.onEvent(LoginUIEvent.LoginButtonClicked)
                     },
-//                    errorStatus = loginViewModel.loginUIState.value.emailError
+                  errorStatus = loginViewModel.loginUIState.value.emailError
                 )
 
                 PasswordTextFieldComponent(
                     labelValue = stringResource(id = R.string.password),
                     painterResource(id = R.drawable.lock),
-//                    onTextSelected = {
-//                        loginViewModel.onEvent(LoginUIEvent.PasswordChanged(it))
-//                    },
-//                    errorStatus = loginViewModel.loginUIState.value.passwordError
+                   onTextSelected = {
+                       loginViewModel.onEvent(LoginUIEvent.PasswordChanged(it))
+                    },
+                    errorStatus = loginViewModel.loginUIState.value.passwordError
                 )
 
                 Spacer(modifier = Modifier.height(40.dp))
@@ -83,7 +82,7 @@ fun LoginScreen(navController: NavController,loginViewModel: LoginViewModel = vi
                     onButtonClicked = {
                        loginViewModel.onEvent(LoginUIEvent.LoginButtonClicked)
                     },
-//                    isEnabled = loginViewModel.allValidationsPassed.value
+                    isEnabled = loginViewModel.allValidationsPassed.value
                 )
 
                 Spacer(modifier = Modifier.height(20.dp))
@@ -96,14 +95,9 @@ fun LoginScreen(navController: NavController,loginViewModel: LoginViewModel = vi
             }
         }
 
-//        if(loginViewModel.loginInProgress.value) {
-//            CircularProgressIndicator()
-//        }
+        if(loginViewModel.loginInProgress.value) {
+            CircularProgressIndicator()
+        }
     }
-
-
-//    SystemBackButtonHandler {
-//        PostOfficeAppRouter.navigateTo(Screen.SignUpScreen)
-//    }
 }
 

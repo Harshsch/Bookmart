@@ -2,7 +2,10 @@ package com.nativemobilebits.loginflow.data.login
 
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.graphics.BlendMode.Companion.Screen
 import androidx.lifecycle.ViewModel
+import androidx.navigation.NavController
+import com.google.firebase.auth.FirebaseAuth
 
 import com.nativemobilebits.loginflow.data.rules.Validator
 
@@ -58,33 +61,33 @@ class LoginViewModel : ViewModel() {
 
     }
 
-//    private fun login() {
-//
-//        loginInProgress.value = true
-//        val email = loginUIState.value.email
-//        val password = loginUIState.value.password
-//
-//        FirebaseAuth
-//            .getInstance()
-//            .signInWithEmailAndPassword(email, password)
-//            .addOnCompleteListener {
-//                Log.d(TAG,"Inside_login_success")
-//                Log.d(TAG,"${it.isSuccessful}")
-//
-//                if(it.isSuccessful){
-//                    loginInProgress.value = false
-//                    PostOfficeAppRouter.navigateTo(Screen.HomeScreen)
-//                }
-//            }
-//            .addOnFailureListener {
-//                Log.d(TAG,"Inside_login_failure")
-//                Log.d(TAG,"${it.localizedMessage}")
-//
-//                loginInProgress.value = false
-//
-//            }
-//
-//    }
+    private fun login(navController: NavController) {
+
+        loginInProgress.value = true
+        val email = loginUIState.value.email
+        val password = loginUIState.value.password
+
+        FirebaseAuth
+            .getInstance()
+            .signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener {
+                Log.d(TAG,"Inside_login_success")
+                Log.d(TAG,"${it.isSuccessful}")
+
+                if(it.isSuccessful){
+                    loginInProgress.value = false
+                    navController.navigate("home_route")
+                }
+            }
+            .addOnFailureListener {
+                Log.d(TAG,"Inside_login_failure")
+                Log.d(TAG,"${it.localizedMessage}")
+
+                loginInProgress.value = false
+
+            }
+
+    }
 
 }
 
