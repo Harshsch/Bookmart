@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -55,7 +56,7 @@ fun SignUpScreen(navController: NavController,signupViewModel: SignupViewModel =
                     onTextChanged = {
                         signupViewModel.onEvent(SignupUIEvent.FirstNameChanged(it))
                     },
-//                    errorStatus = signupViewModel.registrationUIState.value.firstNameError
+                    errorStatus = signupViewModel.registrationUIState.value.firstNameError
                 )
 
                 MyTextFieldComponent(
@@ -64,7 +65,7 @@ fun SignUpScreen(navController: NavController,signupViewModel: SignupViewModel =
                     onTextChanged = {
                         signupViewModel.onEvent(SignupUIEvent.LastNameChanged(it))
                     },
-//                    errorStatus = signupViewModel.registrationUIState.value.lastNameError
+                    errorStatus = signupViewModel.registrationUIState.value.lastNameError
                 )
 
                 MyTextFieldComponent(
@@ -73,26 +74,26 @@ fun SignUpScreen(navController: NavController,signupViewModel: SignupViewModel =
                     onTextChanged = {
                         signupViewModel.onEvent(SignupUIEvent.EmailChanged(it))
                     },
-//                    errorStatus = signupViewModel.registrationUIState.value.emailError
+                   errorStatus = signupViewModel.registrationUIState.value.emailError
                 )
 
                 PasswordTextFieldComponent(
                     labelValue = stringResource(id = com.example.bookmart.R.string.password),
                     painterResource = painterResource(id = com.example.bookmart.R.drawable.ic_lock),
-//                    onTextSelected = {
-//                        signupViewModel.onEvent(SignupUIEvent.PasswordChanged(it))
-//                    },
-//                    errorStatus = signupViewModel.registrationUIState.value.passwordError
+                    onTextSelected = {
+                     signupViewModel.onEvent(SignupUIEvent.PasswordChanged(it))
+                  },
+                   errorStatus = signupViewModel.registrationUIState.value.passwordError
                 )
 
                 CheckboxComponent(value = stringResource(id = com.example.bookmart.R.string.terms_and_conditions),
                     onTextSelected = {
                         navController.navigate("Terms_and_Conditions")
                  },
-//                    onCheckedChange = {
-//                        signupViewModel.onEvent(SignupUIEvent.PrivacyPolicyCheckBoxClicked(it))
-//                    }
-                )
+                    onCheckedChange = {
+                       signupViewModel.onEvent(SignupUIEvent.PrivacyPolicyCheckBoxClicked(it))
+                    }
+               )
 
                 Spacer(modifier = Modifier.height(40.dp))
 
@@ -101,7 +102,7 @@ fun SignUpScreen(navController: NavController,signupViewModel: SignupViewModel =
                     onButtonClicked = {
                         signupViewModel.onEvent(SignupUIEvent.RegisterButtonClicked)
                     },
-//                    isEnabled = signupViewModel.allValidationsPassed.value
+                    isEnabled = signupViewModel.allValidationsPassed.value
                 )
 
                 Spacer(modifier = Modifier.height(20.dp))
@@ -115,9 +116,9 @@ fun SignUpScreen(navController: NavController,signupViewModel: SignupViewModel =
 
         }
 
-//        if(signupViewModel.signUpInProgress.value) {
-//            CircularProgressIndicator()
-//        }
+        if(signupViewModel.signUpInProgress.value) {
+            CircularProgressIndicator()
+        }
    }
 
 

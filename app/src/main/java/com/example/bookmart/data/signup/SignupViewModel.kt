@@ -3,6 +3,9 @@ package com.nativemobilebits.loginflow.data.signup
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.navigation.NavController
+import com.example.bookmart.Navigation
+import com.google.firebase.auth.FirebaseAuth
 import com.nativemobilebits.loginflow.data.RegistrationUIState
 import com.nativemobilebits.loginflow.data.rules.Validator
 
@@ -68,10 +71,12 @@ class SignupViewModel : ViewModel() {
     private fun signUp() {
         Log.d(TAG, "Inside_signUp")
         printState()
-//        createUserInFirebase(
-//            email = registrationUIState.value.email,
-//            password = registrationUIState.value.password
-//        )
+        createUserInFirebase(
+            email = registrationUIState.value.email,
+            password = registrationUIState.value.password,
+
+
+        )
     }
 
     private fun validateDataWithRules() {
@@ -125,28 +130,29 @@ class SignupViewModel : ViewModel() {
     }
 
 
-//    private fun createUserInFirebase(email: String, password: String) {
-//
-//        signUpInProgress.value = true
-//
-//        FirebaseAuth
-//            .getInstance()
-//            .createUserWithEmailAndPassword(email, password)
-//            .addOnCompleteListener {
-//                Log.d(TAG, "Inside_OnCompleteListener")
-//                Log.d(TAG, " isSuccessful = ${it.isSuccessful}")
-//
-//                signUpInProgress.value = false
+    private fun createUserInFirebase(email: String, password: String) {
+
+        signUpInProgress.value = true
+
+        FirebaseAuth
+            .getInstance()
+            .createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener {
+                Log.d(TAG, "Inside_OnCompleteListener")
+                Log.d(TAG, " isSuccessful = ${it.isSuccessful}")
+
+                signUpInProgress.value = false
 //                if (it.isSuccessful) {
-//                    PostOfficeAppRouter.navigateTo(Screen.HomeScreen)
+//                    navController.navigate("home_route")
 //                }
-//            }
-//            .addOnFailureListener {
-//                Log.d(TAG, "Inside_OnFailureListener")
-//                Log.d(TAG, "Exception= ${it.message}")
-//                Log.d(TAG, "Exception= ${it.localizedMessage}")
-//            }
-//    }
+            }
+            .addOnFailureListener {
+                Log.d(TAG, "Inside_OnFailureListener")
+                Log.d(TAG, "Exception= ${it.message}")
+                Log.d(TAG, "Exception= ${it.localizedMessage}")
+            }
+    }
+
 
 
 }
