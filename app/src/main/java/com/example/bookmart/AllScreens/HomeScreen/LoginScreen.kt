@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.bookmart.ButtonComponent
 import com.example.bookmart.ClickableLoginTextComponent
@@ -25,10 +26,14 @@ import com.example.bookmart.NormalTextComponent
 import com.example.bookmart.PasswordTextFieldComponent
 import com.example.bookmart.R
 import com.example.bookmart.UnderLinedTextComponent
+import com.nativemobilebits.loginflow.data.login.LoginUIEvent
+import com.nativemobilebits.loginflow.data.login.LoginViewModel
+import com.nativemobilebits.loginflow.data.signup.SignupUIEvent
+import com.nativemobilebits.loginflow.data.signup.SignupViewModel
 
 
 @Composable
-fun LoginScreen(navController: NavController) {
+fun LoginScreen(navController: NavController,loginViewModel: LoginViewModel = viewModel()) {
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -53,9 +58,9 @@ fun LoginScreen(navController: NavController) {
 
                 MyTextFieldComponent(labelValue = stringResource(id = R.string.email),
                     painterResource(id = R.drawable.message),
-//                    onTextChanged = {
-//                        loginViewModel.onEvent(LoginUIEvent.EmailChanged(it))
-//                    },
+                    onTextChanged = {
+                        loginViewModel.onEvent(LoginUIEvent.LoginButtonClicked)
+                    },
 //                    errorStatus = loginViewModel.loginUIState.value.emailError
                 )
 
@@ -75,9 +80,9 @@ fun LoginScreen(navController: NavController) {
 
                 ButtonComponent(
                     value = stringResource(id = R.string.login),
-//                    onButtonClicked = {
-//                       loginViewModel.onEvent(LoginUIEvent.LoginButtonClicked)
-//                    },
+                    onButtonClicked = {
+                       loginViewModel.onEvent(LoginUIEvent.LoginButtonClicked)
+                    },
 //                    isEnabled = loginViewModel.allValidationsPassed.value
                 )
 

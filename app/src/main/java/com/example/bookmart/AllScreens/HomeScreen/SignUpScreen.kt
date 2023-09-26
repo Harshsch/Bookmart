@@ -1,8 +1,12 @@
 package com.nativemobilebits.loginflow.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -10,9 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-
 import androidx.compose.ui.unit.dp
-
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.bookmart.ButtonComponent
 import com.example.bookmart.CheckboxComponent
@@ -22,10 +25,12 @@ import com.example.bookmart.HeadingTextComponent
 import com.example.bookmart.MyTextFieldComponent
 import com.example.bookmart.NormalTextComponent
 import com.example.bookmart.PasswordTextFieldComponent
+import com.nativemobilebits.loginflow.data.signup.SignupUIEvent
+import com.nativemobilebits.loginflow.data.signup.SignupViewModel
 
 
 @Composable
-fun SignUpScreen(navController: NavController) {
+fun SignUpScreen(navController: NavController,signupViewModel: SignupViewModel = viewModel()) {
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -47,27 +52,27 @@ fun SignUpScreen(navController: NavController) {
                 MyTextFieldComponent(
                     labelValue = stringResource(id = com.example.bookmart.R.string.first_name),
                     painterResource(id = com.example.bookmart.R.drawable.profile),
-//                    onTextChanged = {
-//                        signupViewModel.onEvent(SignupUIEvent.FirstNameChanged(it))
-//                    },
+                    onTextChanged = {
+                        signupViewModel.onEvent(SignupUIEvent.FirstNameChanged(it))
+                    },
 //                    errorStatus = signupViewModel.registrationUIState.value.firstNameError
                 )
 
                 MyTextFieldComponent(
                     labelValue = stringResource(id = com.example.bookmart.R.string.last_name),
                     painterResource = painterResource(id = com.example.bookmart.R.drawable.profile),
-//                    onTextChanged = {
-//                        signupViewModel.onEvent(SignupUIEvent.LastNameChanged(it))
-//                    },
+                    onTextChanged = {
+                        signupViewModel.onEvent(SignupUIEvent.LastNameChanged(it))
+                    },
 //                    errorStatus = signupViewModel.registrationUIState.value.lastNameError
                 )
 
                 MyTextFieldComponent(
                     labelValue = stringResource(id = com.example.bookmart.R.string.email),
                     painterResource = painterResource(id = com.example.bookmart.R.drawable.message),
-//                    onTextChanged = {
-//                        signupViewModel.onEvent(SignupUIEvent.EmailChanged(it))
-//                    },
+                    onTextChanged = {
+                        signupViewModel.onEvent(SignupUIEvent.EmailChanged(it))
+                    },
 //                    errorStatus = signupViewModel.registrationUIState.value.emailError
                 )
 
@@ -93,9 +98,9 @@ fun SignUpScreen(navController: NavController) {
 
                 ButtonComponent(
                     value = stringResource(id = com.example.bookmart.R.string.register),
-//                    onButtonClicked = {
-//                        signupViewModel.onEvent(SignupUIEvent.RegisterButtonClicked)
-//                    },
+                    onButtonClicked = {
+                        signupViewModel.onEvent(SignupUIEvent.RegisterButtonClicked)
+                    },
 //                    isEnabled = signupViewModel.allValidationsPassed.value
                 )
 
