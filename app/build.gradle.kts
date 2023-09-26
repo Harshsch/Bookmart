@@ -51,6 +51,7 @@ android {
 
 dependencies {
     implementation("androidx.compose.material:material-icons-extended:1.5.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
 
 
     val nav_version = "2.7.2"
@@ -72,4 +73,5 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+
 }

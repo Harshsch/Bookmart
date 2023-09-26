@@ -1,4 +1,4 @@
-package com.example.bookmart.HomeScreen
+package com.example.bookmart.AllScreens.HomeScreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable

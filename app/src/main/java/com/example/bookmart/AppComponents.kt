@@ -162,7 +162,7 @@ fun HeadingTextComponent(value: String) {
 @Composable
 fun MyTextFieldComponent(
     labelValue: String, painterResource: Painter,
-//    onTextChanged: (String) -> Unit,
+    onTextChanged: (String) -> Unit,
 //    errorStatus: Boolean = false
 ) {
 
@@ -180,7 +180,7 @@ fun MyTextFieldComponent(
         value = textValue.value,
         onValueChange = {
             textValue.value = it
-      //      onTextChanged(it)
+          onTextChanged(it)
         },
         leadingIcon = {
             Icon(painter = painterResource, contentDescription = "")
@@ -322,14 +322,14 @@ fun ClickableTextComponent(value: String, onTextSelected: (String) -> Unit) {
 
 @Composable
 fun ButtonComponent(value: String,
-                   // onButtonClicked: () -> Unit, isEnabled: Boolean = false
+                    onButtonClicked: () -> Unit, isEnabled: Boolean = false
 ) {
     Button(
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(48.dp),
         onClick = {
-            //onButtonClicked.invoke()
+            onButtonClicked.invoke()
         },
         contentPadding = PaddingValues(),
         colors = ButtonDefaults.buttonColors(Color.Transparent),

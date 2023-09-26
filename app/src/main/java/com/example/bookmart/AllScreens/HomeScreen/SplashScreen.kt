@@ -1,4 +1,4 @@
-package com.example.bookmart.HomeScreen
+package com.example.bookmart.AllScreens.HomeScreen
 
 import android.view.animation.OvershootInterpolator
 import androidx.compose.animation.core.Animatable

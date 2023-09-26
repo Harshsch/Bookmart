@@ -1,4 +1,4 @@
-package com.example.bookmart.SettingScreen
+package com.example.bookmart.AllScreens.HomeScreen.SettingScreen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
