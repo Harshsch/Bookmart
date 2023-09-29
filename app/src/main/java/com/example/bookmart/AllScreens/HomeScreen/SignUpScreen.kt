@@ -1,4 +1,4 @@
-package com.nativemobilebits.loginflow.screens
+package com.example.bookmart
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -18,16 +18,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.bookmart.ButtonComponent
-import com.example.bookmart.CheckboxComponent
-import com.example.bookmart.ClickableLoginTextComponent
-import com.example.bookmart.DividerTextComponent
-import com.example.bookmart.HeadingTextComponent
-import com.example.bookmart.MyTextFieldComponent
-import com.example.bookmart.NormalTextComponent
-import com.example.bookmart.PasswordTextFieldComponent
-import com.nativemobilebits.loginflow.data.signup.SignupUIEvent
-import com.nativemobilebits.loginflow.data.signup.SignupViewModel
 
 
 @Composable
@@ -101,6 +91,7 @@ fun SignUpScreen(navController: NavController,signupViewModel: SignupViewModel =
                     value = stringResource(id = com.example.bookmart.R.string.register),
                     onButtonClicked = {
                         signupViewModel.onEvent(SignupUIEvent.RegisterButtonClicked)
+                        navController.navigate("home_route")
                     },
                     isEnabled = signupViewModel.allValidationsPassed.value
                 )

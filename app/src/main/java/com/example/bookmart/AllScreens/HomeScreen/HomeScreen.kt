@@ -41,11 +41,13 @@ import com.example.bookmart.HeadingTextComponent
 import com.example.bookmart.NormalTextComponent
 import com.example.bookmart.R
 import com.example.bookmart.itemList
+import com.google.firebase.auth.FirebaseAuth
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navController: NavHostController)
 {
+    val currentUser = FirebaseAuth.getInstance().currentUser
     var text by remember { mutableStateOf("") }
     Column(
         Modifier
@@ -63,7 +65,13 @@ fun HomeScreen(navController: NavHostController)
             )
         {
             Column(modifier = Modifier.padding(20.dp, 20.dp, 20.dp, 0.dp)) {
-                NormalTextComponent(value = stringResource(id =R.string.welcome))
+                if (currentUser != null) {
+                    // User is signed in, display the welcome message
+                    NormalTextComponent(value = "Welcome back ${currentUser.email}")
+                } else {
+                    // User is not signed in
+                    NormalTextComponent(value = "Welcome")
+                }
             }
             Column(modifier = Modifier.padding(20.dp, 0.dp, 20.dp, 20.dp)) {
                 HeadingTextComponent(value =stringResource(id =R.string.ready_for_exam) )
@@ -158,6 +166,40 @@ fun DepartmentBooks(navController: NavHostController) {
     LazyColumn()
     {
         item {
+            Text(
+                text = "FirstYear Eng.",
+                Modifier,
+
+                style = TextStyle(
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight(600),
+                    color = Color(0xFF19191B),
+                    textAlign = TextAlign.Center,
+                )
+            )
+        }
+        item {
+            LazyRow() {
+                items(itemList) { item ->
+                    BooksRow(navController = navController, item = item)
+                }
+            }
+        }
+
+        item {
+            Text(
+                text = "Computer Science ",
+                Modifier,
+
+                style = TextStyle(
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight(600),
+                    color = Color(0xFF19191B),
+                    textAlign = TextAlign.Center,
+                )
+            )
+        }
+        item {
             LazyRow() {
                 items(itemList) { item ->
                     BooksRow(navController = navController, item = item)
@@ -166,10 +208,8 @@ fun DepartmentBooks(navController: NavHostController) {
         }
         item {
             Text(
-                text = "New Arrivals",
-                Modifier
-                    .width(153.dp)
-                    .height(36.dp),
+                text = "Information Technology",
+                Modifier,
                 style = TextStyle(
                     fontSize = 24.sp,
                     fontWeight = FontWeight(600),
@@ -185,6 +225,25 @@ fun DepartmentBooks(navController: NavHostController) {
                 }
             }
           }
+        item {
+            Text(
+                text = "Electronics And Telecommunication",
+                Modifier,
+                style = TextStyle(
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight(600),
+                    color = Color(0xFF19191B),
+                    textAlign = TextAlign.Center,
+                )
+            )
+        }
+        item {
+            LazyRow() {
+                items(itemList) { item ->
+                    BooksRow(navController = navController, item = item)
+                }
+            }
+        }
         }
     }
 

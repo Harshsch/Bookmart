@@ -19,8 +19,9 @@ import androidx.navigation.NavHostController
 import com.example.bookmart.ButtonComponent
 import com.example.bookmart.MyTextFieldComponent
 import com.example.bookmart.R
-import com.nativemobilebits.loginflow.data.signup.SignupUIEvent
-import com.nativemobilebits.loginflow.data.signup.SignupViewModel
+import com.example.bookmart.SignupUIEvent
+import com.example.bookmart.SignupViewModel
+
 
 @Composable
 fun UserProfile(navController: NavHostController,signupViewModel: SignupViewModel = viewModel()) {

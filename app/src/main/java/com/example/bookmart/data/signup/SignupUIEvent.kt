@@ -1,5 +1,4 @@
-package com.nativemobilebits.loginflow.data.signup
-
+package com.example.bookmart
 sealed class SignupUIEvent{
 
     data class FirstNameChanged(val firstName:String) : SignupUIEvent()

@@ -1,5 +1,4 @@
-package com.nativemobilebits.loginflow.data.login
-
+package com.example.bookmart
 sealed class LoginUIEvent{
 
     data class EmailChanged(val email:String): LoginUIEvent()

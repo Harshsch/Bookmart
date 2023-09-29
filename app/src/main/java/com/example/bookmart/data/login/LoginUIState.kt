@@ -1,4 +1,4 @@
-package com.nativemobilebits.loginflow.data.login
+package com.example.bookmart
 
 data class LoginUIState(
     var email  :String = "",
