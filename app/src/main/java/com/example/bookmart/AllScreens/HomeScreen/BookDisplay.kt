@@ -1,5 +1,6 @@
 package com.example.bookmart.AllScreens.HomeScreen
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -21,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -30,9 +32,19 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.bookmart.ListItem
 
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+
+
 
 @Composable
 fun BookDisplay(navController: NavHostController,item: ListItem) {
+    lateinit var auth: FirebaseAuth
+    // Initialize Firebase Auth
+    auth = Firebase.auth
+    val context = LocalContext.current
+
     Box (modifier = Modifier.padding(16.dp)){
         ElevatedCard(
             elevation = CardDefaults.cardElevation(
@@ -106,7 +118,18 @@ fun BookDisplay(navController: NavHostController,item: ListItem) {
                 )
                 Row {
                     Button(
-                        onClick = { navController.navigate("Signup") },
+                        onClick = {
+                            // Check if user is signed in (non-null) and update UI accordingly.
+                            val currentUser = auth.currentUser
+                            if (currentUser != null) {
+                                Toast.makeText(context, "Already logedin", Toast.LENGTH_SHORT).show()
+
+
+                            }
+                            else{
+                                navController.navigate("Signup")
+                            }
+                        },
                         modifier = Modifier
                             .width(173.dp)
                             .height(55.dp)
@@ -121,7 +144,18 @@ fun BookDisplay(navController: NavHostController,item: ListItem) {
                     }
                     Spacer(modifier = Modifier.width(10.dp))
                     Button(
-                        onClick = { navController.navigate("Signup")},
+                        onClick = {
+                            // Check if user is signed in (non-null) and update UI accordingly.
+                            val currentUser = auth.currentUser
+                            if (currentUser != null) {
+                                Toast.makeText(context, "Already logedin", Toast.LENGTH_SHORT).show()
+
+
+                            }
+                            else{
+                                navController.navigate("Signup")
+                            }
+                        },
                         modifier = Modifier
                             .width(173.dp)
                             .height(55.dp)

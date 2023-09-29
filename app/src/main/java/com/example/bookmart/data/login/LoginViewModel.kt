@@ -1,13 +1,12 @@
-package com.nativemobilebits.loginflow.data.login
+package com.example.bookmart.data.login
 
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.graphics.BlendMode.Companion.Screen
 import androidx.lifecycle.ViewModel
-import androidx.navigation.NavController
+import com.example.bookmart.LoginUIEvent
+import com.example.bookmart.LoginUIState
+import com.example.bookmart.Validator
 import com.google.firebase.auth.FirebaseAuth
-
-import com.nativemobilebits.loginflow.data.rules.Validator
 
 
 class LoginViewModel : ViewModel() {
@@ -36,8 +35,10 @@ class LoginViewModel : ViewModel() {
             }
 
             is LoginUIEvent.LoginButtonClicked -> {
-                //login()
+                login()
             }
+
+            else -> {}
         }
         validateLoginUIDataWithRules()
     }
@@ -61,7 +62,7 @@ class LoginViewModel : ViewModel() {
 
     }
 
-    private fun login(navController: NavController) {
+    private fun login() {
 
         loginInProgress.value = true
         val email = loginUIState.value.email
@@ -76,7 +77,7 @@ class LoginViewModel : ViewModel() {
 
                 if(it.isSuccessful){
                     loginInProgress.value = false
-                    navController.navigate("home_route")
+                    //navController.navigate("home_route")
                 }
             }
             .addOnFailureListener {
@@ -88,6 +89,7 @@ class LoginViewModel : ViewModel() {
             }
 
     }
+
 
 }
 

@@ -22,13 +22,13 @@ import com.example.bookmart.ButtonComponent
 import com.example.bookmart.ClickableLoginTextComponent
 import com.example.bookmart.DividerTextComponent
 import com.example.bookmart.HeadingTextComponent
+import com.example.bookmart.LoginUIEvent
 import com.example.bookmart.MyTextFieldComponent
 import com.example.bookmart.NormalTextComponent
 import com.example.bookmart.PasswordTextFieldComponent
 import com.example.bookmart.R
 import com.example.bookmart.UnderLinedTextComponent
-import com.nativemobilebits.loginflow.data.login.LoginUIEvent
-import com.nativemobilebits.loginflow.data.login.LoginViewModel
+import com.example.bookmart.data.login.LoginViewModel
 
 
 @Composable
@@ -58,9 +58,9 @@ fun LoginScreen(navController: NavController,loginViewModel: LoginViewModel = vi
                 MyTextFieldComponent(labelValue = stringResource(id = R.string.email),
                     painterResource(id = R.drawable.message),
                     onTextChanged = {
-                        loginViewModel.onEvent(LoginUIEvent.LoginButtonClicked)
+                        loginViewModel.onEvent(LoginUIEvent.EmailChanged(it))
                     },
-                  errorStatus = loginViewModel.loginUIState.value.emailError
+                    errorStatus = loginViewModel.loginUIState.value.emailError
                 )
 
                 PasswordTextFieldComponent(
@@ -81,6 +81,7 @@ fun LoginScreen(navController: NavController,loginViewModel: LoginViewModel = vi
                     value = stringResource(id = R.string.login),
                     onButtonClicked = {
                        loginViewModel.onEvent(LoginUIEvent.LoginButtonClicked)
+                        navController.navigate("home_route")
                     },
                     isEnabled = loginViewModel.allValidationsPassed.value
                 )
@@ -88,6 +89,7 @@ fun LoginScreen(navController: NavController,loginViewModel: LoginViewModel = vi
                 Spacer(modifier = Modifier.height(20.dp))
 
                 DividerTextComponent()
+
 
                 ClickableLoginTextComponent(tryingToLogin = false, onTextSelected = {
                     navController.navigate("Signup")

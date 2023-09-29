@@ -1,4 +1,4 @@
-package com.nativemobilebits.loginflow.data.rules
+package com.example.bookmart
 
 import android.util.Log
 

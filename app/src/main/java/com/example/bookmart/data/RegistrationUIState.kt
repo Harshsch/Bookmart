@@ -1,4 +1,4 @@
-package com.nativemobilebits.loginflow.data
+package com.example.bookmart
 
 data class RegistrationUIState(
     var firstName :String = "",

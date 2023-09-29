@@ -1,5 +1,7 @@
 package com.example.bookmart.AllScreens.HomeScreen.SettingScreen
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,10 +11,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,6 +25,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.google.firebase.auth.FirebaseAuth
+
 @Composable
 fun SettingsScreen(navController: NavController) {
     // Step 1: Create mutable state variables for settings options
@@ -86,9 +88,25 @@ fun SettingsScreen(navController: NavController) {
 
         // Step 8: Add a button to navigate back to the home screen or other actions.
         Button(
-            onClick = { navController.navigate("home_route") }
+            onClick = {  val firebaseAuth = FirebaseAuth.getInstance()
+
+                firebaseAuth.signOut()
+
+                val authStateListener = FirebaseAuth.AuthStateListener {
+                    if (it.currentUser == null) {
+                        Log.d(TAG, "inside signout success")
+
+                    } else {
+                        Log.d(TAG, "signoutnot complete")
+
+                    }
+
+                }
+                firebaseAuth.addAuthStateListener(authStateListener)
+                navController.navigate("home_route")
+            }
         ) {
-            Text(text = "Back to Home")
+            Text(text = "Logout")
         }
     }
 }

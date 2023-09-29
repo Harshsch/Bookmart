@@ -7,12 +7,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.bookmart.AllScreens.HomeScreen.BookDisplay
 import com.example.bookmart.AllScreens.HomeScreen.HomeScreen
-import com.example.bookmart.AllScreens.HomeScreen.SplashScreen
 import com.example.bookmart.AllScreens.HomeScreen.MyOrdersScreen.MyOrdersScreen
 import com.example.bookmart.AllScreens.HomeScreen.SettingScreen.SettingsScreen
+import com.example.bookmart.AllScreens.HomeScreen.SplashScreen
 import com.example.bookmart.AllScreens.HomeScreen.UserProfile
 import com.nativemobilebits.loginflow.screens.LoginScreen
-import com.nativemobilebits.loginflow.screens.SignUpScreen
 import com.nativemobilebits.loginflow.screens.TermsAndConditionsScreen
 
 @Composable

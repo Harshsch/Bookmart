@@ -1,13 +1,9 @@
-package com.nativemobilebits.loginflow.data.signup
+package com.example.bookmart
 
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import androidx.navigation.NavController
-import com.example.bookmart.Navigation
 import com.google.firebase.auth.FirebaseAuth
-import com.nativemobilebits.loginflow.data.RegistrationUIState
-import com.nativemobilebits.loginflow.data.rules.Validator
 
 
 class SignupViewModel : ViewModel() {
@@ -63,6 +59,8 @@ class SignupViewModel : ViewModel() {
                     privacyPolicyAccepted = event.status
                 )
             }
+
+            else -> {}
         }
         validateDataWithRules()
     }
@@ -78,6 +76,28 @@ class SignupViewModel : ViewModel() {
 
         )
     }
+//     fun logout() {
+//         val firebaseAuth =FirebaseAuth.getInstance()
+//
+//         firebaseAuth.signOut()
+//
+//         val authStateListener = AuthStateListener{
+//             if(it.currentUser==null)
+//             {
+//                 Log.d(TAG,"inside signout success")
+//
+//             }
+//             else
+//             {
+//                 Log.d(TAG,"signoutnot complete")
+//
+//             }
+//
+//         }
+//         firebaseAuth.addAuthStateListener(authStateListener)
+//
+//
+//    }
 
     private fun validateDataWithRules() {
         val fNameResult = Validator.validateFirstName(
@@ -143,10 +163,11 @@ class SignupViewModel : ViewModel() {
 
                 signUpInProgress.value = false
 //                if (it.isSuccessful) {
-//                    navController.navigate("home_route")
+//                    PostOfficeAppRouter.navigateTo("home_route")
 //                }
             }
             .addOnFailureListener {
+
                 Log.d(TAG, "Inside_OnFailureListener")
                 Log.d(TAG, "Exception= ${it.message}")
                 Log.d(TAG, "Exception= ${it.localizedMessage}")
