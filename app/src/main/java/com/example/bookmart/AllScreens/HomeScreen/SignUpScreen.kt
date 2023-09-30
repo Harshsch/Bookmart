@@ -18,6 +18,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 
 @Composable
@@ -90,11 +93,44 @@ fun SignUpScreen(navController: NavController,signupViewModel: SignupViewModel =
                 ButtonComponent(
                     value = stringResource(id = com.example.bookmart.R.string.register),
                     onButtonClicked = {
-                        signupViewModel.onEvent(SignupUIEvent.RegisterButtonClicked)
-                        navController.navigate("home_route")
+                        val email = signupViewModel.registrationUIState.value.email
+                        val password = signupViewModel.registrationUIState.value.password
+                        // Assuming you have the user's first name and last name
+                        val firstName = signupViewModel.registrationUIState.value.firstName
+                        val lastName = signupViewModel.registrationUIState.value.lastName
+                        val fullName = "$firstName $lastName"
+
+                        Firebase.auth.createUserWithEmailAndPassword(email, password)
+                            .addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    val user = Firebase.auth.currentUser
+
+                                    // Set the display name
+                                    val userProfileChangeRequest = UserProfileChangeRequest.Builder()
+                                        .setDisplayName(fullName)
+                                        .build()
+
+                                    user?.updateProfile(userProfileChangeRequest)
+                                        ?.addOnCompleteListener { updateTask ->
+                                            if (updateTask.isSuccessful) {
+                                                // Display name updated successfully
+                                                navController.navigate("home_route")
+                                            } else {
+                                                // Handle the error
+                                                val exception = updateTask.exception
+                                                // Handle the exception
+                                            }
+                                        }
+                                } else {
+                                    // Handle the registration error
+                                    val exception = task.exception
+                                    // Handle the exception
+                                }
+                            }
                     },
                     isEnabled = signupViewModel.allValidationsPassed.value
                 )
+
 
                 Spacer(modifier = Modifier.height(20.dp))
 

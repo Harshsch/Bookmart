@@ -39,37 +39,34 @@ import com.google.firebase.ktx.Firebase
 
 
 @Composable
-fun BookDisplay(navController: NavHostController,item: ListItem) {
+fun BookDisplay(navController: NavHostController, item: ListItem) {
     lateinit var auth: FirebaseAuth
     // Initialize Firebase Auth
     auth = Firebase.auth
     val context = LocalContext.current
 
-    Box (modifier = Modifier.padding(16.dp)){
+    Box(modifier = Modifier.padding(16.dp)) {
         ElevatedCard(
             elevation = CardDefaults.cardElevation(
                 defaultElevation = 10.dp
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp,50.dp,16.dp,16.dp),
-
-
-            )
-        {
+                .padding(16.dp, 50.dp, 16.dp, 16.dp),
+        ) {
             Column(
-                modifier = Modifier
-                    .fillMaxSize(),
+                modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                Image(painter = painterResource(id = item.imageResId), contentDescription = "null",)
+                Image(
+                    painter = painterResource(id = item.imageResId),
+                    contentDescription = "Book Cover",
+                )
                 Column(modifier = Modifier.padding(15.dp)) {
-
-
                     Text(
                         text = item.name,
-                        Modifier
+                        modifier = Modifier
                             .width(155.dp)
                             .height(24.dp),
                         style = TextStyle(
@@ -80,34 +77,21 @@ fun BookDisplay(navController: NavHostController,item: ListItem) {
                         )
                     )
                     Text(
-                        text = " V.S Bagad",
-                        Modifier
-                            .width(87.dp)
-                            .height(24.dp),
+                        text = item.department,
+                        modifier = Modifier
+                            .width(156.dp)
+                            .height(27.dp),
                         style = TextStyle(
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight(500),
-                            color = Color(0xFF9D9D9D),
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight(600),
+                            color = Color(0xFF19191B),
                             textAlign = TextAlign.Center,
                         )
                     )
                 }
                 Text(
-                    text = item.author,
-                    Modifier
-                        .width(156.dp)
-                        .height(27.dp),
-                    style = TextStyle(
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight(600),
-                        color = Color(0xFF19191B),
-                        textAlign = TextAlign.Center,
-                    )
-                )
-
-                Text(
-                    text = "J.D. Salinger was an American writer, best known for his 1951 novel The Catcher in the Rye. Before its publi cation, Salinger published several short stories in Story magazine",
-                    Modifier
+                    text = "Book Description Goes Here",
+                    modifier = Modifier
                         .width(356.dp)
                         .height(84.dp),
                     style = TextStyle(
@@ -122,11 +106,8 @@ fun BookDisplay(navController: NavHostController,item: ListItem) {
                             // Check if user is signed in (non-null) and update UI accordingly.
                             val currentUser = auth.currentUser
                             if (currentUser != null) {
-                                Toast.makeText(context, "Already logedin", Toast.LENGTH_SHORT).show()
-
-
-                            }
-                            else{
+                                Toast.makeText(context, "Already logged in", Toast.LENGTH_SHORT).show()
+                            } else {
                                 navController.navigate("Signup")
                             }
                         },
@@ -137,9 +118,7 @@ fun BookDisplay(navController: NavHostController,item: ListItem) {
                                 color = Color.White,
                                 shape = RoundedCornerShape(size = 26.dp)
                             ),
-
-
-                        ) {
+                    ) {
                         Text(text = "Add to Cart")
                     }
                     Spacer(modifier = Modifier.width(10.dp))
@@ -148,11 +127,8 @@ fun BookDisplay(navController: NavHostController,item: ListItem) {
                             // Check if user is signed in (non-null) and update UI accordingly.
                             val currentUser = auth.currentUser
                             if (currentUser != null) {
-                                Toast.makeText(context, "Already logedin", Toast.LENGTH_SHORT).show()
-
-
-                            }
-                            else{
+                                Toast.makeText(context, "Already logged in", Toast.LENGTH_SHORT).show()
+                            } else {
                                 navController.navigate("Signup")
                             }
                         },
@@ -163,7 +139,6 @@ fun BookDisplay(navController: NavHostController,item: ListItem) {
                                 color = Color.White,
                                 shape = RoundedCornerShape(size = 26.dp)
                             )
-
                     ) {
                         Text(text = "Buy")
                     }
