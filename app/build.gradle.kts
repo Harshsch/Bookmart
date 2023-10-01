@@ -53,6 +53,8 @@ android {
 
 dependencies {
 
+
+
     // Import the Firebase BoM
     implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
 
@@ -66,6 +68,8 @@ dependencies {
     // For example, add the dependencies for Firebase Authentication and Cloud Firestore
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-firestore-ktx")
+    implementation("com.google.firebase:firebase-database-ktx")
+
 
     implementation("androidx.compose.material:material-icons-extended:1.5.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
@@ -90,5 +94,6 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+    implementation ("androidx.compose.runtime:runtime:1.5.2")
 
 }

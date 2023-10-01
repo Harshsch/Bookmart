@@ -85,52 +85,52 @@ fun HomeScreen(navController: NavHostController)
         var selectedOption2 by remember { mutableStateOf("Year") }
         var selectedOption3 by remember { mutableStateOf("SEM") }
 
-        Row(modifier = Modifier.padding(5.dp)) {
-            Card(
-                elevation = CardDefaults.cardElevation(
-                    defaultElevation = 10.dp
-                ),
-                modifier = Modifier.weight(1f),
-               // elevation = 8.dp,
-                shape = RoundedCornerShape(8.dp)
-            ) {
-                ExposedDropdownMenu(
-                    items = listOf("Department 1", "Department 2", "Department 3"),
-                    selectedValue = selectedOption1,
-                    onValueSelected = { selectedOption1 = it }
-                )
-            }
-
-            Card(
-                elevation = CardDefaults.cardElevation(
-                    defaultElevation = 10.dp
-                ),
-                modifier = Modifier.weight(1f),
-                //elevation = 8.dp,
-                shape = RoundedCornerShape(8.dp)
-            ) {
-                ExposedDropdownMenu(
-                    items = listOf("SE", "TE", "BE"),
-                    selectedValue = selectedOption2,
-                    onValueSelected = { selectedOption2 = it }
-                )
-            }
-
-            Card(
-                elevation = CardDefaults.cardElevation(
-                    defaultElevation = 10.dp
-                ),
-                modifier = Modifier.weight(1f),
-                //elevation = 8.dp,
-                shape = RoundedCornerShape(8.dp)
-            ) {
-                ExposedDropdownMenu(
-                    items = listOf("SEM-1", "SEM-2"),
-                    selectedValue = selectedOption3,
-                    onValueSelected = { selectedOption3 = it }
-                )
-            }
-        }
+//        Row(modifier = Modifier.padding(5.dp)) {
+//            Card(
+//                elevation = CardDefaults.cardElevation(
+//                    defaultElevation = 10.dp
+//                ),
+//                modifier = Modifier.weight(1f),
+//               // elevation = 8.dp,
+//                shape = RoundedCornerShape(8.dp)
+//            ) {
+//                ExposedDropdownMenu(
+//                    items = listOf("Department 1", "Department 2", "Department 3"),
+//                    selectedValue = selectedOption1,
+//                    onValueSelected = { selectedOption1 = it }
+//                )
+//            }
+//
+//            Card(
+//                elevation = CardDefaults.cardElevation(
+//                    defaultElevation = 10.dp
+//                ),
+//                modifier = Modifier.weight(1f),
+//                //elevation = 8.dp,
+//                shape = RoundedCornerShape(8.dp)
+//            ) {
+//                ExposedDropdownMenu(
+//                    items = listOf("SE", "TE", "BE"),
+//                    selectedValue = selectedOption2,
+//                    onValueSelected = { selectedOption2 = it }
+//                )
+//            }
+//
+//            Card(
+//                elevation = CardDefaults.cardElevation(
+//                    defaultElevation = 10.dp
+//                ),
+//                modifier = Modifier.weight(1f),
+//                //elevation = 8.dp,
+//                shape = RoundedCornerShape(8.dp)
+//            ) {
+//                ExposedDropdownMenu(
+//                    items = listOf("SEM-1", "SEM-2"),
+//                    selectedValue = selectedOption3,
+//                    onValueSelected = { selectedOption3 = it }
+//                )
+//            }
+//        }
 
 
 

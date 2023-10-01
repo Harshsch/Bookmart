@@ -6,8 +6,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.bookmart.AllScreens.HomeScreen.BookDisplay
+import com.example.bookmart.AllScreens.HomeScreen.BuyNowPage
 import com.example.bookmart.AllScreens.HomeScreen.HomeScreen
 import com.example.bookmart.AllScreens.HomeScreen.MyOrdersScreen.MyOrdersScreen
+import com.example.bookmart.AllScreens.HomeScreen.OrderPlacedPage
 import com.example.bookmart.AllScreens.HomeScreen.SettingScreen.SettingsScreen
 import com.example.bookmart.AllScreens.HomeScreen.SplashScreen
 import com.example.bookmart.AllScreens.HomeScreen.UserProfile
@@ -58,6 +60,26 @@ fun Navigation() {
         }
         composable("User_Profile") {
             UserProfile(navController = navController)
+        }
+        composable("confirmation_screen/{itemId}") {
+                backStackEntry ->
+            val arguments = requireNotNull(backStackEntry.arguments)
+            val itemId = arguments.getString("itemId")?.toIntOrNull()
+            val selectedItem = itemList.find { it.id == itemId }
+            selectedItem?.let { item ->
+                OrderPlacedPage(navController = navController, item = item)
+
+            }
+        }
+        composable("BuyNow/{itemId}") {
+                backStackEntry ->
+            val arguments = requireNotNull(backStackEntry.arguments)
+            val itemId = arguments.getString("itemId")?.toIntOrNull()
+            val selectedItem = itemList.find { it.id == itemId }
+            selectedItem?.let { item ->
+                BuyNowPage(navController = navController, item = item)
+
+            }
         }
 
         composable("BookDisplay/{itemId}") { backStackEntry ->
