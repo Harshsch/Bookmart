@@ -14,11 +14,20 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.Button
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -63,12 +72,12 @@ fun BookDisplay(navController: NavHostController, item: ListItem) {
                     painter = painterResource(id = item.imageResId),
                     contentDescription = "Book Cover",
                 )
-                Column(modifier = Modifier.padding(15.dp)) {
+                Column(modifier = Modifier.padding(15.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
                     Text(
                         text = item.name,
-                        modifier = Modifier
-                            .width(155.dp)
-                            .height(24.dp),
+                        modifier = Modifier,
                         style = TextStyle(
                             fontSize = 16.sp,
                             fontWeight = FontWeight(600),
@@ -78,28 +87,47 @@ fun BookDisplay(navController: NavHostController, item: ListItem) {
                     )
                     Text(
                         text = item.department,
-                        modifier = Modifier
-                            .width(156.dp)
-                            .height(27.dp),
+                        modifier = Modifier,
                         style = TextStyle(
                             fontSize = 18.sp,
                             fontWeight = FontWeight(600),
                             color = Color(0xFF19191B),
                             textAlign = TextAlign.Center,
-                        )
+                        ),
+
                     )
                 }
                 Text(
-                    text = "Book Description Goes Here",
-                    modifier = Modifier
-                        .width(356.dp)
-                        .height(84.dp),
+                    text = "${item.description}",
+                    modifier = Modifier,
                     style = TextStyle(
                         fontSize = 14.sp,
                         fontWeight = FontWeight(400),
                         color = Color(0xFF9D9D9D),
                     )
                 )
+                var selectedQuantity by remember { mutableStateOf(1) }
+
+//                QuantitySelector(
+//                    initialQuantity = selectedQuantity,
+//                    onQuantityChange = { newQuantity ->
+//                        selectedQuantity = newQuantity
+//                    }
+//                )
+                Spacer(modifier = Modifier.height(32.dp))
+                // Price Text
+                Text(
+                    text = "₹${item.price}", // Assuming item.price is the price of the book
+                    modifier = Modifier.padding(top = 8.dp),
+                    style = TextStyle(
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight(600),
+                        color = Color(0xFF19191B),
+                        textAlign = TextAlign.Center,
+                    )
+                )
+                Spacer(modifier = Modifier.height(32.dp))
+
                 Row {
                     Button(
                         onClick = {
@@ -127,7 +155,8 @@ fun BookDisplay(navController: NavHostController, item: ListItem) {
                             // Check if user is signed in (non-null) and update UI accordingly.
                             val currentUser = auth.currentUser
                             if (currentUser != null) {
-                                Toast.makeText(context, "Already logged in", Toast.LENGTH_SHORT).show()
+                                navController.navigate("BuyNow/${item.id}")
+                                //Toast.makeText(context, "Already logged in", Toast.LENGTH_SHORT).show()
                             } else {
                                 navController.navigate("Signup")
                             }
@@ -147,3 +176,50 @@ fun BookDisplay(navController: NavHostController, item: ListItem) {
         }
     }
 }
+@Composable
+fun QuantitySelector(
+    initialQuantity: Int,
+    onQuantityChange: (Int) -> Unit
+) {
+    var quantity by remember { mutableStateOf(initialQuantity) }
+
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center
+    ) {
+        IconButton(
+            onClick = {
+                if (quantity > 1) {
+                    quantity--
+                    onQuantityChange(quantity)
+                }
+            }
+        ) {
+            Icon(
+                imageVector = Icons.Default.Remove,
+                contentDescription = "Decrease Quantity"
+            )
+        }
+
+        Text(
+            text = quantity.toString(),
+            modifier = Modifier.padding(horizontal = 16.dp),
+            fontWeight = FontWeight.Bold,
+            fontSize = 18.sp
+        )
+
+        IconButton(
+            onClick = {
+                quantity++
+                onQuantityChange(quantity)
+            }
+        ) {
+            Icon(
+                imageVector = Icons.Default.Add,
+                contentDescription = "Increase Quantity"
+            )
+        }
+    }
+}
+

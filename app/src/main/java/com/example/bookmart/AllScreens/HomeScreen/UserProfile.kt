@@ -111,7 +111,7 @@ fun UserProfile(
     }
 }
 
-private fun isFormValid(firstName: String, lastName: String): Boolean {
+fun isFormValid(firstName: String, lastName: String): Boolean {
     // Add validation logic here
     return !firstName.isBlank() && !lastName.isBlank()
 }
