@@ -2,6 +2,7 @@ package com.example.bookmart
 
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -35,6 +36,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.navigation.NavController
+import com.example.bookmart.data.AddToCart.CartItem
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 
 data class BottomNavigationItem(
@@ -51,19 +56,19 @@ data class BottomNavigationItem(
 fun BottomBarScreen(
     navController: NavController,
     screenContent: @Composable () -> Unit
-){
+) {
     var isDrawerOpen by remember { mutableStateOf(false) }
 
     val items = listOf(
         BottomNavigationItem(
-            id=0,
+            id = 0,
             title = "Home",
             selectedIcon = Icons.Filled.Home,
             unselectedIcon = Icons.Outlined.Home,
             hasNews = false,
         ),
         BottomNavigationItem(
-            id=1,
+            id = 1,
             title = "MyOrders",
             selectedIcon = Icons.Filled.Email,
             unselectedIcon = Icons.Outlined.Email,
@@ -71,7 +76,7 @@ fun BottomBarScreen(
             badgeCount = 45
         ),
         BottomNavigationItem(
-            id=2,
+            id = 2,
             title = "Settings",
             selectedIcon = Icons.Filled.Settings,
             unselectedIcon = Icons.Outlined.Settings,
@@ -92,7 +97,9 @@ fun BottomBarScreen(
         }
     }
 
-
+    lateinit var auth: FirebaseAuth
+    // Initialize Firebase Auth
+    auth = Firebase.auth
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -126,7 +133,7 @@ fun BottomBarScreen(
                         }
                     },
 
-                )
+                    )
             },
             bottomBar = {
                 NavigationBar {
@@ -136,14 +143,20 @@ fun BottomBarScreen(
                         NavigationBarItem(
                             selected = isSelected,
                             onClick = {
-                              selectedItemIndex = index
+                                val currentUser = auth.currentUser
+                                selectedItemIndex = index
                                 val destination = when (item.title) {
                                     "Home" -> "home_route"
                                     "MyOrders" -> "my_orders_route"
                                     "Settings" -> "settings_route"
                                     else -> "fallback_route" // Define a fallback route for unmatched titles
                                 }
-                                navController.navigate(destination)
+                                if (currentUser != null) {
+                                    navController.navigate(destination)
+                                } else {
+                                    navController.navigate("Signup")
+
+                                }
                             },
                             label = {
                                 Text(text = item.title)
@@ -153,27 +166,24 @@ fun BottomBarScreen(
 
                                 BadgedBox(
                                     badge = {
-                                        if(item.badgeCount != null) {
+                                        if (item.badgeCount != null) {
                                             Badge {
                                                 Text(text = item.badgeCount.toString())
                                             }
-                                        } else if(item.hasNews) {
+                                        } else if (item.hasNews) {
                                             Badge()
                                         }
                                     }
                                 ) {
                                     Icon(
                                         imageVector = if (isSelected) {
-                                        item.selectedIcon
+                                            item.selectedIcon
 
-                                            }
-                                        else {
+                                        } else {
                                             item.unselectedIcon
                                         },
                                         contentDescription = item.title,
                                     )
-
-
 
 
                                 }
@@ -182,6 +192,7 @@ fun BottomBarScreen(
                     }
                 }
             }
+
         ) {
 
             screenContent()
@@ -189,3 +200,4 @@ fun BottomBarScreen(
         }
     }
 }
+

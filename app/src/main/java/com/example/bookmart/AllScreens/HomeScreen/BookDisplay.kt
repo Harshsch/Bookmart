@@ -38,8 +38,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.bookmart.ListItem
+import com.example.bookmart.data.AddToCart.CartItem
+import com.example.bookmart.data.AddToCart.CartViewModel
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -127,6 +130,8 @@ fun BookDisplay(navController: NavHostController, item: ListItem) {
                     )
                 )
                 Spacer(modifier = Modifier.height(32.dp))
+                val cartViewModel = viewModel<CartViewModel>()
+
 
                 Row {
                     Button(
@@ -134,7 +139,14 @@ fun BookDisplay(navController: NavHostController, item: ListItem) {
                             // Check if user is signed in (non-null) and update UI accordingly.
                             val currentUser = auth.currentUser
                             if (currentUser != null) {
-                                Toast.makeText(context, "Already logged in", Toast.LENGTH_SHORT).show()
+                                val newItem = CartItem(
+                                    id = item.id,
+                                    name = item.name,
+                                    price = item.price
+                                )
+                                Toast.makeText(context, "Added to Wishlist", Toast.LENGTH_SHORT).show()
+                                // Add the item to the cart using the ViewModel
+                                cartViewModel.addItemToCart(newItem)
                             } else {
                                 navController.navigate("Signup")
                             }
@@ -147,7 +159,7 @@ fun BookDisplay(navController: NavHostController, item: ListItem) {
                                 shape = RoundedCornerShape(size = 26.dp)
                             ),
                     ) {
-                        Text(text = "Add to Cart")
+                        Text(text = "Wishlist")
                     }
                     Spacer(modifier = Modifier.width(10.dp))
                     Button(
