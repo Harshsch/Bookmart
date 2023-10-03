@@ -32,9 +32,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.bookmart.AllScreens.HomeScreen.UserProfile.isFormValid
 import com.example.bookmart.BuyNowData
 import com.example.bookmart.ListItem
+import com.example.bookmart.data.AddToCart.MyOrders
+import com.example.bookmart.data.AddToCart.MyOrdersViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
@@ -222,6 +226,8 @@ fun BuyNowPage(navController: NavController,item: ListItem) {
            Price(quantity = quantity, item = item)
            Spacer(modifier = Modifier.height(32.dp))
 
+           val MyOrdersViewModel = viewModel<MyOrdersViewModel>()
+
            // Confirm Order and Payment
            Button(
                onClick = {
@@ -247,6 +253,14 @@ fun BuyNowPage(navController: NavController,item: ListItem) {
                                null
                            }
                        }
+                       val newItem = MyOrders(
+
+                           name = item.name,
+                           payment = "Payment: Pending ",
+                           status = "5 days left"
+                       )
+                       // Add the item to the cart using the ViewModel
+                       MyOrdersViewModel.addItemToOrders(newItem)
 
                        isConfirmButtonPressed = true
                        if (isConfirmButtonPressed) {

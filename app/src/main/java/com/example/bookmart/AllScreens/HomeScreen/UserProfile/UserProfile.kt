@@ -1,4 +1,4 @@
-package com.example.bookmart.AllScreens.HomeScreen
+package com.example.bookmart.AllScreens.HomeScreen.UserProfile
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement

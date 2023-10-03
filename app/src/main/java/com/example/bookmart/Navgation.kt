@@ -12,7 +12,7 @@ import com.example.bookmart.AllScreens.HomeScreen.MyOrdersScreen.MyOrdersScreen
 import com.example.bookmart.AllScreens.HomeScreen.OrderPlacedPage
 import com.example.bookmart.AllScreens.HomeScreen.SettingScreen.SettingsScreen
 import com.example.bookmart.AllScreens.HomeScreen.SplashScreen
-import com.example.bookmart.AllScreens.HomeScreen.UserProfile
+import com.example.bookmart.AllScreens.HomeScreen.UserProfile.UserProfile
 import com.nativemobilebits.loginflow.screens.LoginScreen
 import com.nativemobilebits.loginflow.screens.TermsAndConditionsScreen
 
@@ -61,6 +61,9 @@ fun Navigation() {
         composable("User_Profile") {
             UserProfile(navController = navController)
         }
+
+
+
         composable("confirmation_screen/{itemId}") {
                 backStackEntry ->
             val arguments = requireNotNull(backStackEntry.arguments)

@@ -1,5 +1,7 @@
 package com.example.bookmart
 
+import com.example.bookmart.data.AddToCart.CartItem
+
 data class BuyNowData(
     val name: String,
     val streetAddress: String,
@@ -8,6 +10,15 @@ data class BuyNowData(
     val priceperunit: Int,
     val quantity: Int,
     val totalprice: String
+
+)
+data class CartBuyNowData(
+    val name: String,
+    val streetAddress: String,
+    val city: String,
+    val cartItems: List<CartItem>,
+    //val quantity: Int,
+
 
 )
 

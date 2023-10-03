@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
@@ -76,6 +77,7 @@ import com.example.bookmart.ui.theme.PurpleGrey80
 @Composable
 fun BooksRow(navController: NavHostController, item: ListItem) {
     Column {
+
         Card(
             modifier = Modifier
                 .padding(5.dp)
@@ -84,7 +86,7 @@ fun BooksRow(navController: NavHostController, item: ListItem) {
                     spotColor = Color(0x0D06070D),
                     ambientColor = Color(0x0D06070D)
                 )
-                .width(150.dp)
+                .width(180.dp)
                 .height(290.60001.dp),
             onClick = { navController.navigate("BookDisplay/${item.id}") }
         ) {
@@ -97,7 +99,7 @@ fun BooksRow(navController: NavHostController, item: ListItem) {
                         spotColor = Color(0x0D06070D),
                         ambientColor = Color(0x0D06070D)
                     )
-                    .width(160.dp)
+                    .width(180.dp)
                     .height(249.60001.dp),
                 contentScale = ContentScale.FillBounds
             )
