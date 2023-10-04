@@ -16,3 +16,7 @@ data class RegistrationUIState(
 
 
 )
+data class Mobilenumber(
+    var Mobilenumber :String = "",
+    var MobilenumberError :Boolean = false,
+)

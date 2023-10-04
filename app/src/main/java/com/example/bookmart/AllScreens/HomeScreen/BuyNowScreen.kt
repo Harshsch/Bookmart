@@ -69,10 +69,6 @@ fun BuyNowPage(navController: NavController,item: ListItem) {
         )
     }
 
-
-
-
-
    ElevatedCard(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 10.dp
@@ -111,8 +107,6 @@ fun BuyNowPage(navController: NavController,item: ListItem) {
            //AddressTextField("Name", name) { name = it }
            AddressTextField("Residential Address", streetAddress) { streetAddress = it }
            AddressTextField("City,State,Postal Code", city) { city = it }
-           //AddressTextField("State", state) { state = it }
-           //AddressTextField("Postal Code", postalCode) { postalCode = it }
 
            Spacer(modifier = Modifier.height(12.dp))
 
@@ -330,7 +324,7 @@ enum class PaymentMethod {
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun AddressTextField(
+fun AddressTextField(
     label: String,
     value: String,
     onValueChange: (String) -> Unit
