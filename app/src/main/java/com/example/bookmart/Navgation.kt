@@ -10,7 +10,10 @@ import com.example.bookmart.AllScreens.HomeScreen.BuyNowPage
 import com.example.bookmart.AllScreens.HomeScreen.HomeScreen
 import com.example.bookmart.AllScreens.HomeScreen.MyOrdersScreen.MyOrdersScreen
 import com.example.bookmart.AllScreens.HomeScreen.OrderPlacedPage
+import com.example.bookmart.AllScreens.HomeScreen.SettingScreen.FAQ
+import com.example.bookmart.AllScreens.HomeScreen.SettingScreen.SavedAddressesScreen
 import com.example.bookmart.AllScreens.HomeScreen.SettingScreen.SettingsScreen
+import com.example.bookmart.AllScreens.HomeScreen.SettingScreen.TermsAndCondition
 import com.example.bookmart.AllScreens.HomeScreen.SplashScreen
 import com.example.bookmart.AllScreens.HomeScreen.UserProfile.UserProfile
 import com.nativemobilebits.loginflow.screens.LoginScreen
@@ -60,6 +63,21 @@ fun Navigation() {
         }
         composable("User_Profile") {
             UserProfile(navController = navController)
+        }
+        composable("Terms") {
+            BottomBarScreen(navController) {
+                TermsAndCondition(navController = navController)
+            }
+        }
+        composable("SavedAddress") {
+            BottomBarScreen(navController) {
+                SavedAddressesScreen(navController = navController)
+            }
+        }
+        composable("FAQ") {
+            BottomBarScreen(navController) {
+                FAQ(navController = navController)
+            }
         }
 
 

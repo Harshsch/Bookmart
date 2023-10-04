@@ -76,28 +76,7 @@ class SignupViewModel : ViewModel() {
 
         )
     }
-//     fun logout() {
-//         val firebaseAuth =FirebaseAuth.getInstance()
-//
-//         firebaseAuth.signOut()
-//
-//         val authStateListener = AuthStateListener{
-//             if(it.currentUser==null)
-//             {
-//                 Log.d(TAG,"inside signout success")
-//
-//             }
-//             else
-//             {
-//                 Log.d(TAG,"signoutnot complete")
-//
-//             }
-//
-//         }
-//         firebaseAuth.addAuthStateListener(authStateListener)
-//
-//
-//    }
+
 
     private fun validateDataWithRules() {
         val fNameResult = Validator.validateFirstName(

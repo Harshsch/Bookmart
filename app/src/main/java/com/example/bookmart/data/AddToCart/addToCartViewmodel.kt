@@ -1,7 +1,15 @@
 package com.example.bookmart.data.AddToCart
 
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import com.google.firebase.database.FirebaseDatabase
+
+data class Address(
+    val name: String = "",
+    val streetAddress: String = "",
+    val city: String = "",
+    val mobileNumber: String? = null
+)
 
 data class CartItem(
     val id:Int =0,
@@ -54,6 +62,27 @@ class CartViewModel : ViewModel() {
     // Function to get the current cart items
     fun getCartItems(): List<CartItem> {
         return cartItems.toList()
+
+    }
+}
+
+class AddressViewModel : ViewModel() {
+    val database = FirebaseDatabase.getInstance()
+    val databaseReference = database.getReference("Saved_address")
+    private val address = mutableListOf<Address>()
+
+    // Function to add an item to the cart
+    fun addItemToAddresses(item: Address) {
+
+        println("i Am in ORDERS Befor adding  :$address")
+        address.add(item)
+        println("i Am in ORDERS aFTER ADDING  :$address")
+        databaseReference.push().setValue(item)
+    }
+
+    // Function to get the current cart items
+    fun getCartItems(): List<Address> {
+        return address.toList()
 
     }
 }
