@@ -33,7 +33,6 @@ import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -72,39 +71,21 @@ fun BottomBarScreen(
     navController: NavController,
     screenContent: @Composable () -> Unit
 ) {
-
-// Initialize Firebase Database
     val database = FirebaseDatabase.getInstance()
-
-// Reference to the specific location in the database
     val reference = database.getReference("cartlist")
-
     var count by remember { mutableStateOf(0) }
-// Add a ValueEventListener to the reference
     reference.addListenerForSingleValueEvent(object : ValueEventListener {
         override fun onDataChange(snapshot: DataSnapshot) {
-            // The 'snapshot' contains the data at the specified location
-
-            // You can count the number of children (elements) in the snapshot
             val numberOfElements = snapshot.childrenCount
             if (numberOfElements != null) {
                  count= numberOfElements.toInt()
             }
-
-
-            // Now 'numberOfElements' contains the count of elements at the location
-            // You can use this value as needed in your app
-            println("Number of Elements: $numberOfElements")
         }
-
         override fun onCancelled(error: DatabaseError) {
-            // Handle database error here
             println("Database Error: $error")
         }
     })
     var isDrawerOpen by remember { mutableStateOf(false) }
-
-
     val items = listOf(
         BottomNavigationItem(
             id = 0,
@@ -129,12 +110,9 @@ fun BottomBarScreen(
             hasNews = true,
         ),
     )
-
-
     var BottomselectedItemIndex by rememberSaveable {
         mutableStateOf(0)
     }
-
     navController.addOnDestinationChangedListener { _, destination, _ ->
         BottomselectedItemIndex = when (destination.route) {
             "home_route" -> 0
@@ -143,8 +121,6 @@ fun BottomBarScreen(
             else -> -1 // Define a fallback index for unmatched routes
         }
     }
-
-
     lateinit var auth: FirebaseAuth
     // Initialize Firebase Auth
     auth = Firebase.auth
@@ -195,9 +171,7 @@ fun BottomBarScreen(
             },
             drawerState = drawerState
         ) {
-
             Scaffold(
-
                 topBar = {
                     CenterAlignedTopAppBar(
 
@@ -228,11 +202,9 @@ fun BottomBarScreen(
                         }
                     )
                 },
-
                 bottomBar = {
                     NavigationBar {
                         items.forEachIndexed { index, item ->
-
                             val isSelected = BottomselectedItemIndex == index
                             NavigationBarItem(
                                 selected = isSelected,
@@ -249,7 +221,6 @@ fun BottomBarScreen(
                                         navController.navigate(destination)
                                     } else {
                                         navController.navigate("Signup")
-
                                     }
                                 },
                                 label = {
@@ -278,17 +249,12 @@ fun BottomBarScreen(
                                             },
                                             contentDescription = item.title,
                                         )
-
-
                                     }
                                 }
                             )
                         }
                     }
                 }
-
-
-
             ) {
 
                 screenContent()

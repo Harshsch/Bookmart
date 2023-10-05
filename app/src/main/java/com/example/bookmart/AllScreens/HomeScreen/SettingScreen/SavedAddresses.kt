@@ -22,11 +22,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.bookmart.AllScreens.HomeScreen.AddressTextField
 import com.example.bookmart.data.AddToCart.Address
-import com.example.bookmart.data.AddToCart.AddressViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -74,7 +72,7 @@ fun SavedAddressesScreen(navController: NavController) {
             mobileNumber=Mobile_Number
         )
     }
-    val addressviewModel = viewModel<AddressViewModel>()
+
 
 
     Column(
@@ -97,29 +95,14 @@ fun SavedAddressesScreen(navController: NavController) {
         ) { Mobile_Number = it }
 
 
-        val it= currentUser?.displayName
+
 
         Button(onClick = {
             isConfirmButtonPressed = true
-
-//            var newitem =
-//                it?.let { it1 ->
-//                    Address(
-//                        name = it1,
-//                        streetAddress = streetAddress,
-//                        city = city,
-//                        mobileNumber=Mobile_Number
-//                    )
-//                }
-//                if (newitem != null) {
-//                    addressviewModel.addItemToAddresses(newitem)
-//                }
-
-            if (isConfirmButtonPressed) {
                 databaseReference.push().setValue(useraddress)
-            } })
+            })
         {
-            Text(text = "+ Add a new address",)
+            Text(text = "+ Add a new address")
         }
         if (savedaddress.isNotEmpty()) {
             // Display cart contents or items here.
@@ -157,9 +140,9 @@ fun AddressItem(adress: Address, navController:NavController) {
                     fontSize = 14.sp
                 ),)
 
-                Text(text = "${adress.streetAddress}")
+                Text(text = adress.streetAddress)
 
-                Text(text = "${adress.city}")
+                Text(text = adress.city)
 
 
             Text(text = "${adress.mobileNumber}")}}

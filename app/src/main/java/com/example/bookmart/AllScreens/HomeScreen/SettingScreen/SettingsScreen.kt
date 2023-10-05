@@ -56,14 +56,6 @@ fun SettingsScreen(navController: NavController) {
 
             item {
                 SettingsItem(
-                    icon = Icons.Default.AccountCircle,
-                    title = "Account Settings",
-                    onClick = { /* Handle Account Settings click */ }
-                )
-            }
-
-            item {
-                SettingsItem(
                     icon = Icons.Default.Person,
                     title = "Edit Profile",
                     onClick = { navController.navigate("User_Profile")/* Handle Edit Profile click */ }

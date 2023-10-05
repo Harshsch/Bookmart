@@ -39,13 +39,13 @@ fun SignUpScreen(navController: NavController,signupViewModel: SignupViewModel =
         ) {
             Column(modifier = Modifier.fillMaxSize()) {
 
-                NormalTextComponent(value = stringResource(id = com.example.bookmart.R.string.hello))
-                HeadingTextComponent(value = stringResource(id = com.example.bookmart.R.string.create_account))
+                NormalTextComponent(value = stringResource(id = R.string.hello))
+                HeadingTextComponent(value = stringResource(id = R.string.create_account))
                 Spacer(modifier = Modifier.height(20.dp))
 
                 MyTextFieldComponent(
-                    labelValue = stringResource(id = com.example.bookmart.R.string.first_name),
-                    painterResource(id = com.example.bookmart.R.drawable.profile),
+                    labelValue = stringResource(id =R.string.first_name),
+                    painterResource(id = R.drawable.profile),
                     onTextChanged = {
                         signupViewModel.onEvent(SignupUIEvent.FirstNameChanged(it))
                     },
@@ -54,7 +54,7 @@ fun SignUpScreen(navController: NavController,signupViewModel: SignupViewModel =
 
                 MyTextFieldComponent(
                     labelValue = stringResource(id = com.example.bookmart.R.string.last_name),
-                    painterResource = painterResource(id = com.example.bookmart.R.drawable.profile),
+                    painterResource = painterResource(id = R.drawable.profile),
                     onTextChanged = {
                         signupViewModel.onEvent(SignupUIEvent.LastNameChanged(it))
                     },
@@ -62,8 +62,8 @@ fun SignUpScreen(navController: NavController,signupViewModel: SignupViewModel =
                 )
 
                 MyTextFieldComponent(
-                    labelValue = stringResource(id = com.example.bookmart.R.string.email),
-                    painterResource = painterResource(id = com.example.bookmart.R.drawable.message),
+                    labelValue = stringResource(id = R.string.email),
+                    painterResource = painterResource(id = R.drawable.message),
                     onTextChanged = {
                         signupViewModel.onEvent(SignupUIEvent.EmailChanged(it))
                     },
@@ -71,8 +71,8 @@ fun SignUpScreen(navController: NavController,signupViewModel: SignupViewModel =
                 )
 
                 PasswordTextFieldComponent(
-                    labelValue = stringResource(id = com.example.bookmart.R.string.password),
-                    painterResource = painterResource(id = com.example.bookmart.R.drawable.ic_lock),
+                    labelValue = stringResource(id = R.string.password),
+                    painterResource = painterResource(id = R.drawable.ic_lock),
                     onTextSelected = {
                      signupViewModel.onEvent(SignupUIEvent.PasswordChanged(it))
                   },
@@ -127,6 +127,7 @@ fun SignUpScreen(navController: NavController,signupViewModel: SignupViewModel =
                                     // Handle the exception
                                 }
                             }
+                        navController.navigate("home_route")
                     },
                     isEnabled = signupViewModel.allValidationsPassed.value
                 )
