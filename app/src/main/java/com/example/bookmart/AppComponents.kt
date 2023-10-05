@@ -70,8 +70,10 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.example.bookmart.ui.theme.Purple80
-import com.example.bookmart.ui.theme.PurpleGrey80
+import com.example.bookmart.ui.theme.DarkPrimaryColor
+import com.example.bookmart.ui.theme.DarkSecondaryColor
+import com.example.bookmart.ui.theme.DarkSurfaceColor
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -218,7 +220,7 @@ fun NormalTextComponent(value: String) {
             fontSize = 24.sp,
             fontWeight = FontWeight.Normal,
             fontStyle = FontStyle.Normal
-        ), color = colorResource(id = R.color.black),
+        ), color = colorResource(id = R.color.DarkBackgroundColor),
         textAlign = TextAlign.Center
     )
 }
@@ -234,7 +236,7 @@ fun HeadingTextComponent(value: String) {
             fontSize = 30.sp,
             fontWeight = FontWeight.Bold,
             fontStyle = FontStyle.Normal
-        ), color = colorResource(id =R.color.black ),
+        ), color = colorResource(id =R.color.DarkBackgroundColor ),
         textAlign = TextAlign.Center
     )
 }
@@ -295,9 +297,9 @@ fun PasswordTextFieldComponent(
 
         label = { Text(text = labelValue) },
         colors = TextFieldDefaults.outlinedTextFieldColors(
-            focusedBorderColor = Purple80,
-            focusedLabelColor = Purple80,
-            cursorColor = Purple80,
+            focusedBorderColor = DarkPrimaryColor,
+            focusedLabelColor = DarkPrimaryColor,
+            cursorColor = DarkSurfaceColor,
 
         ),
         keyboardOptions = KeyboardOptions(
@@ -377,12 +379,12 @@ fun ClickableTextComponent(value: String, onTextSelected: (String) -> Unit) {
 
     val annotatedString = buildAnnotatedString {
         append(initialText)
-        withStyle(style = SpanStyle(color = Purple80)) {
+        withStyle(style = SpanStyle(color = DarkPrimaryColor)) {
             pushStringAnnotation(tag = privacyPolicyText, annotation = privacyPolicyText)
             append(privacyPolicyText)
         }
         append(andText)
-        withStyle(style = SpanStyle(color = Purple80)) {
+        withStyle(style = SpanStyle(color = DarkPrimaryColor)) {
             pushStringAnnotation(tag = termsAndConditionsText, annotation = termsAndConditionsText)
             append(termsAndConditionsText)
         }
@@ -423,7 +425,7 @@ fun ButtonComponent(value: String,
                 .fillMaxWidth()
                 .heightIn(48.dp)
                 .background(
-                    brush = Brush.horizontalGradient(listOf(PurpleGrey80, Purple80)),
+                    brush = Brush.horizontalGradient(listOf(DarkSecondaryColor, DarkPrimaryColor)),
                     shape = RoundedCornerShape(50.dp)
                 ),
             contentAlignment = Alignment.Center
@@ -451,7 +453,7 @@ fun DividerTextComponent() {
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f),
-            color = PurpleGrey80,
+            color = DarkSecondaryColor,
             thickness = 1.dp
         )
 
@@ -465,7 +467,7 @@ fun DividerTextComponent() {
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f),
-            color = PurpleGrey80,
+            color = DarkSecondaryColor,
             thickness = 1.dp
         )
     }
@@ -480,7 +482,7 @@ fun ClickableLoginTextComponent(tryingToLogin: Boolean = true, onTextSelected: (
 
     val annotatedString = buildAnnotatedString {
         append(initialText)
-        withStyle(style = SpanStyle(color = Purple80)) {
+        withStyle(style = SpanStyle(color = DarkPrimaryColor)) {
             pushStringAnnotation(tag = loginText, annotation = loginText)
             append(loginText)
         }

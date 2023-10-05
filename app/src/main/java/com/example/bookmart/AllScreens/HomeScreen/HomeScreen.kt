@@ -1,8 +1,8 @@
 package com.example.bookmart.AllScreens.HomeScreen
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -10,8 +10,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -25,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -34,7 +33,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.bookmart.BooksRow
-import com.example.bookmart.ExposedDropdownMenu
 import com.example.bookmart.HeadingTextComponent
 import com.example.bookmart.ListItem
 import com.example.bookmart.NormalTextComponent
@@ -42,7 +40,7 @@ import com.example.bookmart.R
 import com.example.bookmart.itemList
 import com.google.firebase.auth.FirebaseAuth
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
 fun HomeScreen(navController: NavHostController)
 {
@@ -51,9 +49,8 @@ fun HomeScreen(navController: NavHostController)
 
     Column(
         Modifier
-            .width(428.dp)
-            .height(926.dp)
-            .padding(20.dp, 20.dp, 20.dp, 80.dp)
+            .padding(0.dp, 20.dp, 0.dp, 80.dp)
+            .background(color = colorResource(id = R.color.DarkSurfaceColor))
     ) {
         ElevatedCard(
             elevation = CardDefaults.cardElevation(
@@ -62,6 +59,7 @@ fun HomeScreen(navController: NavHostController)
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp, 50.dp, 16.dp, 16.dp),
+            
             )
         {
             Column(modifier = Modifier.padding(20.dp, 20.dp, 20.dp, 0.dp)) {
@@ -78,12 +76,6 @@ fun HomeScreen(navController: NavHostController)
             }
 
         }
-        val options = listOf("Department", "Year", "SEM")
-        var selectedOption by remember { mutableStateOf(options.first()) }
-
-        var selectedOption1 by remember { mutableStateOf("Department") }
-        var selectedOption2 by remember { mutableStateOf("Year") }
-        var selectedOption3 by remember { mutableStateOf("SEM") }
 
 //        Row(modifier = Modifier.padding(5.dp)) {
 //            Card(
@@ -168,7 +160,7 @@ fun DepartmentBooks(navController: NavHostController) {
 //
 //        },
     )
-    val searchQuery = "${text}"
+    val searchQuery = text
     fun searchBooksByName(query: String): List<ListItem> {
         val lowercaseQuery = query.toLowerCase()
         return itemList.filter { it.name.toLowerCase().contains(lowercaseQuery) }
@@ -194,7 +186,7 @@ fun DepartmentBooks(navController: NavHostController) {
             )
         }
         item {
-            LazyRow() {
+            LazyRow {
                 items(results) { item ->
                     BooksRow(navController = navController, item = item)
                 }
@@ -214,7 +206,7 @@ fun DepartmentBooks(navController: NavHostController) {
             )
         }
         item {
-            LazyRow() {
+            LazyRow {
                 items(itemList.filter { it.department == "First Year" }) { item ->
                     BooksRow(navController = navController, item = item)
                 }
@@ -249,7 +241,7 @@ fun DepartmentBooks(navController: NavHostController) {
             )
         }
         item {
-            LazyRow() {
+            LazyRow {
                 items(itemList.filter { it.year ==2}) { item ->
                     BooksRow(navController = navController, item = item)
                 }
@@ -270,7 +262,7 @@ fun DepartmentBooks(navController: NavHostController) {
             )
         }
         item {
-            LazyRow() {
+            LazyRow {
                 items(itemList.filter { it.year ==3}) { item ->
                     BooksRow(navController = navController, item = item)
                 }
@@ -291,7 +283,7 @@ fun DepartmentBooks(navController: NavHostController) {
             )
         }
         item {
-            LazyRow() {
+            LazyRow {
                 items(itemList.filter { it.year ==4}) { item ->
                     BooksRow(navController = navController, item = item)
                 }
@@ -310,7 +302,7 @@ fun DepartmentBooks(navController: NavHostController) {
             )
         }
         item {
-            LazyRow() {
+            LazyRow {
                 items(itemList) { item ->
                     BooksRow(navController = navController, item = item)
                 }
@@ -329,7 +321,7 @@ fun DepartmentBooks(navController: NavHostController) {
             )
         }
         item {
-            LazyRow() {
+            LazyRow {
                 items(itemList) { item ->
                     BooksRow(navController = navController, item = item)
                 }

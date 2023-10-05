@@ -54,6 +54,8 @@ android {
 }
 
 dependencies {
+    implementation ("com.google.accompanist:accompanist-insets:0.18.0")
+
     implementation ("androidx.navigation:navigation-compose:2.7.3")
 
     // Import the Firebase BoM
