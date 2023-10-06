@@ -3,6 +3,7 @@ package com.example.bookmart.AllScreens.HomeScreen.MyOrdersScreen
 
 
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,7 +15,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Text
@@ -23,12 +23,15 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.bookmart.ListItem
+import com.example.bookmart.R
 import com.example.bookmart.data.AddToCart.CartItem
 import com.example.bookmart.data.AddToCart.MyOrders
 import com.google.firebase.database.DataSnapshot
@@ -90,18 +93,26 @@ fun MyOrdersScreen(navController: NavController) {
         }
     })
 
+    val darkBackgroundColor = Color(0xFF0d0e1c)
+    val textureColor = Color(0xFF6a6f9a) // Define your texture color
+
+    val brush = Brush.horizontalGradient(
+        colors = listOf( textureColor ,textureColor),
+    )
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(0.dp,16.dp,0.dp,16.dp)
+            .background(brush = brush)
     ) {
 
         Text(
             text = "My Orders ",
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
-                fontSize = 24.sp
+                fontSize = 24.sp,
+                color =colorResource(id = R.color.LightBackgroundColor),
             ),
             modifier = Modifier.padding(bottom = 16.dp, top = 60.dp)
         )
@@ -116,7 +127,8 @@ fun MyOrdersScreen(navController: NavController) {
             text = "Wishlist",
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
-                fontSize = 20.sp
+                fontSize = 20.sp,
+                color =colorResource(id = R.color.LightBackgroundColor),
             ),
             modifier = Modifier.padding(top = 16.dp)
         )
@@ -158,6 +170,9 @@ fun CartItemRow(cartItem: CartItem,navController:NavController) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp),
+        colors = CardDefaults.cardColors(
+            containerColor =colorResource(id = R.color.DarkSecondaryColor),
+        ),
 
         ) {
 
@@ -172,10 +187,12 @@ fun CartItemRow(cartItem: CartItem,navController:NavController) {
             Text(text = cartItem.name,
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
+                    color =colorResource(id = R.color.LightBackgroundColor),
                     fontSize = 14.sp
                 ),)
             Row {
-            Text(text = "Rs${cartItem.price}")
+            Text(text = "Rs${cartItem.price}",
+                color =colorResource(id = R.color.LightBackgroundColor))
                 Spacer(modifier = Modifier.width(300.dp))
 
 
@@ -213,6 +230,9 @@ fun OrderItem(orders: MyOrders) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp),
+        colors = CardDefaults.cardColors(
+            containerColor =colorResource(id = R.color.DarkSecondaryColor),
+        ),
 
         ) {
         Column(
@@ -223,13 +243,17 @@ fun OrderItem(orders: MyOrders) {
                 text = orders.name,
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
+                    color =colorResource(id = R.color.LightBackgroundColor),
                     fontSize = 14.sp
                 ),
             )
             Row {
-                Text(text = orders.payment)
+                Text(text = orders.payment,
+                    color =colorResource(id = R.color.LightBackgroundColor),
+                    )
                 Spacer(modifier = Modifier.width(190.dp))
-                Text(text = orders.status)
+                Text(text = orders.status,
+                    color =colorResource(id = R.color.LightBackgroundColor),)
 
 
             }

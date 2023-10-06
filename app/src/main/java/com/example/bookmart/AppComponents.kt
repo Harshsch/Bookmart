@@ -81,6 +81,8 @@ fun BooksRow(navController: NavHostController, item: ListItem) {
     Column {
 
         Card(
+            onClick = { navController.navigate("BookDisplay/${item.id}")
+            },
             modifier = Modifier
                 .padding(5.dp)
                 .shadow(
@@ -90,7 +92,12 @@ fun BooksRow(navController: NavHostController, item: ListItem) {
                 )
                 .width(180.dp)
                 .height(290.60001.dp),
-            onClick = { navController.navigate("BookDisplay/${item.id}") }
+            colors = CardDefaults.cardColors(
+                containerColor =colorResource(id = R.color.DarkSecondaryColor),
+            ),
+
+
+
         ) {
             Image(
                 painter = painterResource(id = item.imageResId),
@@ -113,7 +120,7 @@ fun BooksRow(navController: NavHostController, item: ListItem) {
                 style = TextStyle(
                     fontSize = 16.sp,
                     fontWeight = FontWeight(600),
-                    color = Color(0xFF19191B),
+                    color = colorResource(id = R.color.LightBackgroundColor),
                     textAlign = TextAlign.Center,
                 )
             )
@@ -126,7 +133,7 @@ fun BooksRow(navController: NavHostController, item: ListItem) {
                 style = TextStyle(
                     fontSize = 12.sp,
                     fontWeight = FontWeight(500),
-                    color = Color(0xFF9D9D9D),
+                    color = Color(0xFFF2F2F2),
                     textAlign = TextAlign.Center,
                 )
             )

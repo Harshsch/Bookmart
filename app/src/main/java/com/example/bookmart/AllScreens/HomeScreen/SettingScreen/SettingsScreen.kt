@@ -2,6 +2,7 @@ package com.example.bookmart.AllScreens.HomeScreen.SettingScreen
 import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
@@ -21,12 +22,17 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.bookmart.R
 import com.google.firebase.auth.FirebaseAuth
@@ -39,19 +45,34 @@ fun SettingsScreen(navController: NavController) {
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
+
+    val darkBackgroundColor = Color(0xFF0d0e1c)
+    val textureColor = Color(0xFF6a6f9a) // Define your texture color
+
+    val brush = Brush.horizontalGradient(
+        colors = listOf( textureColor ,textureColor),
+    )
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
+
+
+                .background(brush=brush),
+
+
         ) {
 
             item {
                 Spacer(modifier = Modifier.height(60.dp))
                 Text(
                     text = "Hey! BookMart Customer",
-                    style = MaterialTheme.typography.headlineMedium,
-                    modifier = Modifier.padding(bottom = 16.dp)
-                )
+                    style = TextStyle(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 24.sp,
+                        color =colorResource(id = R.color.LightBackgroundColor),
+                    ),           modifier = Modifier.padding(bottom = 16.dp),
+
+                    )
             }
 
             item {
@@ -94,9 +115,13 @@ fun SettingsScreen(navController: NavController) {
             item {
                 Text(
                     text = "Feedback & Information",
-                    style = MaterialTheme.typography.headlineMedium,
-                    modifier = Modifier.padding(bottom = 16.dp)
-                )
+                    style = TextStyle(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 24.sp,
+                        color =colorResource(id = R.color.LightBackgroundColor),
+                    ),  modifier = Modifier.padding(bottom = 16.dp),
+
+                    )
             }
 
             item {
@@ -158,16 +183,26 @@ fun SettingsItem(icon: ImageVector, title: String, onClick: () -> Unit) {
         Icon(
             imageVector = icon,
             contentDescription = null,
-            modifier = Modifier.size(24.dp)
-        )
+            modifier = Modifier.size(24.dp),
+            tint =colorResource(id = R.color.LightBackgroundColor),
+
+            )
         Spacer(modifier = Modifier.width(16.dp))
-        Text(text = title, style = MaterialTheme.typography.bodyLarge)
+        Text(text = title,style = TextStyle(
+            fontWeight = FontWeight.Normal
+
+            ,
+            fontSize = 24.sp,
+            color =colorResource(id = R.color.LightBackgroundColor),
+        ),)
         Spacer(modifier = Modifier.weight(1f))
         Icon(
             painter = painterResource(id = R.drawable.baseline_chevron_right_24),
             contentDescription = null,
-            modifier = Modifier.size(24.dp)
-        )
+            modifier = Modifier.size(24.dp),
+            tint =colorResource(id = R.color.LightBackgroundColor),
+
+            )
     }
 }
 @Composable
