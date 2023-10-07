@@ -1,5 +1,6 @@
 package com.example.bookmart.AllScreens.HomeScreen.SettingScreen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,12 +19,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.bookmart.AllScreens.HomeScreen.AddressTextField
+import com.example.bookmart.R
 import com.example.bookmart.data.AddToCart.Address
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -39,9 +42,11 @@ fun SavedAddressesScreen(navController: NavController) {
     var Mobile_Number by remember { mutableStateOf("") }
 
     var isConfirmButtonPressed by remember { mutableStateOf(false) }
+    val userId = FirebaseAuth.getInstance().currentUser?.uid
 // Get a reference to the database
     val database = FirebaseDatabase.getInstance()
-    val databaseReference = database.getReference("Saved_address")
+
+    val databaseReference =FirebaseDatabase.getInstance().getReference("users/$userId/Saved_address")
 
     val currentUser = FirebaseAuth.getInstance().currentUser
     val savedaddress = remember { mutableStateListOf<Address>() }
@@ -74,11 +79,18 @@ fun SavedAddressesScreen(navController: NavController) {
     }
 
 
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+
+            .background(colorResource(id = R.color.DarkPrimaryColor))
+    ){
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp,50.dp,16.dp,16.dp)
+            .padding(16.dp,80.dp,16.dp,16.dp)
+            .background(colorResource(id = R.color.DarkPrimaryColor))
     )
     {
         AddressTextField(
@@ -114,7 +126,7 @@ fun SavedAddressesScreen(navController: NavController) {
     }
 
 
-    }
+    }}
 @Composable
 fun AddressItem(adress: Address, navController:NavController) {
 
@@ -126,26 +138,40 @@ fun AddressItem(adress: Address, navController:NavController) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = colorResource(id = R.color.DarkSecondaryColor),
+        ),
 
         ) {
         Column(
             modifier = Modifier
                 .padding(16.dp)
-                //.clickable(onClick = { navController.navigate("") }),
+
+                //.background(colorResource(id = R.color.DarkSurfaceColor))
             ) {
 
             Text(text = adress.name,
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
-                    fontSize = 14.sp
-                ),)
+                    fontSize = 14.sp,
+                    color = colorResource(id = R.color.LightBackgroundColor),
 
-                Text(text = adress.streetAddress)
+                    ),)
 
-                Text(text = adress.city)
+                Text(text = adress.streetAddress,
+                    color = colorResource(id = R.color.LightBackgroundColor),
+
+                    )
+
+                Text(text = adress.city,color = colorResource(id = R.color.LightBackgroundColor),
+
+                    )
 
 
-            Text(text = "${adress.mobileNumber}")}}
+            Text(text = "${adress.mobileNumber}",
+                    color = colorResource(id = R.color.LightBackgroundColor),
+
+                )}}
 
 }
 @Composable

@@ -87,6 +87,19 @@ fun UserProfile(
                 },
             )
 
+//            MyTextFieldComponent(
+//                labelValue ="Mobile number",
+//                painterResource = painterResource(id = R.drawable.profile),
+//                // value = lastName,
+//                onTextChanged = {
+//                    mobilenumber = it
+//                    signupViewModel.onEvent(SignupUIEvent.MobileNumberChanged(it))
+//                    // Check validation and enable/disable the button
+//                    //isUpdateButtonEnabled = isFormValid(firstName, lastName)
+//                },
+//            )
+
+
             Spacer(modifier = Modifier.height(20.dp))
 
             // Button to update user profile
@@ -120,6 +133,7 @@ private fun updateUserProfile(firstName: String, lastName: String) {
     val user = FirebaseAuth.getInstance().currentUser
     val profileUpdates = UserProfileChangeRequest.Builder()
         .setDisplayName("$firstName $lastName")
+
         // You can also set other profile information here, like photo URL, etc.
         .build()
 

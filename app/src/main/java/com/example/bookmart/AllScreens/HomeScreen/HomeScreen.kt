@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -21,6 +22,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
@@ -54,74 +56,80 @@ fun HomeScreen(navController: NavHostController)
     val currentUser = FirebaseAuth.getInstance().currentUser
 
     Column(
-        Modifier
-            .padding(0.dp, 20.dp, 0.dp, 80.dp)
-            .background(brush=brush    ) ){
-        ElevatedCard (
-            elevation = CardDefaults.cardElevation(
-                defaultElevation = 10.dp
-            ),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp, 50.dp, 16.dp, 16.dp)
+        modifier = Modifier
+            .background(brush=brush),
+    ) {
+        Column(
+            Modifier
+                .padding(16.dp, 36.dp, 16.dp, 80.dp)
+                .background(brush = brush)
+        ) {
+            ElevatedCard(
+                elevation = CardDefaults.cardElevation(
+                    defaultElevation = 10.dp
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp, 50.dp, 16.dp, 16.dp)
                 //.background(color = colorResource(id = R.color.DarkPrimaryColor))
-            ,
+                ,
 
-            colors = CardDefaults.cardColors(
-                containerColor =colorResource(id = R.color.DarkSecondaryColor),
-            ),
+                colors = CardDefaults.cardColors(
+                    containerColor = colorResource(id = R.color.DarkSecondaryColor),
+                ),
             )
-        {
-            Column(modifier = Modifier.padding(20.dp, 20.dp, 20.dp, 0.dp),
+            {
+                Column(
+                    modifier = Modifier.padding(20.dp, 20.dp, 20.dp, 0.dp),
 
-            ) {
-                if (currentUser != null) {
-                    // User is signed in, display the welcome message
-                    Text(
-                        text = "Welcome back ${currentUser.displayName}",
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .heightIn(min = 40.dp),
-                        style = TextStyle(
-                            fontSize = 24.sp,
-                            fontWeight = FontWeight.Normal,
-                            fontStyle = FontStyle.Normal
-                        ), color =colorResource(id = R.color.LightBackgroundColor),
-                        textAlign = TextAlign.Center
-                    )
-                          } else {
-                    // User is not signed in
-                    Text(
-                        text = "Welcome",
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .heightIn(min = 40.dp),
-                        style = TextStyle(
-                            fontSize = 24.sp,
-                            fontWeight = FontWeight.Normal,
-                            fontStyle = FontStyle.Normal
-                        ), color =colorResource(id = R.color.LightBackgroundColor),
-                        textAlign = TextAlign.Center
-                    )
+                    ) {
+                    if (currentUser != null) {
+                        // User is signed in, display the welcome message
+                        Text(
+                            text = "Welcome back ${currentUser.displayName}",
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .heightIn(min = 40.dp),
+                            style = TextStyle(
+                                fontSize = 24.sp,
+                                fontWeight = FontWeight.Normal,
+                                fontStyle = FontStyle.Normal
+                            ), color = colorResource(id = R.color.LightBackgroundColor),
+                            textAlign = TextAlign.Center
+                        )
+                    } else {
+                        // User is not signed in
+                        Text(
+                            text = "Welcome",
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .heightIn(min = 40.dp),
+                            style = TextStyle(
+                                fontSize = 24.sp,
+                                fontWeight = FontWeight.Normal,
+                                fontStyle = FontStyle.Normal
+                            ), color = colorResource(id = R.color.LightBackgroundColor),
+                            textAlign = TextAlign.Center
+                        )
 
+                    }
                 }
-            }
-            Column(modifier = Modifier.padding(20.dp, 0.dp, 20.dp, 20.dp)) {
-                Text(
-                    text = stringResource(id =R.string.ready_for_exam),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .heightIn(),
-                    style = TextStyle(
-                        fontSize = 30.sp,
-                        fontWeight = FontWeight.Bold,
-                        fontStyle = FontStyle.Normal
-                    ), color =colorResource(id = R.color.LightBackgroundColor),
-                    textAlign = TextAlign.Center
-                )
-                  }
+                Column(modifier = Modifier.padding(20.dp, 0.dp, 20.dp, 20.dp)) {
+                    Text(
+                        text = stringResource(id = R.string.ready_for_exam),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .heightIn(),
+                        style = TextStyle(
+                            fontSize = 30.sp,
+                            fontWeight = FontWeight.Bold,
+                            fontStyle = FontStyle.Normal
+                        ), color = colorResource(id = R.color.LightBackgroundColor),
+                        textAlign = TextAlign.Center
+                    )
+                }
 
-        }
+            }
 
 //        Row(modifier = Modifier.padding(5.dp)) {
 //            Card(
@@ -171,8 +179,8 @@ fun HomeScreen(navController: NavHostController)
 //        }
 
 
-
-        DepartmentBooks(navController = navController)
+            DepartmentBooks(navController = navController)
+        }
     }
 }
 @OptIn(ExperimentalMaterial3Api::class)
@@ -187,6 +195,7 @@ fun DepartmentBooks(navController: NavHostController) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(20.dp)
+            .clip(RoundedCornerShape(30.dp))
            // .background(color = colorResource(id = R.color.DarkPrimaryColor))
 
         ,

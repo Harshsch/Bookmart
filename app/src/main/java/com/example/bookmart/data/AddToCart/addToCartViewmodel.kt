@@ -2,6 +2,7 @@ package com.example.bookmart.data.AddToCart
 
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
 data class Address(
@@ -25,8 +26,10 @@ data class MyOrders(
     val status: String = "",
 )
 class MyOrdersViewModel : ViewModel() {
+    val userId = FirebaseAuth.getInstance().currentUser?.uid // Get the user's ID
+
     val database = FirebaseDatabase.getInstance()
-    val databaseReference = database.getReference("orderslist")
+    val databaseReference = FirebaseDatabase.getInstance().getReference("users/$userId/orderslist")
     private val ordersItems = mutableListOf<MyOrders>()
 
     // Function to add an item to the cart
@@ -47,8 +50,10 @@ class MyOrdersViewModel : ViewModel() {
 
 
 class CartViewModel : ViewModel() {
+    val userId = FirebaseAuth.getInstance().currentUser?.uid // Get the user's ID
+
     val database = FirebaseDatabase.getInstance()
-    val databaseReference = database.getReference("cartlist")
+    val databaseReference = FirebaseDatabase.getInstance().getReference("users/$userId/cartlist")
     private val cartItems = mutableListOf<CartItem>()
 
     // Function to add an item to the cart

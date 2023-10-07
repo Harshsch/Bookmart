@@ -62,7 +62,9 @@ fun Navigation() {
             TermsAndConditionsScreen(navController = navController)
         }
         composable("User_Profile") {
-            UserProfile(navController = navController)
+            BottomBarScreen(navController) {
+                UserProfile(navController = navController)
+            }
         }
         composable("Terms") {
             BottomBarScreen(navController) {

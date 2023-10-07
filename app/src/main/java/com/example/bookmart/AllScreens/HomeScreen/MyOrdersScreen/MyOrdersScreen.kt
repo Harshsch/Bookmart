@@ -17,6 +17,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
@@ -26,28 +28,35 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.bookmart.R
 import com.example.bookmart.data.AddToCart.CartItem
 import com.example.bookmart.data.AddToCart.MyOrders
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 
 
 @Composable
 fun MyOrdersScreen(navController: NavController) {
     val cartItems = remember { mutableStateListOf<CartItem>() }
     val ordersItems = remember { mutableStateListOf<MyOrders>() }
+    val userId = FirebaseAuth.getInstance().currentUser?.uid // Get the user's ID
 
     val database = FirebaseDatabase.getInstance()
-    val databaseReference = database.getReference("cartlist")
-    val databaseReferenceMyOrders = database.getReference("orderslist")
+    val databaseReference = FirebaseDatabase.getInstance().getReference("users/$userId/cartlist")
+    val databaseReferenceMyOrders = FirebaseDatabase.getInstance().getReference("users/$userId/orderslist")
     databaseReference.addValueEventListener(object : ValueEventListener {
         override fun onDataChange(snapshot: DataSnapshot) {
             // Clear the existing cart items
@@ -102,24 +111,26 @@ fun MyOrdersScreen(navController: NavController) {
 
     Column(
         modifier = Modifier
+            .background(brush=brush),
+        ) {
+    Column(
+        modifier = Modifier
             .fillMaxSize()
-            .padding(0.dp,16.dp,0.dp,16.dp)
+            .padding(16.dp)
             .background(brush = brush)
     ) {
-
         Text(
             text = "My Orders ",
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 fontSize = 24.sp,
-                color =colorResource(id = R.color.LightBackgroundColor),
+                color = colorResource(id = R.color.LightBackgroundColor),
             ),
             modifier = Modifier.padding(bottom = 16.dp, top = 60.dp)
         )
         if (ordersItems.isNotEmpty()) {
             OrderItemList(ordersItems)
-        }
-        else {
+        } else {
             Text(text = "No orders placed")
         }
 
@@ -128,24 +139,32 @@ fun MyOrdersScreen(navController: NavController) {
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 fontSize = 20.sp,
-                color =colorResource(id = R.color.LightBackgroundColor),
+                color = colorResource(id = R.color.LightBackgroundColor),
             ),
             modifier = Modifier.padding(top = 16.dp)
         )
-        var totalprice= 0
+        var totalprice = 0
         if (cartItems.isNotEmpty()) {
             // Display cart contents or items here.
             for (cartItem in cartItems) {
-                totalprice=totalprice+ cartItem.price
+                totalprice = totalprice + cartItem.price
             }
-            CartItemList(cartItems,navController = navController)
-        }
-        else {
+            CartItemList(cartItems, navController = navController)
+        } else {
             Text(text = "Your Wishlist is empty.")
-             }
+        }
+        Spacer(modifier = Modifier.height(16.dp))
         Row {
-            Text(text = "Total Price=Rs $totalprice",
-                modifier = Modifier.align(CenterVertically))
+            Text(
+                text = "Total Wishlist Price=Rs $totalprice",
+                style = TextStyle(
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp,
+                    color = colorResource(id = R.color.LightBackgroundColor),
+                ),
+                modifier = Modifier.align(CenterVertically),
+                textAlign = TextAlign.Center
+            )
             Spacer(modifier = Modifier.width(170.dp))
 
 //            Button(
@@ -157,11 +176,12 @@ fun MyOrdersScreen(navController: NavController) {
 //            }
         }
     }
+    }
 }
 
 @Composable
 fun CartItemRow(cartItem: CartItem,navController:NavController) {
-
+    val database: DatabaseReference = Firebase.database.reference
 
     ElevatedCard(
         elevation = CardDefaults.cardElevation(
@@ -177,28 +197,48 @@ fun CartItemRow(cartItem: CartItem,navController:NavController) {
         ) {
 
 
-        Column(
+        Row(
             modifier = Modifier
                 .padding(16.dp)
-                .clickable(onClick = { navController.navigate("BuyNow/${cartItem.id}") }),
+                .clickable(onClick = {
+
+                    navController.navigate("BuyNow/${cartItem.id}")
+
+                }),
 
         ) {
-
-            Text(text = cartItem.name,
-                style = TextStyle(
-                    fontWeight = FontWeight.Bold,
-                    color =colorResource(id = R.color.LightBackgroundColor),
-                    fontSize = 14.sp
-                ),)
-            Row {
-            Text(text = "Rs${cartItem.price}",
-                color =colorResource(id = R.color.LightBackgroundColor))
+            Column {
+                Text(
+                    text = cartItem.name,
+                    style = TextStyle(
+                        fontWeight = FontWeight.Bold,
+                        color = colorResource(id = R.color.LightBackgroundColor),
+                        fontSize = 14.sp
+                    ),
+                )
+                Text(text = "Rs${cartItem.price}",
+                    color =colorResource(id = R.color.LightBackgroundColor))
                 Spacer(modifier = Modifier.width(300.dp))
+            }
+
+//                IconButton(onClick = {
+//                    database.child("cartlist").child(cartItem.name).removeValue()
+//                })
+//                {
+//                    Icon(
+//                        painter = painterResource(id = R.drawable.baseline_delete_24),
+//                        contentDescription = "e"
+//                    )
+//                }
+
+        }
 
 
-    }}}
 
-}
+
+            }}
+
+
 @Composable
 fun CartItemList(cartItems: List<CartItem>,navController: NavController) {
     LazyColumn(modifier = Modifier

@@ -32,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -41,6 +42,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.bookmart.ListItem
+import com.example.bookmart.R
 import com.example.bookmart.data.AddToCart.CartItem
 import com.example.bookmart.data.AddToCart.CartViewModel
 
@@ -57,17 +59,21 @@ fun BookDisplay(navController: NavHostController, item: ListItem) {
     auth = Firebase.auth
     val context = LocalContext.current
 
-    Box(modifier = Modifier.padding(16.dp)) {
+    Box(modifier = Modifier
+        .background(colorResource(id = R.color.DarkSurfaceColor))
+
+    ) {
         ElevatedCard(
             elevation = CardDefaults.cardElevation(
                 defaultElevation = 10.dp
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp, 50.dp, 16.dp, 16.dp),
+                .padding(16.dp, 16.dp, 16.dp, 16.dp),
         ) {
             Column(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxSize()
+                    .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
@@ -80,7 +86,8 @@ fun BookDisplay(navController: NavHostController, item: ListItem) {
                     ) {
                     Text(
                         text = item.name,
-                        modifier = Modifier,
+                        modifier = Modifier
+                            .padding(16.dp),
                         style = TextStyle(
                             fontSize = 16.sp,
                             fontWeight = FontWeight(600),
@@ -102,7 +109,8 @@ fun BookDisplay(navController: NavHostController, item: ListItem) {
                 }
                 Text(
                     text = "${item.description}",
-                    modifier = Modifier,
+                    modifier = Modifier
+                        .padding(16.dp),
                     style = TextStyle(
                         fontSize = 14.sp,
                         fontWeight = FontWeight(400),
