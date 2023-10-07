@@ -114,9 +114,7 @@ fun BooksRow(navController: NavHostController, item: ListItem) {
             )
             Text(
                 text = item.name,
-                Modifier
-                    .width(155.dp)
-                    .height(24.dp),
+                Modifier,
                 style = TextStyle(
                     fontSize = 16.sp,
                     fontWeight = FontWeight(600),

@@ -33,6 +33,13 @@ class SignupViewModel : ViewModel() {
                 printState()
             }
 
+//            is SignupUIEvent.MobileNumberChanged-> {
+//                registrationUIState.value = registrationUIState.value.copy(
+//                    mobilenumber = event.Mobilenumber
+//                )
+//                printState()
+//            }
+
             is SignupUIEvent.EmailChanged -> {
                 registrationUIState.value = registrationUIState.value.copy(
                     email = event.email
@@ -86,6 +93,9 @@ class SignupViewModel : ViewModel() {
         val lNameResult = Validator.validateLastName(
             lName = registrationUIState.value.lastName
         )
+//        val Mobilenumber = Validator.validateLastName(
+//            Mob = registrationUIState.value.mobilenumber
+//        )
 
         val emailResult = Validator.validateEmail(
             email = registrationUIState.value.email
