@@ -6,11 +6,14 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
 data class Address(
+    val id: Int? = 0,
     val name: String = "",
     val streetAddress: String = "",
     val city: String = "",
-    val mobileNumber: String? = null
+    val mobileNumber: String? = null,
+    val default: Boolean = false // Renamed from isDefault
 )
+
 
 data class CartItem(
     val id:Int =0,

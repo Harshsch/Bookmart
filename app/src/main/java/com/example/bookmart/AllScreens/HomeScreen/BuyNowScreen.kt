@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -32,7 +33,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.bookmart.AllScreens.HomeScreen.UserProfile.isFormValid
@@ -111,12 +114,18 @@ fun BuyNowPage(navController: NavController,item: ListItem) {
                     style = MaterialTheme.typography.headlineMedium,
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
+                AddressCard(
+                    address="abc chouk" ,
+                    phoneNumber= " 123456789",
+                   // onAddressChangeClick=
+                )
 
                 //AddressTextField("Name", name) { name = it }
                 AddressTextField("Residential Address", streetAddress) { streetAddress = it }
                 AddressTextField("City,State,Postal Code", city) { city = it }
 
                 Spacer(modifier = Modifier.height(12.dp))
+
 
                 // Product Information
                 Text(
@@ -361,6 +370,52 @@ fun AddressTextField(
 
     )
 }
+@Composable
+fun AddressCard(
+    address: String,
+    phoneNumber: String,
+  //  onAddressChangeClick: () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        //elevation = 4.dp
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+        ) {
+            Text(
+                text = "Address",
+                fontWeight = FontWeight.Bold,
+                fontSize = 18.sp
+            )
+            Text(
+                text = address,
+                fontSize = 16.sp,
+                modifier = Modifier.padding(top = 8.dp)
+            )
+            Text(
+                text = phoneNumber,
+                fontSize = 16.sp,
+                modifier = Modifier.padding(top = 8.dp)
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(
+                onClick = {
+                   // onAddressChangeClick()
+                          },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp)
+            ) {
+                Text(text = "Change")
+            }
+        }
+    }
+}
+
 
 
 
