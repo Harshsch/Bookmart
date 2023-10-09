@@ -80,8 +80,9 @@ fun BottomBarScreen(
     navController: NavController,
     screenContent: @Composable () -> Unit
 ) {
+    val userId = FirebaseAuth.getInstance().currentUser?.uid
     val database = FirebaseDatabase.getInstance()
-    val reference = database.getReference("cartlist")
+    val reference = FirebaseDatabase.getInstance().getReference("users/$userId/cartlist")
     var count by remember { mutableStateOf(0) }
     reference.addListenerForSingleValueEvent(object : ValueEventListener {
         override fun onDataChange(snapshot: DataSnapshot) {
@@ -142,44 +143,7 @@ fun BottomBarScreen(
         var TopselectedItemIndex by rememberSaveable {
             mutableStateOf(0)
         }
-        ModalNavigationDrawer(
-            drawerContent = {
-                ModalDrawerSheet {
-                    Spacer(modifier = Modifier.height(16.dp))
-                    items.forEachIndexed { index, item ->
-                        NavigationDrawerItem(
-                            label = {
-                                Text(text = item.title)
-                            },
-                            selected = index == TopselectedItemIndex,
-                            onClick = {
-//                                            navController.navigate(item.route)
-                                TopselectedItemIndex = index
-                                scope.launch {
-                                    drawerState.close()
-                                }
-                            },
-                            icon = {
-                                Icon(
-                                    imageVector = if (index == TopselectedItemIndex) {
-                                        item.selectedIcon
-                                    } else item.unselectedIcon,
-                                    contentDescription = item.title
-                                )
-                            },
-                            badge = {
-                                item.badgeCount?.let {
-                                    Text(text = item.badgeCount.toString())
-                                }
-                            },
-                            modifier = Modifier
-                                .padding(NavigationDrawerItemDefaults.ItemPadding)
-                        )
-                    }
-                }
-            },
-            drawerState = drawerState
-        ) {
+
             Scaffold(
 
                 topBar = {
@@ -279,7 +243,7 @@ fun BottomBarScreen(
                 screenContent()
 
             }
-        }
+
     }
 }
 
