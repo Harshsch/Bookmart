@@ -208,12 +208,6 @@ fun ExposedDropdownMenu(
         }
     }
 
-
-
-
-
-
-
 @Composable
 fun NormalTextComponent(value: String) {
     Text(
@@ -576,24 +570,3 @@ fun AppToolbar(
         }
     )
 }
-//
-//@Composable
-//fun NavigationDrawerHeader(value: String?) {
-//    Box(
-//        modifier = Modifier
-//            .background(
-//                Brush.horizontalGradient(
-//                    listOf(Primary, Secondary)
-//                )
-//            )
-//            .fillMaxWidth()
-//            .height(180.dp)
-//            .padding(32.dp)
-//    ) {
-//
-////        NavigationDrawerText(
-////            title = value?: stringResource(R.string.navigation_header), 28.sp
-////        )
-//
-//    }
-//}

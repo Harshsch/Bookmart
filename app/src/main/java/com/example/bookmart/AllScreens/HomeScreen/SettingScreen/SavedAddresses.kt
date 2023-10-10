@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -24,11 +25,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
@@ -37,6 +39,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.bookmart.AllScreens.HomeScreen.AddressTextField
+import com.example.bookmart.HeadingTextComponent
+import com.example.bookmart.NormalTextComponent
 import com.example.bookmart.R
 import com.example.bookmart.data.AddToCart.Address
 import com.google.firebase.auth.FirebaseAuth
@@ -44,9 +48,13 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+
 @Composable
 fun SavedAddressesScreen(navController: NavController) {
-    var id by remember { mutableStateOf(0) }
+    val UniqueiddatabaseReference = FirebaseDatabase.getInstance().getReference("addresses")
+    val newAddressRef = UniqueiddatabaseReference.push()
+    val addressId = newAddressRef.key
+
     var streetAddress by remember { mutableStateOf("") }
     var city by remember { mutableStateOf("") }
     var Mobile_Number by remember { mutableStateOf("") }
@@ -73,7 +81,7 @@ fun SavedAddressesScreen(navController: NavController) {
         }
     })
 
-    var selectedAddress by remember { mutableStateOf<Address?>(null) }
+    //var selectedAddress by remember { mutableStateOf<Address?>(null) }
 
     Column(
         modifier = Modifier
@@ -86,6 +94,8 @@ fun SavedAddressesScreen(navController: NavController) {
                 .padding(16.dp, 80.dp, 16.dp, 16.dp)
                 .background(colorResource(id = R.color.DarkPrimaryColor))
         ) {
+            HeadingTextComponent(value = "Step 1:- Add new address ")
+            Spacer(modifier = Modifier.height(12.dp))
             AddressTextField("Residential Address", streetAddress) { value ->
                 streetAddress = value
             }
@@ -98,20 +108,22 @@ fun SavedAddressesScreen(navController: NavController) {
 
             val context = LocalContext.current
             Button(onClick = {
-                id++
                 if (streetAddress.isNotEmpty() && city.isNotEmpty() && Mobile_Number.isNotEmpty()) {
                     isConfirmButtonPressed = true
                     val useraddress = currentUser?.displayName?.let {
-                        Address(
-                            id = id,
-                            name = it,
-                            streetAddress = streetAddress,
-                            city = city,
-                            mobileNumber = Mobile_Number,
-                            default = false
-                        )
+                        addressId?.let { it1 ->
+                            Address(
+                                id = it1.toString(),
+                                name = it,
+                                streetAddress = streetAddress,
+                                city = city,
+                                mobileNumber = Mobile_Number,
+                                // isDefault = true // Set this to true for the default address
+                            )
+                        }
                     }
                     databaseReference.push().setValue(useraddress)
+
                     // Clear form fields
                     streetAddress = ""
                     city = ""
@@ -122,51 +134,89 @@ fun SavedAddressesScreen(navController: NavController) {
             }) {
                 Text(text = "+ Add a new address")
             }
+            Spacer(modifier = Modifier.height(22.dp))
+            HeadingTextComponent(value = "Step 2:- Select Address   ")
+            Spacer(modifier = Modifier.height(22.dp))
 
             if (savedaddress.isNotEmpty()) {
-                AddressItemList(savedaddress, selectedAddress, navController = navController)
+                AddressItemList(savedaddress, navController = navController)
             } else {
                 Text(text = "Your Wishlist is empty.")
             }
         }
     }
 }
-
 @Composable
-fun AddressItem(address: Address, selectedAddress: Address?, navController: NavController) {
+fun AddressItem(address: Address, navController: NavController) {
     val userId = FirebaseAuth.getInstance().currentUser?.uid
     val databaseReference =
         FirebaseDatabase.getInstance().getReference("users/$userId/defaultAddress")
+    //var defaultAddress = remember { mutableStateListOf<Address>() }
+    var defaultAddress by remember { mutableStateOf<Address?>(null) }
 
-    val isSelected = selectedAddress == address
+    LaunchedEffect(Unit) {
+        // Add a ValueEventListener to fetch and update the data
+        val valueEventListener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                // Retrieve the Address object from Firebase
+                val value = snapshot.getValue(Address::class.java)
+                if (value != null) {
+                    defaultAddress = value
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Handle database error here
+                println("Database Error: $error")
+            }
+        }
+        databaseReference.addValueEventListener(valueEventListener)
+}
 
     ElevatedCard(
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp)
-            .clickable(onClick = {
-                if (isSelected) {
-                    // Deselect the address if it's already selected
-                    //selectedAddress = null
-                    // Update the Firebase database with the new default address ID (null to clear selection)
-                    databaseReference.setValue(null)
-                } else {
-                    // Select the clicked address
-                    //selectedAddress = address
-                    // Update the Firebase database with the new default address ID
-                    databaseReference.setValue(address.id)
-                }
-            }),
+            .clickable {
+
+                databaseReference.setValue(address)
+
+            },
         colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.DarkSecondaryColor)),
     ) {
-        Row {
-            Icon(
-                imageVector = if (isSelected) Icons.Default.CheckCircle else Icons.Default.Circle,
-                contentDescription = "Selected Icon",
-                tint = colorResource(id = R.color.LightBackgroundColor),
-                modifier = Modifier.size(24.dp),
-            )
+//        if (defaultAddress != null) {
+//            // Display the address details here
+//            Text(text = "ID: ${defaultAddress!!.id}, Name: ${defaultAddress!!.name}")
+//        } else {
+//            // Handle the case when the address hasn't been loaded yet
+//            Text(text = "Loading...")
+//        }
+
+        Row(modifier = Modifier
+            //.clickable {}
+        )
+        {
+            //Text(text = "${address.id} == ${defaultAddress.joinToString { it.id.toString() }}")
+            //println("i Am in ORDERS Befor adding  :$defaultAddress")
+            if (defaultAddress?.id ==address.id) {
+                Icon(
+                    imageVector = Icons.Default.CheckCircle,
+                    contentDescription = "Selected Icon",
+                    modifier = Modifier.size(18.dp)
+                        .align(Alignment.CenterVertically),
+                    tint = Color.Green
+                )
+            } else {
+                Icon(
+                    imageVector = Icons.Default.Circle ,
+                    contentDescription = "Selected Icon",
+                    modifier = Modifier.size(24.dp)
+                        .align(Alignment.CenterVertically),
+                    tint = Color.Black
+                )
+            }
+
 
             Column(
                 modifier = Modifier.padding(16.dp)
@@ -201,11 +251,22 @@ fun AddressItem(address: Address, selectedAddress: Address?, navController: NavC
     }
 }
 
+
 @Composable
-fun AddressItemList(address: List<Address>, selectedAddress: Address?, navController: NavController) {
+fun AddressItemList(address: List<Address>, navController: NavController) {
     LazyColumn(modifier = Modifier.height(300.dp)) {
         items(address) { addresses ->
-            AddressItem(addresses, selectedAddress, navController = navController)
+            AddressItem(addresses, navController = navController)
+        }
+    }
+
+}
+
+@Composable
+fun DefaultAddressItemList(defaultaddress: List<Address>, navController: NavController) {
+    LazyColumn(modifier = Modifier.height(300.dp)) {
+        items(defaultaddress) { addresses ->
+            AddressItem(addresses, navController = navController)
         }
     }
 }

@@ -24,10 +24,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -42,10 +45,14 @@ import com.example.bookmart.AllScreens.HomeScreen.UserProfile.isFormValid
 import com.example.bookmart.BuyNowData
 import com.example.bookmart.ListItem
 import com.example.bookmart.R
+import com.example.bookmart.data.AddToCart.Address
 import com.example.bookmart.data.AddToCart.MyOrders
 import com.example.bookmart.data.AddToCart.MyOrdersViewModel
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 @Composable
 fun BuyNowPage(navController: NavController,item: ListItem) {
@@ -55,25 +62,49 @@ fun BuyNowPage(navController: NavController,item: ListItem) {
     val currentUser = FirebaseAuth.getInstance().currentUser
     val userId = FirebaseAuth.getInstance().currentUser?.uid
 
-
-
     var isConfirmButtonPressed by remember { mutableStateOf(false) }
 // Get a reference to the database
     val database = FirebaseDatabase.getInstance()
 
     val databaseReference = FirebaseDatabase.getInstance().getReference("users/$userId/buy_now_data")
 
+    var defaultAddress by remember { mutableStateOf<Address?>(null) }
+
+    val defaultdatabaseReference =
+        FirebaseDatabase.getInstance().getReference("users/$userId/defaultAddress")
+
+    LaunchedEffect(Unit) {
+        // Add a ValueEventListener to fetch and update the data
+        val valueEventListener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                // Retrieve the Address object from Firebase
+                val value = snapshot.getValue(Address::class.java)
+                if (value != null) {
+                    defaultAddress = value
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Handle database error here
+                println("Database Error: $error")
+            }
+        }
+        defaultdatabaseReference.addValueEventListener(valueEventListener)
+    }
 // Create an instance of your data class
     val buyNowData = currentUser?.displayName?.let {
-        BuyNowData(
-            name = it,
-            streetAddress = streetAddress,
-            city = city,
-            productname=item.name,
-            priceperunit= item.price,
-            quantity=quantity,
-            totalprice = "Rs ${ quantity * item.price }"
-        )
+        defaultAddress?.let { it1 ->
+            BuyNowData(
+                name = it,
+                streetAddress = it1.streetAddress,
+                city = it1.city,
+                mobilenumber= it1.mobileNumber.toString(),
+                productname=item.name,
+                priceperunit= item.price,
+                quantity=quantity,
+                totalprice = "Rs ${ quantity * item.price }"
+            )
+        }
     }
     Column(
         modifier = Modifier
@@ -90,39 +121,34 @@ fun BuyNowPage(navController: NavController,item: ListItem) {
         ) {
             Text(
                 text = "Order Details",
-                style = MaterialTheme.typography.headlineLarge,
-                modifier = Modifier.padding(bottom = 16.dp)
+                style = MaterialTheme.typography.headlineSmall,
+                modifier = Modifier.padding(bottom = 30.dp)
             )
 
 
             Column(
                 modifier = Modifier
-
-                    .padding(12.dp)
+                    .padding(10.dp)
             ) {
                 if (currentUser != null) {
                     Text(
                         text = "Customer name:${currentUser.displayName}",
-                        style = MaterialTheme.typography.headlineSmall,
+                        style = MaterialTheme.typography.titleMedium,
                         modifier = Modifier.padding(bottom = 16.dp)
                     )
                 }
-
                 // Address Form
                 Text(
                     text = "Shipping Address",
-                    style = MaterialTheme.typography.headlineMedium,
-                    modifier = Modifier.padding(bottom = 16.dp)
+                    style = MaterialTheme.typography.titleLarge,
+                    modifier = Modifier.padding(bottom = 8.dp)
                 )
-                AddressCard(
-                    address="abc chouk" ,
-                    phoneNumber= " 123456789",
-                   // onAddressChangeClick=
-                )
-
-                //AddressTextField("Name", name) { name = it }
-                AddressTextField("Residential Address", streetAddress) { streetAddress = it }
-                AddressTextField("City,State,Postal Code", city) { city = it }
+                    AddressCard(
+                        streetaddress = defaultAddress?.streetAddress, city = defaultAddress?.city, mobilenumber = defaultAddress?.mobileNumber.toString(), navController = navController
+                    )
+//                //AddressTextField("Name", name) { name = it }
+//                AddressTextField("Residential Address", streetAddress) { streetAddress = it }
+//                AddressTextField("City,State,Postal Code", city) { city = it }
 
                 Spacer(modifier = Modifier.height(12.dp))
 
@@ -243,13 +269,7 @@ fun BuyNowPage(navController: NavController,item: ListItem) {
                 // Confirm Order and Payment
                 Button(
                     onClick = {
-                        if (selectedPaymentMethod != null && isFormValid(
 
-                                streetAddress,
-                                city,
-
-                                )
-                        ) {
                             // Handle payment processing based on the selected method.
                             when (selectedPaymentMethod) {
                                 PaymentMethod.GPAY -> {
@@ -282,14 +302,13 @@ fun BuyNowPage(navController: NavController,item: ListItem) {
 
                             navController.navigate("confirmation_screen/${item.id}")
 
-                        }
+
 
                     },
-                    enabled = selectedPaymentMethod != null && isFormValid(
-                        streetAddress,
-                        city,
-
-                        ),
+                    enabled = selectedPaymentMethod != null &&
+                            defaultAddress?.streetAddress!=null&&
+                            defaultAddress?.city!=null &&
+                            defaultAddress?.mobileNumber.toString()!=null,
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(text = "Confirm Order ")
@@ -372,15 +391,15 @@ fun AddressTextField(
 }
 @Composable
 fun AddressCard(
-    address: String,
-    phoneNumber: String,
-  //  onAddressChangeClick: () -> Unit
+    streetaddress: String?,
+    city: String?,
+    mobilenumber: String?,
+    navController: NavController
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp),
-        //elevation = 4.dp
     ) {
         Column(
             modifier = Modifier
@@ -391,21 +410,53 @@ fun AddressCard(
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp
             )
-            Text(
-                text = address,
-                fontSize = 16.sp,
-                modifier = Modifier.padding(top = 8.dp)
-            )
-            Text(
-                text = phoneNumber,
-                fontSize = 16.sp,
-                modifier = Modifier.padding(top = 8.dp)
-            )
+            if (streetaddress != null) {
+                Text(
+                    text = streetaddress,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp
+                )
+            } else {
+                Text(
+                    text = "Street Address not available",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp
+                )
+            }
+            if (city != null) {
+                Text(
+                    text = city,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp
+                )
+            } else {
+                Text(
+                    text = "City not available",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp
+                )
+            }
+            if (mobilenumber != null) {
+                Text(
+                    text = mobilenumber,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp
+                )
+            } else {
+                Text(
+                    text = "Mobile Number not available",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp
+                )
+            }
+
             Spacer(modifier = Modifier.height(16.dp))
             Button(
                 onClick = {
-                   // onAddressChangeClick()
-                          },
+                    navController.navigate("SavedAddress")
+
+
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp)
@@ -416,6 +467,5 @@ fun AddressCard(
     }
 }
 
-
-
+// Handle address change click
 
