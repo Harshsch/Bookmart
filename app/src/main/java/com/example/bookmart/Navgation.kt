@@ -16,20 +16,20 @@ import com.example.bookmart.AllScreens.HomeScreen.SettingScreen.SettingsScreen
 import com.example.bookmart.AllScreens.HomeScreen.SettingScreen.TermsAndCondition
 import com.example.bookmart.AllScreens.HomeScreen.SplashScreen
 import com.example.bookmart.AllScreens.HomeScreen.UserProfile.UserProfile
-import com.nativemobilebits.loginflow.screens.LoginScreen
-import com.nativemobilebits.loginflow.screens.TermsAndConditionsScreen
 
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
 
-
-
-
-
     NavHost(
         navController = navController,
-        startDestination = "splash_screen"
+        startDestination = "splash_screen",
+//        enterTransition = {
+//            slideInHorizontally(initialOffsetX = { 1000 })
+//        },
+//        exitTransition = {
+//            slideOutHorizontally(targetOffsetX = { -1000 })
+//        }
     ) {
         composable("splash_screen") {
             SplashScreen(navController = navController)
@@ -38,6 +38,7 @@ fun Navigation() {
             // Pass the selectedItemIndex to BottomBarScreen
             BottomBarScreen(navController) {
                 HomeScreen(navController = navController)
+
             }
         }
         composable("my_orders_route") {
@@ -115,6 +116,7 @@ fun Navigation() {
                 }
             }
         }
+
 
     }
 

@@ -122,7 +122,7 @@ fun BuyNowPage(navController: NavController,item: ListItem) {
             Text(
                 text = "Order Details",
                 style = MaterialTheme.typography.headlineSmall,
-                modifier = Modifier.padding(bottom = 30.dp)
+                modifier = Modifier.padding( 20.dp)
             )
 
 
@@ -396,7 +396,10 @@ fun AddressCard(
     mobilenumber: String?,
     navController: NavController
 ) {
-    Card(
+    ElevatedCard(
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 5.dp
+        ),
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp),

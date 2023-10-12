@@ -2,6 +2,7 @@ package com.example.bookmart.AllScreens.HomeScreen.SettingScreen
 import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -39,6 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
@@ -58,6 +60,7 @@ fun SettingsScreen(navController: NavController) {
     var searchText by remember { mutableStateOf("") }
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
+    val context = LocalContext.current
 
 
     val darkBackgroundColor = Color(0xFF0d0e1c)
@@ -173,9 +176,12 @@ fun SettingsScreen(navController: NavController) {
                 val authStateListener = FirebaseAuth.AuthStateListener {
                     if (it.currentUser == null) {
                         Log.d(TAG, "inside signout success")
+                        Toast.makeText(context, "Signedout successfully", Toast.LENGTH_SHORT).show()
+
 
                     } else {
                         Log.d(TAG, "signoutnot complete")
+
 
                     }
 

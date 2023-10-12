@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
@@ -17,6 +18,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -46,6 +48,7 @@ import com.google.firebase.auth.FirebaseAuth
 @Composable
 fun HomeScreen(navController: NavHostController)
 {
+
     val darkBackgroundColor = Color(0xFF0d0e1c)
     val textureColor = Color(0xFF6a6f9a) // Define your texture color
 
@@ -187,10 +190,13 @@ fun HomeScreen(navController: NavHostController)
 @Composable
 fun DepartmentBooks(navController: NavHostController) {
     var text by remember { mutableStateOf("") }
+    val lazyColumnState = rememberLazyListState()
+
     TextField(
         value = text,
         onValueChange = { newText ->
             text = newText
+
         },
         modifier = Modifier
             .fillMaxWidth()
@@ -208,16 +214,13 @@ fun DepartmentBooks(navController: NavHostController) {
                 )
             }
         },
-//        trailingIcon = {
-//            IconButton(onClick = { /*TODO*/ }) {
-//                Image(
-//                    painter = painterResource(id = R.drawable.baseline_mic_24),
-//                    contentDescription = "Search"
-//                )
-//            }
-//
-//        },
     )
+    if (text.isNotEmpty()) {
+        LaunchedEffect(lazyColumnState) {
+            // Animate scroll to the top
+            lazyColumnState.animateScrollToItem(index = 0)
+        }
+    }
     val searchQuery = text
     fun searchBooksByName(query: String): List<ListItem> {
         val lowercaseQuery = query.toLowerCase()
@@ -228,7 +231,7 @@ fun DepartmentBooks(navController: NavHostController) {
 
 
 
-    LazyColumn()
+    LazyColumn(state = lazyColumnState)
     {
         item {
             Text(

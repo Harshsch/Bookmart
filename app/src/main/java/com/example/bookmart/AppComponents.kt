@@ -1,6 +1,7 @@
 package com.example.bookmart
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -51,6 +52,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -73,6 +75,9 @@ import androidx.navigation.NavHostController
 import com.example.bookmart.ui.theme.DarkPrimaryColor
 import com.example.bookmart.ui.theme.DarkSecondaryColor
 import com.example.bookmart.ui.theme.DarkSurfaceColor
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -248,6 +253,8 @@ fun MyTextFieldComponent(
     onTextChanged: (String) -> Unit,
      errorStatus: Boolean = false
 ) {
+    val user = FirebaseAuth.getInstance().currentUser
+
 
     val textValue = remember {
         mutableStateOf("")
@@ -424,8 +431,8 @@ fun ButtonComponent(value: String,
                 .fillMaxWidth()
                 .heightIn(48.dp)
                 .background(
-                    brush = Brush.horizontalGradient(listOf(DarkSecondaryColor, DarkPrimaryColor)),
-                    shape = RoundedCornerShape(50.dp)
+                    color = colorResource(id=R.color.DarkBgColor)
+
                 ),
             contentAlignment = Alignment.Center
         ) {
@@ -510,6 +517,46 @@ fun ClickableLoginTextComponent(tryingToLogin: Boolean = true, onTextSelected: (
                 }
 
         },
+    )
+}
+
+
+@Composable
+fun ClickableForgotPasswordTextComponent(email:String) {
+    val text = "Forgot your password?"
+    val context = LocalContext.current
+
+    val annotatedString = buildAnnotatedString {
+        withStyle(style = SpanStyle(color = DarkPrimaryColor)) {
+            pushStringAnnotation(tag = text, annotation = text)
+            append(text)
+        }
+    }
+
+    ClickableText(
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = 40.dp),
+        style = TextStyle(
+            fontSize = 21.sp,
+            fontWeight = FontWeight.Normal,
+            fontStyle = FontStyle.Normal,
+            textAlign = TextAlign.Center
+        ),
+        text = annotatedString,
+        onClick = {  Firebase.auth.sendPasswordResetEmail(email)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        // Password reset email sent successfully
+                        Toast.makeText(context, "Password reset email sent", Toast.LENGTH_SHORT).show()
+                    } else {
+                        // Handle the error
+                        val exception = task.exception
+                        Toast.makeText(context, "Please Verify Email", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                }
+
     )
 }
 
