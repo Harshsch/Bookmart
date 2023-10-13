@@ -55,6 +55,7 @@ fun SavedAddressesScreen(navController: NavController) {
     val newAddressRef = UniqueiddatabaseReference.push()
     val addressId = newAddressRef.key
 
+
     var streetAddress by remember { mutableStateOf("") }
     var city by remember { mutableStateOf("") }
     var Mobile_Number by remember { mutableStateOf("") }
@@ -64,6 +65,8 @@ fun SavedAddressesScreen(navController: NavController) {
         FirebaseDatabase.getInstance().getReference("users/$userId/Saved_address")
     val currentUser = FirebaseAuth.getInstance().currentUser
     val savedaddress = remember { mutableStateListOf<Address>() }
+
+
 
     databaseReference.addValueEventListener(object : ValueEventListener {
         override fun onDataChange(snapshot: DataSnapshot) {
@@ -105,6 +108,7 @@ fun SavedAddressesScreen(navController: NavController) {
             AddressTextField("Mobile Number", Mobile_Number) { value ->
                 Mobile_Number = value
             }
+
 
             val context = LocalContext.current
             Button(onClick = {

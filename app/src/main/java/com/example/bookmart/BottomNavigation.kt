@@ -198,9 +198,17 @@ fun BottomBarScreen(
                                         "Settings" -> "settings_route"
                                         else -> "fallback_route" // Define a fallback route for unmatched titles
                                     }
-                                    if (currentUser != null) {
+                                    if (currentUser != null&&destination!="Home") {
                                         navController.navigate(destination)
-                                    } else {
+                                    }
+                                    else if(destination=="Home")
+                                        {
+                                            navController.navigate(destination)
+                                            {popUpTo("home_route") { inclusive = true }}
+
+                                        }
+
+                                    else {
                                         navController.navigate("Signup")
                                     }
                                 },

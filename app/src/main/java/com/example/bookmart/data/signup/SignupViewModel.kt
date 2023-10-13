@@ -33,12 +33,6 @@ class SignupViewModel : ViewModel() {
                 printState()
             }
 
-//            is SignupUIEvent.MobileNumberChanged-> {
-//                registrationUIState.value = registrationUIState.value.copy(
-//                    mobilenumber = event.Mobilenumber
-//                )
-//                printState()
-//            }
 
             is SignupUIEvent.EmailChanged -> {
                 registrationUIState.value = registrationUIState.value.copy(

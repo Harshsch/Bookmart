@@ -1,18 +1,23 @@
 package com.example.bookmart
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -79,7 +84,7 @@ fun SignUpScreen(navController: NavController,signupViewModel: SignupViewModel =
                    errorStatus = signupViewModel.registrationUIState.value.passwordError
                 )
 
-                CheckboxComponent(value = stringResource(id = com.example.bookmart.R.string.terms_and_conditions),
+                CheckboxComponent(value = stringResource(id =R.string.terms_and_conditions),
                     onTextSelected = {
                         navController.navigate("Terms_and_Conditions")
                  },
@@ -89,6 +94,8 @@ fun SignUpScreen(navController: NavController,signupViewModel: SignupViewModel =
                )
 
                 Spacer(modifier = Modifier.height(40.dp))
+                val context = LocalContext.current
+
 
                 ButtonComponent(
                     value = stringResource(id = com.example.bookmart.R.string.register),
@@ -121,18 +128,24 @@ fun SignUpScreen(navController: NavController,signupViewModel: SignupViewModel =
                                                 // Handle the exception
                                             }
                                         }
+                                    user?.sendEmailVerification()
+                                        ?.addOnSuccessListener {
+                                            Toast.makeText(context, "Please Verify Email", Toast.LENGTH_SHORT).show()
+
+                                        }
+                                    navController.navigate("home_route")
                                 } else {
                                     // Handle the registration error
                                     val exception = task.exception
                                     // Handle the exception
+                                    Toast.makeText(context, "Signup failed", Toast.LENGTH_SHORT).show()
+
                                 }
                             }
-                        navController.navigate("home_route")
+
                     },
                     isEnabled = signupViewModel.allValidationsPassed.value
                 )
-
-
                 Spacer(modifier = Modifier.height(20.dp))
 
                 DividerTextComponent()
@@ -140,6 +153,7 @@ fun SignUpScreen(navController: NavController,signupViewModel: SignupViewModel =
                 ClickableLoginTextComponent(tryingToLogin = true, onTextSelected = {
                     navController.navigate("Login")
                 })
+
             }
 
         }
@@ -148,6 +162,30 @@ fun SignUpScreen(navController: NavController,signupViewModel: SignupViewModel =
             CircularProgressIndicator()
         }
    }
+    // ... (previous code)
+
+//    DividerTextComponent()
+//
+//// Add a Google Sign-Up button
+//    Button(
+//        onClick = {
+//            // Implement Google Sign-Up here
+//            // You can use the Firebase authentication method to sign up with Google
+//            // or any other authentication provider you prefer.
+//        },
+//        modifier = Modifier
+//            .fillMaxWidth()
+//            .padding(horizontal = 16.dp, vertical = 8.dp)
+//    ) {
+//        Text(text ="sign_up_with_google")
+//    }
+//
+//    ClickableLoginTextComponent(tryingToLogin = true, onTextSelected = {
+//        navController.navigate("Login")
+//    })
+//
+//// ... (remaining code)
+
 
 
 }
