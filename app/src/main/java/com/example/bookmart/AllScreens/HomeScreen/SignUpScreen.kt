@@ -138,7 +138,7 @@ fun SignUpScreen(navController: NavController,signupViewModel: SignupViewModel =
                                     // Handle the registration error
                                     val exception = task.exception
                                     // Handle the exception
-                                    Toast.makeText(context, "Signup failed", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(context, "Login! User Already exists ", Toast.LENGTH_SHORT).show()
 
                                 }
                             }
@@ -162,29 +162,7 @@ fun SignUpScreen(navController: NavController,signupViewModel: SignupViewModel =
             CircularProgressIndicator()
         }
    }
-    // ... (previous code)
 
-//    DividerTextComponent()
-//
-//// Add a Google Sign-Up button
-//    Button(
-//        onClick = {
-//            // Implement Google Sign-Up here
-//            // You can use the Firebase authentication method to sign up with Google
-//            // or any other authentication provider you prefer.
-//        },
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .padding(horizontal = 16.dp, vertical = 8.dp)
-//    ) {
-//        Text(text ="sign_up_with_google")
-//    }
-//
-//    ClickableLoginTextComponent(tryingToLogin = true, onTextSelected = {
-//        navController.navigate("Login")
-//    })
-//
-//// ... (remaining code)
 
 
 
