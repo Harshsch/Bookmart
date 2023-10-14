@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -13,13 +12,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Circle
 import androidx.compose.material3.Button
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -32,14 +34,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.bookmart.AllScreens.HomeScreen.AddressTextField
-import com.example.bookmart.HeadingTextComponent
 import com.example.bookmart.NormalTextComponent
 import com.example.bookmart.R
 import com.example.bookmart.data.AddToCart.Address
@@ -51,9 +52,9 @@ import com.google.firebase.database.ValueEventListener
 
 @Composable
 fun SavedAddressesScreen(navController: NavController) {
-    val UniqueiddatabaseReference = FirebaseDatabase.getInstance().getReference("addresses")
-    val newAddressRef = UniqueiddatabaseReference.push()
-    val addressId = newAddressRef.key
+//    val UniqueiddatabaseReference = FirebaseDatabase.getInstance().getReference("addresses")
+//    val newAddressRef = UniqueiddatabaseReference.push()
+//    val addressId = newAddressRef.key
 
 
     var streetAddress by remember { mutableStateOf("") }
@@ -85,20 +86,23 @@ fun SavedAddressesScreen(navController: NavController) {
     })
 
     //var selectedAddress by remember { mutableStateOf<Address?>(null) }
-
+    val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
+            .padding(0.dp, 60.dp, 0.dp, 50.dp)
             .fillMaxSize()
             .background(colorResource(id = R.color.DarkPrimaryColor))
+
     ) {
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp, 80.dp, 16.dp, 16.dp)
+                .padding(16.dp, 0.dp, 16.dp, 0.dp)
                 .background(colorResource(id = R.color.DarkPrimaryColor))
+
         ) {
-            HeadingTextComponent(value = "Step 1:- Add new address ")
-            Spacer(modifier = Modifier.height(12.dp))
+            item {
+            NormalTextComponent(value = "Step 1:- Add new address ")
             AddressTextField("Residential Address", streetAddress) { value ->
                 streetAddress = value
             }
@@ -110,8 +114,13 @@ fun SavedAddressesScreen(navController: NavController) {
             }
 
 
+
             val context = LocalContext.current
             Button(onClick = {
+
+                val UniqueiddatabaseReference = FirebaseDatabase.getInstance().getReference("addresses")
+                val newAddressRef = UniqueiddatabaseReference.push()
+                val addressId = newAddressRef.key
                 if (streetAddress.isNotEmpty() && city.isNotEmpty() && Mobile_Number.isNotEmpty()) {
                     isConfirmButtonPressed = true
                     val useraddress = currentUser?.displayName?.let {
@@ -129,25 +138,23 @@ fun SavedAddressesScreen(navController: NavController) {
                     databaseReference.push().setValue(useraddress)
 
                     // Clear form fields
-                    streetAddress = ""
-                    city = ""
-                    Mobile_Number = ""
+
                 } else {
                     Toast.makeText(context, "Enter valid address", Toast.LENGTH_SHORT).show()
                 }
+                navController.navigate("SavedAddress")
             }) {
                 Text(text = "+ Add a new address")
             }
-            Spacer(modifier = Modifier.height(22.dp))
-            HeadingTextComponent(value = "Step 2:- Select Address   ")
-            Spacer(modifier = Modifier.height(22.dp))
+               NormalTextComponent(value = "Step 2:- Select Address   ")
 
             if (savedaddress.isNotEmpty()) {
                 AddressItemList(savedaddress, navController = navController)
             } else {
-                Text(text = "Your Wishlist is empty.")
+                Text(text = "Your Address is empty.")
             }
         }
+    }
     }
 }
 @Composable
@@ -189,25 +196,17 @@ fun AddressItem(address: Address, navController: NavController) {
             },
         colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.DarkSecondaryColor)),
     ) {
-//        if (defaultAddress != null) {
-//            // Display the address details here
-//            Text(text = "ID: ${defaultAddress!!.id}, Name: ${defaultAddress!!.name}")
-//        } else {
-//            // Handle the case when the address hasn't been loaded yet
-//            Text(text = "Loading...")
-//        }
-
         Row(modifier = Modifier
             //.clickable {}
         )
         {
-            //Text(text = "${address.id} == ${defaultAddress.joinToString { it.id.toString() }}")
-            //println("i Am in ORDERS Befor adding  :$defaultAddress")
             if (defaultAddress?.id ==address.id) {
                 Icon(
                     imageVector = Icons.Default.CheckCircle,
                     contentDescription = "Selected Icon",
-                    modifier = Modifier.size(18.dp)
+                    modifier = Modifier
+                        .padding(10.dp)
+                        .size(26.dp)
                         .align(Alignment.CenterVertically),
                     tint = Color.Green
                 )
@@ -215,7 +214,9 @@ fun AddressItem(address: Address, navController: NavController) {
                 Icon(
                     imageVector = Icons.Default.Circle ,
                     contentDescription = "Selected Icon",
-                    modifier = Modifier.size(24.dp)
+                    modifier = Modifier
+                        .padding(10.dp)
+                        .size(24.dp)
                         .align(Alignment.CenterVertically),
                     tint = Color.Black
                 )
@@ -266,11 +267,31 @@ fun AddressItemList(address: List<Address>, navController: NavController) {
 
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DefaultAddressItemList(defaultaddress: List<Address>, navController: NavController) {
-    LazyColumn(modifier = Modifier.height(300.dp)) {
-        items(defaultaddress) { addresses ->
-            AddressItem(addresses, navController = navController)
-        }
+fun AddressTextField(
+    label: String,
+    value: String,
+    onValueChange: (String) -> Unit
+) {
+    val textValue = remember {
+        mutableStateOf("")
     }
+   // val localFocusManager = LocalFocusManager.current
+
+   /// Row {
+
+        OutlinedTextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 8.dp)
+                .padding(8.dp),
+            label = { Text(text = label) },
+            value = textValue.value,
+            onValueChange = {
+                textValue.value = it
+                onValueChange(it)
+            }
+        )
+
 }

@@ -129,7 +129,7 @@ fun MyOrdersScreen(navController: NavController) {
             modifier = Modifier.padding(bottom = 16.dp, top = 60.dp)
         )
         if (ordersItems.isNotEmpty()) {
-            OrderItemList(ordersItems)
+            OrderItemList(ordersItems,navController=navController)
         } else {
             Text(text = "No orders placed")
         }
@@ -250,19 +250,19 @@ fun CartItemList(cartItems: List<CartItem>,navController: NavController) {
     }
 }
 @Composable
-fun OrderItemList(orders: List<MyOrders>) {
+fun OrderItemList(orders: List<MyOrders>,navController: NavController) {
     LazyColumn(modifier = Modifier
         .height(300.dp)
     ) {
         items(orders) { orderitem ->
-            OrderItem(orderitem)
+            OrderItem(orderitem, navController =navController )
         }
     }
 }
 
 
 @Composable
-fun OrderItem(orders: MyOrders) {
+fun OrderItem(orders: MyOrders,navController: NavController) {
     ElevatedCard(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 4.dp
@@ -278,6 +278,9 @@ fun OrderItem(orders: MyOrders) {
         Column(
             modifier = Modifier
                 .padding(16.dp)
+                .clickable(onClick = {
+                navController.navigate("confirmation_screen/${orders.id}")
+            }),
         ) {
             Text(
                 text = orders.name,
@@ -289,6 +292,7 @@ fun OrderItem(orders: MyOrders) {
             )
             Row {
                 Text(text = orders.payment,
+
                     color =colorResource(id = R.color.LightBackgroundColor),
                     )
                 Spacer(modifier = Modifier.width(190.dp))

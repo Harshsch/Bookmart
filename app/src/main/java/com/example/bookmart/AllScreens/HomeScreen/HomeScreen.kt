@@ -2,15 +2,20 @@ package com.example.bookmart.AllScreens.HomeScreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -43,6 +48,7 @@ import com.example.bookmart.ListItem
 import com.example.bookmart.R
 import com.example.bookmart.itemList
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.delay
 
 
 @Composable
@@ -57,82 +63,85 @@ fun HomeScreen(navController: NavHostController)
     )
 
     val currentUser = FirebaseAuth.getInstance().currentUser
-
+    val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
-            .background(brush=brush),
-    ) {
-        Column(
-            Modifier
-                .padding(16.dp, 36.dp, 16.dp, 80.dp)
-                .background(brush = brush)
-        ) {
-            ElevatedCard(
-                elevation = CardDefaults.cardElevation(
-                    defaultElevation = 10.dp
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp, 50.dp, 16.dp, 16.dp)
-                //.background(color = colorResource(id = R.color.DarkPrimaryColor))
-                ,
+            .background(brush=brush)
+            .padding(0.dp,50.dp,0.dp,50.dp
 
-                colors = CardDefaults.cardColors(
-                    containerColor = colorResource(id = R.color.DarkSecondaryColor),
-                ),
-            )
-            {
-                Column(
-                    modifier = Modifier.padding(20.dp, 20.dp, 20.dp, 0.dp),
+            ) ){
+        var isCardVisible by remember { mutableStateOf(true) }
 
+        if (isCardVisible) {
+            // Automatically close the card after 5 seconds
+            LaunchedEffect(isCardVisible) {
+                delay(5000) // Adjust the delay duration as needed (5000 milliseconds = 5 seconds)
+                isCardVisible = false
+            }
+                ElevatedCard(
+                    elevation = CardDefaults.cardElevation(
+                        defaultElevation = 10.dp
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp, 0.dp, 16.dp, 0.dp)
+                    ,
+                    colors = CardDefaults.cardColors(
+                        containerColor = colorResource(id = R.color.DarkSecondaryColor),
+                    ),
+                ) {
+                    Column(
+                        modifier = Modifier.padding(20.dp, 20.dp, 20.dp, 0.dp),
                     ) {
-                    if (currentUser != null) {
-                        // User is signed in, display the welcome message
-                        Text(
-                            text = "Welcome back ${currentUser.displayName}",
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .heightIn(min = 40.dp),
-                            style = TextStyle(
-                                fontSize = 24.sp,
-                                fontWeight = FontWeight.Normal,
-                                fontStyle = FontStyle.Normal
-                            ), color = colorResource(id = R.color.LightBackgroundColor),
-                            textAlign = TextAlign.Center
-                        )
-                    } else {
-                        // User is not signed in
-                        Text(
-                            text = "Welcome",
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .heightIn(min = 40.dp),
-                            style = TextStyle(
-                                fontSize = 24.sp,
-                                fontWeight = FontWeight.Normal,
-                                fontStyle = FontStyle.Normal
-                            ), color = colorResource(id = R.color.LightBackgroundColor),
-                            textAlign = TextAlign.Center
-                        )
+                        if (currentUser != null) {
+                            // User is signed in, display the welcome message
+                            Text(
+                                text = "Welcome back ${currentUser.displayName}",
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .heightIn(min = 40.dp),
+                                style = TextStyle(
+                                    fontSize = 24.sp,
+                                    fontWeight = FontWeight.Normal,
+                                    fontStyle = FontStyle.Normal
+                                ), color = colorResource(id = R.color.LightBackgroundColor),
+                                textAlign = TextAlign.Center
+                            )
+                        } else {
+                            // User is not signed in
+                            Text(
+                                text = "Welcome",
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .heightIn(min = 40.dp),
+                                style = TextStyle(
+                                    fontSize = 24.sp,
+                                    fontWeight = FontWeight.Normal,
+                                    fontStyle = FontStyle.Normal
+                                ), color = colorResource(id = R.color.LightBackgroundColor),
+                                textAlign = TextAlign.Center
+                            )
 
+                        }
+                    }
+                    Column(modifier = Modifier.padding(20.dp, 0.dp, 20.dp, 20.dp)) {
+                        Text(
+                            text = stringResource(id = R.string.ready_for_exam),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .heightIn(),
+                            style = TextStyle(
+                                fontSize = 30.sp,
+                                fontWeight = FontWeight.Bold,
+                                fontStyle = FontStyle.Normal
+                            ), color = colorResource(id = R.color.LightBackgroundColor),
+                            textAlign = TextAlign.Center
+                        )
                     }
                 }
-                Column(modifier = Modifier.padding(20.dp, 0.dp, 20.dp, 20.dp)) {
-                    Text(
-                        text = stringResource(id = R.string.ready_for_exam),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .heightIn(),
-                        style = TextStyle(
-                            fontSize = 30.sp,
-                            fontWeight = FontWeight.Bold,
-                            fontStyle = FontStyle.Normal
-                        ), color = colorResource(id = R.color.LightBackgroundColor),
-                        textAlign = TextAlign.Center
-                    )
-                }
-
             }
+
+
 
 //        Row(modifier = Modifier.padding(5.dp)) {
 //            Card(
@@ -185,13 +194,13 @@ fun HomeScreen(navController: NavHostController)
             DepartmentBooks(navController = navController)
         }
     }
-}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DepartmentBooks(navController: NavHostController) {
     var text by remember { mutableStateOf("") }
     val lazyColumnState = rememberLazyListState()
-
+    Spacer(modifier = Modifier.height(12.dp))
     TextField(
         value = text,
         onValueChange = { newText ->
@@ -307,7 +316,7 @@ fun DepartmentBooks(navController: NavHostController) {
         }
         item {
             LazyRow {
-                items(itemList.filter { it.year ==2}) { item ->
+                items(itemList.filter { it.department=="Computer Science"&& it.year==2 }) { item ->
                     BooksRow(navController = navController, item = item)
                 }
             }
@@ -328,7 +337,7 @@ fun DepartmentBooks(navController: NavHostController) {
         }
         item {
             LazyRow {
-                items(itemList.filter { it.year ==3}) { item ->
+                items(itemList.filter { it.department=="Computer Science"&& it.year==3 }) { item ->
                     BooksRow(navController = navController, item = item)
                 }
             }
@@ -349,7 +358,7 @@ fun DepartmentBooks(navController: NavHostController) {
         }
         item {
             LazyRow {
-                items(itemList.filter { it.year ==4}) { item ->
+                items(itemList.filter { it.department=="Computer Science"&& it.year==4 }) { item ->
                     BooksRow(navController = navController, item = item)
                 }
             }
@@ -368,12 +377,68 @@ fun DepartmentBooks(navController: NavHostController) {
             )
         }
         item {
+            Text(
+                text = "SE ",
+                Modifier.padding(10.dp),
+                textAlign = TextAlign.Center,
+
+                style = TextStyle(
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight(600),
+                    color = Color(0xFFCCCCCC),
+                    textAlign = TextAlign.Center,
+                )
+            )
+        }
+        item {
             LazyRow {
-                items(itemList) { item ->
+                items(itemList.filter { it.department=="Information Technology"&& it.year==2 }) { item ->
                     BooksRow(navController = navController, item = item)
                 }
             }
           }
+        item {
+            Text(
+                text = "TE ",
+                Modifier.padding(10.dp),
+                textAlign = TextAlign.Center,
+
+                style = TextStyle(
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight(600),
+                    color = Color(0xFFCCCCCC),
+                    textAlign = TextAlign.Center,
+                )
+            )
+        }
+        item {
+            LazyRow {
+                items(itemList.filter { it.department=="Information Technology"&& it.year==3 }) { item ->
+                    BooksRow(navController = navController, item = item)
+                }
+            }
+        }
+        item {
+            Text(
+                text = "BE ",
+                Modifier.padding(10.dp),
+                textAlign = TextAlign.Center,
+
+                style = TextStyle(
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight(600),
+                    color = Color(0xFFCCCCCC),
+                    textAlign = TextAlign.Center,
+                )
+            )
+        }
+        item {
+            LazyRow {
+                items(itemList.filter { it.department=="Information Technology"&& it.year==4 }) { item ->
+                    BooksRow(navController = navController, item = item)
+                }
+            }
+        }
         item {
             Text(
                 text = "Electronics And Telecommunication",
@@ -409,4 +474,5 @@ fun DepartmentBooks(navController: NavHostController) {
         }
         }
     }
+
 

@@ -54,6 +54,11 @@ android {
 }
 
 dependencies {
+
+//    implementation ("com.sun.mail:android-mail:1.6.7")
+//    implementation ("com.sun.mail:android-activation:1.6.7")
+
+
     implementation ("com.google.accompanist:accompanist-insets:0.18.0")
 
     implementation ("androidx.navigation:navigation-compose:2.7.3")

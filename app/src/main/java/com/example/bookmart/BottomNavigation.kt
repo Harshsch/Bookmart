@@ -80,6 +80,8 @@ fun BottomBarScreen(
     navController: NavController,
     screenContent: @Composable () -> Unit
 ) {
+    val currentUserinfo = FirebaseAuth.getInstance().currentUser
+
     val userId = FirebaseAuth.getInstance().currentUser?.uid
     val database = FirebaseDatabase.getInstance()
     val reference = FirebaseDatabase.getInstance().getReference("users/$userId/cartlist")
@@ -140,6 +142,7 @@ fun BottomBarScreen(
     ) {
         val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
         val scope = rememberCoroutineScope()
+
         var TopselectedItemIndex by rememberSaveable {
             mutableStateOf(0)
         }
@@ -162,8 +165,15 @@ fun BottomBarScreen(
                         modifier = Modifier
                             //.background(colorResource(id = R.color.DarkBackgroundColor))
                             .clip(RoundedCornerShape(20.dp)),
-                              actions = {
-                            IconButton(onClick = { navController.navigate("User_Profile") }) {
+                              actions = {val currentUser = auth.currentUser
+                            IconButton(onClick =
+                            {
+                                if (currentUserinfo != null) {
+                                    navController.navigate("User_Profile")
+                                    //Toast.makeText(context, "Already logged in", Toast.LENGTH_SHORT).show()
+                                } else {
+                                    navController.navigate("Signup")
+                                }}) {
                                 Icon(
                                     imageVector = Icons.Filled.AccountCircle,
                                     contentDescription = "User Profile"
@@ -184,13 +194,13 @@ fun BottomBarScreen(
                             .clip(RoundedCornerShape(20.dp)),
                         containerColor= colorResource(id = R.color.DarkPrimaryColor),
                         contentColor= Color.Cyan,
-                    ) {
+                    ) {val currentUser = auth.currentUser
                         items.forEachIndexed { index, item ->
                             val isSelected = BottomselectedItemIndex == index
                             NavigationBarItem(
                                 selected = isSelected,
                                 onClick = {
-                                    val currentUser = auth.currentUser
+
                                     BottomselectedItemIndex = index
                                     val destination = when (item.title) {
                                         "Home" -> "home_route"
@@ -198,16 +208,10 @@ fun BottomBarScreen(
                                         "Settings" -> "settings_route"
                                         else -> "fallback_route" // Define a fallback route for unmatched titles
                                     }
-                                    if (currentUser != null&&destination!="Home") {
+                                    if (currentUserinfo != null) {
                                         navController.navigate(destination)
                                     }
-                                    else if(destination=="Home")
-                                        {
-                                            navController.navigate(destination)
-                                            {popUpTo("home_route") { inclusive = true }}
-
-                                        }
-
+//
                                     else {
                                         navController.navigate("Signup")
                                     }
