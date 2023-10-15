@@ -1,4 +1,4 @@
-package com.example.bookmart.AllScreens.HomeScreen
+package com.example.bookmart.AllScreens.HomeScreen.OrderPath
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -25,6 +25,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -37,8 +38,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.bookmart.BuyNowData
-import com.example.bookmart.ListItem
+import com.example.bookmart.data.BuyNowData
+import com.example.bookmart.data.ListItem
 import com.example.bookmart.R
 import com.example.bookmart.data.AddToCart.Address
 import com.example.bookmart.data.AddToCart.MyOrders
@@ -51,20 +52,12 @@ import com.google.firebase.database.ValueEventListener
 
 @Composable
 fun BuyNowPage(navController: NavController,item: ListItem) {
-    var streetAddress by remember { mutableStateOf("") }
-    var city by remember { mutableStateOf("") }
-    var quantity by remember { mutableStateOf(1) }
+    var quantity by remember { mutableIntStateOf(1) }
     val currentUser = FirebaseAuth.getInstance().currentUser
     val userId = FirebaseAuth.getInstance().currentUser?.uid
 
-    var isConfirmButtonPressed by remember { mutableStateOf(false) }
-// Get a reference to the database
-    val database = FirebaseDatabase.getInstance()
-
     val databaseReference = FirebaseDatabase.getInstance().getReference("users/$userId/buy_now_data")
-
     var defaultAddress by remember { mutableStateOf<Address?>(null) }
-
     val defaultdatabaseReference =
         FirebaseDatabase.getInstance().getReference("users/$userId/defaultAddress")
 
@@ -143,9 +136,6 @@ fun BuyNowPage(navController: NavController,item: ListItem) {
                     AddressCard(
                         streetaddress = defaultAddress?.streetAddress, city = defaultAddress?.city, mobilenumber = defaultAddress?.mobileNumber.toString(), navController = navController
                     )
-//                //AddressTextField("Name", name) { name = it }
-//                AddressTextField("Residential Address", streetAddress) { streetAddress = it }
-//                AddressTextField("City,State,Postal Code", city) { city = it }
 
                 Spacer(modifier = Modifier.height(12.dp))
 
@@ -169,13 +159,13 @@ fun BuyNowPage(navController: NavController,item: ListItem) {
 
                         Row {
                             Text("Product Name:")
-                            Text("${item.name}")
+                            Text(item.name)
 
                         }
 
                         Row {
                             Text("Description: ")
-                            Text("${item.description}")
+                            Text(item.description)
 
                         }
 
@@ -279,7 +269,7 @@ fun BuyNowPage(navController: NavController,item: ListItem) {
                                 }
 
                                 else -> {
-                                    null
+
                                 }
                             }
                             val newItem = MyOrders(
@@ -292,10 +282,9 @@ fun BuyNowPage(navController: NavController,item: ListItem) {
                             // Add the item to the cart using the ViewModel
                             MyOrdersViewModel.addItemToOrders(newItem)
 
-                            isConfirmButtonPressed = true
-                            if (isConfirmButtonPressed) {
+
                                 databaseReference.push().setValue(buyNowData)
-                            }
+
                             // Navigate to the confirmation screen.
 
                             navController.navigate("confirmation_screen/${item.id}")
@@ -303,10 +292,9 @@ fun BuyNowPage(navController: NavController,item: ListItem) {
 
 
                     },
-                    enabled = selectedPaymentMethod != null &&
-                            defaultAddress?.streetAddress!=null&&
-                            defaultAddress?.city!=null &&
-                            defaultAddress?.mobileNumber.toString()!=null,
+                    enabled = (selectedPaymentMethod != null) &&
+                            (defaultAddress?.streetAddress != null) &&
+                            (defaultAddress?.city != null),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(text = "Confirm Order ")

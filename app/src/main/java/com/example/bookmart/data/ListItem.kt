@@ -1,5 +1,6 @@
-package com.example.bookmart
+package com.example.bookmart.data
 
+import com.example.bookmart.R
 import com.example.bookmart.data.AddToCart.CartItem
 
 data class BuyNowData(

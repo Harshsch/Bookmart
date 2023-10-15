@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Circle
@@ -34,7 +33,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -85,8 +83,6 @@ fun SavedAddressesScreen(navController: NavController) {
         }
     })
 
-    //var selectedAddress by remember { mutableStateOf<Address?>(null) }
-    val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
             .padding(0.dp, 60.dp, 0.dp, 50.dp)
@@ -126,7 +122,7 @@ fun SavedAddressesScreen(navController: NavController) {
                     val useraddress = currentUser?.displayName?.let {
                         addressId?.let { it1 ->
                             Address(
-                                id = it1.toString(),
+                                id = it1,
                                 name = it,
                                 streetAddress = streetAddress,
                                 city = city,
@@ -162,7 +158,6 @@ fun AddressItem(address: Address, navController: NavController) {
     val userId = FirebaseAuth.getInstance().currentUser?.uid
     val databaseReference =
         FirebaseDatabase.getInstance().getReference("users/$userId/defaultAddress")
-    //var defaultAddress = remember { mutableStateListOf<Address>() }
     var defaultAddress by remember { mutableStateOf<Address?>(null) }
 
     LaunchedEffect(Unit) {

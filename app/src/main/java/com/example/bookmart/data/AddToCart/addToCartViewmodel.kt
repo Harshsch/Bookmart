@@ -13,16 +13,13 @@ data class Address(
     val streetAddress: String = "",
     val city: String = "",
     val mobileNumber: String? = null,
-    //@get:PropertyName("default")
-    //val isDefault: Boolean = false
 )
-
-
 
 data class CartItem(
     val id:Int =0,
     val name: String = "",
     val price: Int = 0,
+    val quantity:Int=1,
 
 )
 
@@ -50,10 +47,6 @@ class MyOrdersViewModel : ViewModel() {
     }
 
     // Function to get the current cart items
-    fun getCartItems(): List<MyOrders> {
-        return ordersItems.toList()
-
-    }
 }
 
 
@@ -72,11 +65,6 @@ class CartViewModel : ViewModel() {
         databaseReference.push().setValue(item)
     }
 
-    // Function to get the current cart items
-    fun getCartItems(): List<CartItem> {
-        return cartItems.toList()
-
-    }
 }
 
 class AddressViewModel : ViewModel() {

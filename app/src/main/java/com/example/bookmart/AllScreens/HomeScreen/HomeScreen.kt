@@ -2,7 +2,6 @@ package com.example.bookmart.AllScreens.HomeScreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,9 +12,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -43,31 +40,45 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.bookmart.BooksRow
-import com.example.bookmart.HeadingTextComponent
-import com.example.bookmart.ListItem
 import com.example.bookmart.R
-import com.example.bookmart.itemList
+import com.example.bookmart.data.ListItem
+import com.example.bookmart.data.itemList
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.delay
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import androidx.compose.ui.platform.LocalContext
+
+fun isInternetConnected(context: Context): Boolean {
+    val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+    val network = connectivityManager.activeNetwork
+    val capabilities = connectivityManager.getNetworkCapabilities(network)
+
+    return capabilities != null && (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR))
+}
 
 @Composable
 fun HomeScreen(navController: NavHostController)
 {
-
-    val darkBackgroundColor = Color(0xFF0d0e1c)
+    val context = LocalContext.current
     val textureColor = Color(0xFF6a6f9a) // Define your texture color
-
     val brush = Brush.horizontalGradient(
         colors = listOf( textureColor ,textureColor),
     )
-
     val currentUser = FirebaseAuth.getInstance().currentUser
-    val scrollState = rememberScrollState()
+    if(!isInternetConnected(context))
+    {
+        navController.navigate("no_internet")
+    }
+    else{
     Column(
         modifier = Modifier
             .background(brush=brush)
-            .padding(0.dp,50.dp,0.dp,50.dp
+            .padding(16.dp,50.dp,16.dp,50.dp
 
             ) ){
         var isCardVisible by remember { mutableStateOf(true) }
@@ -140,60 +151,9 @@ fun HomeScreen(navController: NavHostController)
                     }
                 }
             }
-
-
-
-//        Row(modifier = Modifier.padding(5.dp)) {
-//            Card(
-//                elevation = CardDefaults.cardElevation(
-//                    defaultElevation = 10.dp
-//                ),
-//                modifier = Modifier.weight(1f),
-//               // elevation = 8.dp,
-//                shape = RoundedCornerShape(8.dp)
-//            ) {
-//                ExposedDropdownMenu(
-//                    items = listOf("Department 1", "Department 2", "Department 3"),
-//                    selectedValue = selectedOption1,
-//                    onValueSelected = { selectedOption1 = it }
-//                )
-//            }
-//
-//            Card(
-//                elevation = CardDefaults.cardElevation(
-//                    defaultElevation = 10.dp
-//                ),
-//                modifier = Modifier.weight(1f),
-//                //elevation = 8.dp,
-//                shape = RoundedCornerShape(8.dp)
-//            ) {
-//                ExposedDropdownMenu(
-//                    items = listOf("SE", "TE", "BE"),
-//                    selectedValue = selectedOption2,
-//                    onValueSelected = { selectedOption2 = it }
-//                )
-//            }
-//
-//            Card(
-//                elevation = CardDefaults.cardElevation(
-//                    defaultElevation = 10.dp
-//                ),
-//                modifier = Modifier.weight(1f),
-//                //elevation = 8.dp,
-//                shape = RoundedCornerShape(8.dp)
-//            ) {
-//                ExposedDropdownMenu(
-//                    items = listOf("SEM-1", "SEM-2"),
-//                    selectedValue = selectedOption3,
-//                    onValueSelected = { selectedOption3 = it }
-//                )
-//            }
-//        }
-
-
             DepartmentBooks(navController = navController)
         }
-    }
+    }}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -211,8 +171,6 @@ fun DepartmentBooks(navController: NavHostController) {
             .fillMaxWidth()
             .padding(20.dp)
             .clip(RoundedCornerShape(30.dp))
-           // .background(color = colorResource(id = R.color.DarkPrimaryColor))
-
         ,
 
         leadingIcon = {
@@ -237,8 +195,6 @@ fun DepartmentBooks(navController: NavHostController) {
     }
 
     val results = searchBooksByName(searchQuery)
-
-
 
     LazyColumn(state = lazyColumnState)
     {

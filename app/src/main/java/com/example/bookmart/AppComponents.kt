@@ -4,26 +4,20 @@ import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ExitToApp
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
@@ -32,23 +26,18 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Divider
-import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
@@ -67,15 +56,14 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.bookmart.data.ListItem
 import com.example.bookmart.ui.theme.DarkPrimaryColor
 import com.example.bookmart.ui.theme.DarkSecondaryColor
 import com.example.bookmart.ui.theme.DarkSurfaceColor
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
@@ -170,48 +158,6 @@ fun BooksRow(navController: NavHostController, item: ListItem) {
     }
 }
 
-@Composable
-fun ExposedDropdownMenu(
-    items: List<String>,
-    selectedValue: String,
-    onValueSelected: (String) -> Unit
-) {
-    var expanded by remember { mutableStateOf(false) }
-
-    Box() {
-
-
-        Text(
-            text = selectedValue,
-            modifier = Modifier
-                .clickable { expanded = !expanded }
-                .widthIn(140.dp)
-                .background(Color.White)
-                .border(1.dp, Color.Gray),
-            textAlign = TextAlign.Center
-        )
-
-
-
-        if (expanded) {
-
-                Column {
-                    items.forEach { item ->
-                        Text(
-                            text = item,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable {
-                                    onValueSelected(item)
-                                    expanded = false
-                                }
-                                .padding(16.dp)
-                        )
-                    }
-                }
-            }
-        }
-    }
 
 @Composable
 fun NormalTextComponent(value: String) {
@@ -253,13 +199,9 @@ fun MyTextFieldComponent(
     onTextChanged: (String) -> Unit,
      errorStatus: Boolean = false
 ) {
-    val user = FirebaseAuth.getInstance().currentUser
-
-
     val textValue = remember {
         mutableStateOf("")
     }
-    val localFocusManager = LocalFocusManager.current
 
     OutlinedTextField(
         modifier = Modifier
@@ -551,69 +493,11 @@ fun ClickableForgotPasswordTextComponent(email:String) {
                         Toast.makeText(context, "Password reset email sent", Toast.LENGTH_SHORT).show()
                     } else {
                         // Handle the error
-                        val exception = task.exception
+
                         Toast.makeText(context, "Please Verify Email", Toast.LENGTH_SHORT).show()
                     }
                 }
                 }
 
-    )
-}
-
-@Composable
-fun UnderLinedTextComponent(value: String) {
-    Text(
-        text = value,
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = 40.dp),
-        style = TextStyle(
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Normal,
-            fontStyle = FontStyle.Normal
-        ),
-        //color = colorResource(id =PurpleGrey80),
-        textAlign = TextAlign.Center,
-        textDecoration = TextDecoration.Underline
-    )
-
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun AppToolbar(
-    toolbarTitle: String, logoutButtonClicked: () -> Unit,
-    navigationIconClicked: () -> Unit
-) {
-
-    TopAppBar(
-        title = {
-            Text(
-                text = toolbarTitle,
-
-            )
-        },
-        navigationIcon = {
-            IconButton(onClick = {
-                navigationIconClicked.invoke()
-            }) {
-                Icon(
-                    imageVector = Icons.Filled.Menu,
-                    contentDescription = stringResource(R.string.menu),
-                    //tint = WhiteColor
-                )
-            }
-
-        },
-        actions = {
-            IconButton(onClick = {
-                logoutButtonClicked.invoke()
-            }) {
-                Icon(
-                    imageVector = Icons.Filled.ExitToApp,
-                    contentDescription = stringResource(id = R.string.logout),
-                )
-            }
-        }
     )
 }

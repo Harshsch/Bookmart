@@ -1,4 +1,4 @@
-package com.example.bookmart
+package com.example.bookmart.data
 
 import android.app.Application
 import com.google.firebase.FirebaseApp

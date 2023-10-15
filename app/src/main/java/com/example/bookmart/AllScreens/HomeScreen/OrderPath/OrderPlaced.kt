@@ -1,4 +1,4 @@
-package com.example.bookmart.AllScreens.HomeScreen
+package com.example.bookmart.AllScreens.HomeScreen.OrderPath
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -20,31 +20,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.bookmart.ListItem
 import com.example.bookmart.R
+import com.example.bookmart.data.ListItem
 import com.google.firebase.auth.FirebaseAuth
 
 
 @Composable
  fun OrderPlacedPage(navController: NavController, item: ListItem) {
     val currentUser = FirebaseAuth.getInstance().currentUser
-
     val uid = currentUser?.uid
-    val context = LocalContext.current
-//    val emailSender = EmailSender()
-//    emailSender.sendEmail("${currentUser?.email}", "Order Confirmation", "Your order has been placed successfully.")
-
-//        ?.addOnSuccessListener {
-//            Toast.makeText(context, "Please Verify Email", Toast.LENGTH_SHORT).show()
-//
-//        }
-
     ElevatedCard(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 10.dp
