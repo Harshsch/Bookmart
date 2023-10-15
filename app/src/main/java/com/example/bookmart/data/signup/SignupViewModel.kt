@@ -145,9 +145,7 @@ class SignupViewModel : ViewModel() {
                 Log.d(TAG, " isSuccessful = ${it.isSuccessful}")
 
                 signUpInProgress.value = false
-//                if (it.isSuccessful) {
-//                    PostOfficeAppRouter.navigateTo("home_route")
-//                }
+
             }
             .addOnFailureListener {
 

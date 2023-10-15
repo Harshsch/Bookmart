@@ -12,6 +12,7 @@ android {
     compileSdk = 34
 
     defaultConfig {
+
         applicationId = "com.example.bookmart"
         minSdk = 24
         targetSdk = 34
@@ -54,9 +55,9 @@ android {
 }
 
 dependencies {
-
-//    implementation ("com.sun.mail:android-mail:1.6.7")
-//    implementation ("com.sun.mail:android-activation:1.6.7")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+    androidTestImplementation("androidx.test:runner:1.4.0")
+    androidTestImplementation("androidx.test:rules:1.4.0")
 
 
     implementation ("com.google.accompanist:accompanist-insets:0.18.0")

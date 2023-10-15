@@ -26,23 +26,15 @@ import androidx.compose.material.icons.filled.QuestionAnswer
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -54,18 +46,10 @@ import com.example.bookmart.R
 import com.google.firebase.auth.FirebaseAuth
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "SuspiciousIndentation")
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun SettingsScreen(navController: NavController) {
-    var searchText by remember { mutableStateOf("") }
-    val focusManager = LocalFocusManager.current
-    val keyboardController = LocalSoftwareKeyboardController.current
     val context = LocalContext.current
-
-
-    val darkBackgroundColor = Color(0xFF0d0e1c)
-    val textureColor = Color(0xFF6a6f9a) // Define your texture color
-
+   val textureColor = Color(0xFF6a6f9a) // Define your texture color
     val brush = Brush.horizontalGradient(
         colors = listOf( textureColor ,textureColor),
     )
@@ -235,7 +219,7 @@ fun SettingsItem(icon: ImageVector, title: String, onClick: () -> Unit) {
     }
 }
 @Composable
-fun TermsAndCondition(navController: NavController) {
+fun TermsAndCondition() {
     val scrollState = rememberScrollState()
 
     ElevatedCard(
@@ -321,7 +305,7 @@ fun TermsAndCondition(navController: NavController) {
 
 
 @Composable
-fun FAQ(navController: NavController) {
+fun FAQ() {
     val scrollState = rememberScrollState()
 
     ElevatedCard(
