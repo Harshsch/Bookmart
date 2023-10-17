@@ -10,12 +10,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Button
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -38,6 +36,7 @@ import com.example.bookmart.data.ListItem
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
@@ -46,6 +45,7 @@ import com.google.firebase.database.ValueEventListener
 fun Payment(navController: NavController, item: ListItem,quantity:Int) {
 
     val current = "Payment"
+    var orderkey: String? =null
 
     val userId = FirebaseAuth.getInstance().currentUser?.uid
 
@@ -95,7 +95,7 @@ fun Payment(navController: NavController, item: ListItem,quantity:Int) {
 
     Box(modifier = Modifier
         .background(colorResource(id = R.color.DarkSurfaceColor))
-        .padding(0.dp,50.dp,0.dp,50.dp )
+        .padding(0.dp, 50.dp, 0.dp, 50.dp)
 
     ) {
         ElevatedCard(
@@ -107,7 +107,8 @@ fun Payment(navController: NavController, item: ListItem,quantity:Int) {
                 .padding(16.dp, 16.dp, 16.dp, 16.dp),
         ) {
             Column(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
                     .padding(16.dp),
                 //.verticalScroll(state = scrollState),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -151,6 +152,7 @@ fun Payment(navController: NavController, item: ListItem,quantity:Int) {
             Spacer(modifier = Modifier.height(32.dp))
 
             val MyOrdersViewModel = viewModel<MyOrdersViewModel>()
+                val orderlistkey=MyOrdersViewModel.orderkey
 
             // Confirm Order and Payment
             Button(
@@ -171,22 +173,27 @@ fun Payment(navController: NavController, item: ListItem,quantity:Int) {
 
                         }
                     }
+
+
+                    val newChildRef: DatabaseReference = databaseReference.push()
+                    newChildRef.setValue(buyNowData)
+
+                    orderkey=newChildRef.getKey()
+
+                    // Navigate to the confirmation screen.
                     val newItem = MyOrders(
 
                         id = item.id,
                         name = item.name,
                         payment = "Payment: Pending ",
-                        status = "5 days left"
+                        status = "5 days left",
+                        imageResIdorder=item.imageResId,
+                        orderkey= orderkey.toString(),
+                        orderlistkey= orderlistkey.toString()
                     )
                     // Add the item to the cart using the ViewModel
                     MyOrdersViewModel.addItemToOrders(newItem)
-
-
-                    databaseReference.push().setValue(buyNowData)
-
-                    // Navigate to the confirmation screen.
-
-                    navController.navigate("confirmation_screen/${item.id}")
+                    navController.navigate("confirmation_screen/${item.id}/${orderkey}/${orderlistkey}")
 
 
                 },

@@ -6,12 +6,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.bookmart.AllScreens.HomeScreen.OrderPath.BookDisplay
-import com.example.bookmart.AllScreens.HomeScreen.OrderPath.BuyNowPage
 import com.example.bookmart.AllScreens.HomeScreen.HomeScreen
 import com.example.bookmart.AllScreens.HomeScreen.MyOrdersScreen.MyOrdersScreen
 import com.example.bookmart.AllScreens.HomeScreen.NoInternetScreen
 import com.example.bookmart.AllScreens.HomeScreen.OrderPath.AddressCard
+import com.example.bookmart.AllScreens.HomeScreen.OrderPath.BookDisplay
 import com.example.bookmart.AllScreens.HomeScreen.OrderPath.OrderPlacedPage
 import com.example.bookmart.AllScreens.HomeScreen.OrderPath.Order_Details
 import com.example.bookmart.AllScreens.HomeScreen.OrderPath.Payment
@@ -151,10 +150,12 @@ fun Navigation() {
             }}
         }
 
-        composable("confirmation_screen/{itemId}") {
+        composable("confirmation_screen/{itemId}/{orderkey}/{orderlistkey}") {
                 backStackEntry ->
             val arguments = requireNotNull(backStackEntry.arguments)
             val itemId = arguments.getString("itemId")?.toIntOrNull()
+            val orderkey = arguments.getString("orderkey")
+            val orderlistkey = arguments.getString("orderlistkey")
             val selectedItem = itemList.find { it.id == itemId }
             if(!isInternetConnected(LocalContext.current))
             {
@@ -162,7 +163,11 @@ fun Navigation() {
             }
             else{
             selectedItem?.let { item ->
-                OrderPlacedPage(navController = navController, item = item)
+                if (orderkey != null) {
+                    if (orderlistkey != null) {
+                        OrderPlacedPage(navController = navController, item = item,orderkey=orderkey, orderlistkey =orderlistkey )
+                    }
+                }
 
             }}
         }
