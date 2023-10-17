@@ -50,260 +50,260 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-@Composable
-fun BuyNowPage(navController: NavController,item: ListItem) {
-    var quantity by remember { mutableIntStateOf(1) }
-    val currentUser = FirebaseAuth.getInstance().currentUser
-    val userId = FirebaseAuth.getInstance().currentUser?.uid
-
-    val databaseReference = FirebaseDatabase.getInstance().getReference("users/$userId/buy_now_data")
-    var defaultAddress by remember { mutableStateOf<Address?>(null) }
-    val defaultdatabaseReference =
-        FirebaseDatabase.getInstance().getReference("users/$userId/defaultAddress")
-
-    LaunchedEffect(Unit) {
-        // Add a ValueEventListener to fetch and update the data
-        val valueEventListener = object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                // Retrieve the Address object from Firebase
-                val value = snapshot.getValue(Address::class.java)
-                if (value != null) {
-                    defaultAddress = value
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                // Handle database error here
-                println("Database Error: $error")
-            }
-        }
-        defaultdatabaseReference.addValueEventListener(valueEventListener)
-    }
-// Create an instance of your data class
-    val buyNowData = currentUser?.displayName?.let {
-        defaultAddress?.let { it1 ->
-            BuyNowData(
-                name = it,
-                streetAddress = it1.streetAddress,
-                city = it1.city,
-                mobilenumber= it1.mobileNumber.toString(),
-                productname=item.name,
-                priceperunit= item.price,
-                quantity=quantity,
-                totalprice = "Rs ${ quantity * item.price }"
-            )
-        }
-    }
-    val scrollState = rememberScrollState()
-    Column(
-        modifier = Modifier
-            .background(colorResource(id = R.color.DarkSurfaceColor)),
-    ) {
-
-        ElevatedCard(
-            elevation = CardDefaults.cardElevation(
-                defaultElevation = 10.dp
-            ),
-            modifier = Modifier
-                .wrapContentSize()
-                .padding(16.dp)
-                .verticalScroll(state = scrollState),
-        ) {
-            Text(
-                text = "Order Details",
-                style = MaterialTheme.typography.headlineSmall,
-                modifier = Modifier.padding( 20.dp)
-            )
-
-
-            Column(
-                modifier = Modifier
-                    .padding(10.dp)
-            ) {
-                if (currentUser != null) {
-                    Text(
-                        text = "Customer name:${currentUser.displayName}",
-                        style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.padding(bottom = 16.dp)
-                    )
-                }
-                // Address Form
-                Text(
-                    text = "Shipping Address",
-                    style = MaterialTheme.typography.titleLarge,
-                    modifier = Modifier.padding(bottom = 8.dp)
-                )
-                    AddressCard(
-                        streetaddress = defaultAddress?.streetAddress, city = defaultAddress?.city, mobilenumber = defaultAddress?.mobileNumber.toString(), navController = navController
-                    )
-
-                Spacer(modifier = Modifier.height(12.dp))
-
-
-                // Product Information
-                Text(
-                    text = "Product Information",
-                    style = MaterialTheme.typography.headlineMedium,
-                    modifier = Modifier.padding(bottom = 16.dp)
-                )
-                ElevatedCard(
-                    elevation = CardDefaults.cardElevation(
-                        defaultElevation = 10.dp
-                    ),
-                    modifier = Modifier,
-
-
-                    ) {
-                    Column(modifier = Modifier.padding(8.dp)) {
-
-
-                        Row {
-                            Text("Product Name:")
-                            Text(item.name)
-
-                        }
-
-                        Row {
-                            Text("Description: ")
-                            Text(item.description)
-
-                        }
-
-                        Row {
-                            Text("Price per Unit:  ")
-                            Text("₹${item.price} ")
-
-                        }
-
-
-
-                        Row(
-                            modifier = Modifier.padding(top = 8.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Text(
-                                "Quantity: ",
-                                style = MaterialTheme.typography.headlineSmall,
-                            )
-                            IconButton(
-                                onClick = { if (quantity > 1) quantity-- },
-                                modifier = Modifier.size(32.dp)
-                            ) {
-                                Text(
-                                    text = "-",
-                                    style = MaterialTheme.typography.headlineSmall,
-
-                                    )
-                            }
-                            Text(
-                                "$quantity",
-                                style = MaterialTheme.typography.headlineSmall,
-                            )
-                            IconButton(
-                                onClick = { quantity++ },
-                                modifier = Modifier.size(32.dp)
-                            ) {
-                                Text(
-                                    text = "+",
-                                    style = MaterialTheme.typography.headlineMedium,
-                                )
-                            }
-                        }
-                    }
-                }
-
-
-                Spacer(modifier = Modifier.height(32.dp))
-
-                // Confirm Order and Payment
-
-                Text(
-                    text = "Select Payment Method",
-                    style = MaterialTheme.typography.headlineMedium,
-                    modifier = Modifier.padding(bottom = 16.dp)
-                )
-
-                var selectedPaymentMethod by remember { mutableStateOf<PaymentMethod?>(null) }
-
-                var selectedmethod = ""
-
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 16.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    PaymentOption(
-                        text = "Google Pay",
-                        selectedPaymentMethod = selectedPaymentMethod,
-                        onPaymentMethodSelected = { selectedPaymentMethod = it },
-                        paymentMethod = PaymentMethod.GPAY
-                    )
-                    PaymentOption(
-                        text = "Cash on Delivery",
-                        selectedPaymentMethod = selectedPaymentMethod,
-                        onPaymentMethodSelected = { selectedPaymentMethod = it },
-                        paymentMethod = PaymentMethod.COD
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(32.dp))
-                Price(quantity = quantity, item = item)
-                Spacer(modifier = Modifier.height(32.dp))
-
-                val MyOrdersViewModel = viewModel<MyOrdersViewModel>()
-
-                // Confirm Order and Payment
-                Button(
-                    onClick = {
-
-                            // Handle payment processing based on the selected method.
-                            when (selectedPaymentMethod) {
-                                PaymentMethod.GPAY -> {
-                                    selectedmethod = "UPI"
-                                    // Handle Google Pay payment
-                                }
-
-                                PaymentMethod.COD -> {
-                                    selectedmethod = "COD"
-                                }
-
-                                else -> {
-
-                                }
-                            }
-                            val newItem = MyOrders(
-
-                                id=item.id,
-                                name = item.name,
-                                payment = "Payment: Pending ",
-                                status = "5 days left"
-                            )
-                            // Add the item to the cart using the ViewModel
-                            MyOrdersViewModel.addItemToOrders(newItem)
-
-
-                                databaseReference.push().setValue(buyNowData)
-
-                            // Navigate to the confirmation screen.
-
-                            navController.navigate("confirmation_screen/${item.id}")
-
-
-
-                    },
-                    enabled = (selectedPaymentMethod != null) &&
-                            (defaultAddress?.streetAddress != null) &&
-                            (defaultAddress?.city != null),
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(text = "Confirm Order ")
-                }
-            }
-
-        }
-    }
-    }
+//@Composable
+//fun BuyNowPage(navController: NavController,item: ListItem) {
+//    var quantity by remember { mutableIntStateOf(1) }
+//    val currentUser = FirebaseAuth.getInstance().currentUser
+//    val userId = FirebaseAuth.getInstance().currentUser?.uid
+//
+//    val databaseReference = FirebaseDatabase.getInstance().getReference("users/$userId/buy_now_data")
+//    var defaultAddress by remember { mutableStateOf<Address?>(null) }
+//    val defaultdatabaseReference =
+//        FirebaseDatabase.getInstance().getReference("users/$userId/defaultAddress")
+//
+//    LaunchedEffect(Unit) {
+//        // Add a ValueEventListener to fetch and update the data
+//        val valueEventListener = object : ValueEventListener {
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//                // Retrieve the Address object from Firebase
+//                val value = snapshot.getValue(Address::class.java)
+//                if (value != null) {
+//                    defaultAddress = value
+//                }
+//            }
+//
+//            override fun onCancelled(error: DatabaseError) {
+//                // Handle database error here
+//                println("Database Error: $error")
+//            }
+//        }
+//        defaultdatabaseReference.addValueEventListener(valueEventListener)
+//    }
+//// Create an instance of your data class
+//    val buyNowData = currentUser?.displayName?.let {
+//        defaultAddress?.let { it1 ->
+//            BuyNowData(
+//                name = it,
+//                streetAddress = it1.streetAddress,
+//                city = it1.city,
+//                mobilenumber= it1.mobileNumber.toString(),
+//                productname=item.name,
+//                priceperunit= item.price,
+//                quantity=quantity,
+//                totalprice = "Rs ${ quantity * item.price }"
+//            )
+//        }
+//    }
+//    val scrollState = rememberScrollState()
+//    Column(
+//        modifier = Modifier
+//            .background(colorResource(id = R.color.DarkSurfaceColor)),
+//    ) {
+//
+//        ElevatedCard(
+//            elevation = CardDefaults.cardElevation(
+//                defaultElevation = 10.dp
+//            ),
+//            modifier = Modifier
+//                .wrapContentSize()
+//                .padding(16.dp)
+//                .verticalScroll(state = scrollState),
+//        ) {
+//            Text(
+//                text = "Order Details",
+//                style = MaterialTheme.typography.headlineSmall,
+//                modifier = Modifier.padding( 20.dp)
+//            )
+//
+//
+//            Column(
+//                modifier = Modifier
+//                    .padding(10.dp)
+//            ) {
+//                if (currentUser != null) {
+//                    Text(
+//                        text = "Customer name:${currentUser.displayName}",
+//                        style = MaterialTheme.typography.titleMedium,
+//                        modifier = Modifier.padding(bottom = 16.dp)
+//                    )
+//                }
+//                // Address Form
+//                Text(
+//                    text = "Shipping Address",
+//                    style = MaterialTheme.typography.titleLarge,
+//                    modifier = Modifier.padding(bottom = 8.dp)
+//                )
+//                    AddressCard(
+//                        streetaddress = defaultAddress?.streetAddress, city = defaultAddress?.city, mobilenumber = defaultAddress?.mobileNumber.toString(), navController = navController
+//                    )
+//
+//                Spacer(modifier = Modifier.height(12.dp))
+//
+//
+//                // Product Information
+//                Text(
+//                    text = "Product Information",
+//                    style = MaterialTheme.typography.headlineMedium,
+//                    modifier = Modifier.padding(bottom = 16.dp)
+//                )
+//                ElevatedCard(
+//                    elevation = CardDefaults.cardElevation(
+//                        defaultElevation = 10.dp
+//                    ),
+//                    modifier = Modifier,
+//
+//
+//                    ) {
+//                    Column(modifier = Modifier.padding(8.dp)) {
+//
+//
+//                        Row {
+//                            Text("Product Name:")
+//                            Text(item.name)
+//
+//                        }
+//
+//                        Row {
+//                            Text("Description: ")
+//                            Text(item.description)
+//
+//                        }
+//
+//                        Row {
+//                            Text("Price per Unit:  ")
+//                            Text("₹${item.price} ")
+//
+//                        }
+//
+//
+//
+//                        Row(
+//                            modifier = Modifier.padding(top = 8.dp),
+//                            verticalAlignment = Alignment.CenterVertically
+//                        ) {
+//                            Text(
+//                                "Quantity: ",
+//                                style = MaterialTheme.typography.headlineSmall,
+//                            )
+//                            IconButton(
+//                                onClick = { if (quantity > 1) quantity-- },
+//                                modifier = Modifier.size(32.dp)
+//                            ) {
+//                                Text(
+//                                    text = "-",
+//                                    style = MaterialTheme.typography.headlineSmall,
+//
+//                                    )
+//                            }
+//                            Text(
+//                                "$quantity",
+//                                style = MaterialTheme.typography.headlineSmall,
+//                            )
+//                            IconButton(
+//                                onClick = { quantity++ },
+//                                modifier = Modifier.size(32.dp)
+//                            ) {
+//                                Text(
+//                                    text = "+",
+//                                    style = MaterialTheme.typography.headlineMedium,
+//                                )
+//                            }
+//                        }
+//                    }
+//                }
+//
+//
+//                Spacer(modifier = Modifier.height(32.dp))
+//
+//                // Confirm Order and Payment
+//
+//                Text(
+//                    text = "Select Payment Method",
+//                    style = MaterialTheme.typography.headlineMedium,
+//                    modifier = Modifier.padding(bottom = 16.dp)
+//                )
+//
+//                var selectedPaymentMethod by remember { mutableStateOf<PaymentMethod?>(null) }
+//
+//                var selectedmethod = ""
+//
+//                Row(
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .padding(bottom = 16.dp),
+//                    horizontalArrangement = Arrangement.SpaceBetween
+//                ) {
+//                    PaymentOption(
+//                        text = "Google Pay",
+//                        selectedPaymentMethod = selectedPaymentMethod,
+//                        onPaymentMethodSelected = { selectedPaymentMethod = it },
+//                        paymentMethod = PaymentMethod.GPAY
+//                    )
+//                    PaymentOption(
+//                        text = "Cash on Delivery",
+//                        selectedPaymentMethod = selectedPaymentMethod,
+//                        onPaymentMethodSelected = { selectedPaymentMethod = it },
+//                        paymentMethod = PaymentMethod.COD
+//                    )
+//                }
+//
+//                Spacer(modifier = Modifier.height(32.dp))
+//                Price(quantity = quantity, item = item)
+//                Spacer(modifier = Modifier.height(32.dp))
+//
+//                val MyOrdersViewModel = viewModel<MyOrdersViewModel>()
+//
+//                // Confirm Order and Payment
+//                Button(
+//                    onClick = {
+//
+//                            // Handle payment processing based on the selected method.
+//                            when (selectedPaymentMethod) {
+//                                PaymentMethod.GPAY -> {
+//                                    selectedmethod = "UPI"
+//                                    // Handle Google Pay payment
+//                                }
+//
+//                                PaymentMethod.COD -> {
+//                                    selectedmethod = "COD"
+//                                }
+//
+//                                else -> {
+//
+//                                }
+//                            }
+//                            val newItem = MyOrders(
+//
+//                                id=item.id,
+//                                name = item.name,
+//                                payment = "Payment: Pending ",
+//                                status = "5 days left"
+//                            )
+//                            // Add the item to the cart using the ViewModel
+//                            //MyOrdersViewModel.addItemToOrders(newItem)
+//
+//
+//                                databaseReference.push().setValue(buyNowData)
+//
+//                            // Navigate to the confirmation screen.
+//
+//                            navController.navigate("confirmation_screen/${item.id}")
+//
+//
+//
+//                    },
+//                    enabled = (selectedPaymentMethod != null) &&
+//                            (defaultAddress?.streetAddress != null) &&
+//                            (defaultAddress?.city != null),
+//                    modifier = Modifier.fillMaxWidth()
+//                ) {
+//                    Text(text = "Confirm Order ")
+//                }
+//            }
+//
+//        }
+//    }
+//    }
 @Composable
 fun Price(quantity:Int,item: ListItem)
 {

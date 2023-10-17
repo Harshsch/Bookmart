@@ -1,5 +1,6 @@
 package com.example.bookmart.AllScreens.HomeScreen.OrderPath
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,6 +11,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardDefaults
@@ -20,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -28,12 +32,42 @@ import androidx.navigation.NavController
 import com.example.bookmart.R
 import com.example.bookmart.data.ListItem
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 
 
 @Composable
- fun OrderPlacedPage(navController: NavController, item: ListItem) {
+ fun OrderPlacedPage(navController: NavController, item: ListItem,orderkey:String,orderlistkey:String) {
+
     val currentUser = FirebaseAuth.getInstance().currentUser
     val uid = currentUser?.uid
+    val scrollState = rememberScrollState()
+    val context = LocalContext.current
+    val orderIdToDelete = orderkey
+    val orderlistIdToDelete=orderlistkey
+    val userId = uid
+    fun deleteSpecificEntries() {
+
+        val orderslistRef = FirebaseDatabase.getInstance().getReference("users/$userId/orderslist/$orderlistIdToDelete")
+
+        val buyNowDataRef = FirebaseDatabase.getInstance().getReference("users/$userId/buy_now_data/$orderIdToDelete")
+
+
+        orderslistRef.removeValue()
+            .addOnSuccessListener {
+            Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
+
+        }.addOnFailureListener {
+            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
+
+        }
+
+        // Delete the "buy_now_data" entry
+        buyNowDataRef.removeValue().addOnSuccessListener {
+           // Toast.makeText(context, "$orderIdToDelete  $orderkey", Toast.LENGTH_SHORT).show()
+        }.addOnFailureListener {
+           // Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
+        }
+    }
     ElevatedCard(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 10.dp
@@ -47,9 +81,7 @@ import com.google.firebase.auth.FirebaseAuth
             verticalAlignment =Alignment.Top) {
             Button(
                 onClick = {
-                    navController.navigate("home_route") {
-                        popUpTo("splash_screen") { inclusive = true }
-                    }
+                    navController.navigate("home_route")
                 },
                 modifier = Modifier,
                 colors = ButtonDefaults.buttonColors( Color(0xFF333333))
@@ -61,9 +93,11 @@ import com.google.firebase.auth.FirebaseAuth
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp),
+                .padding(16.dp)
+                .verticalScroll(state = scrollState),
             verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+
         ) {
             // Animated checkmark icon
             AnimatedCheckmarkIcon()
@@ -88,7 +122,7 @@ import com.google.firebase.auth.FirebaseAuth
 
             Spacer(modifier = Modifier.height(32.dp))
             Text(
-                text = "UPI payment QR is sent to you on Email  ",
+                text = "Email is sent to you   ",
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
@@ -109,9 +143,19 @@ import com.google.firebase.auth.FirebaseAuth
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // Continue shopping button
+
+                Button(
+                    onClick = {
+                        // Trigger the deletion of specific entries here
+                        deleteSpecificEntries()
+                        navController.navigate("home_route")
+                    }
+                ) {
+                    Text(text = "Cancle Orders")
+                }
+
             Button(
-                onClick = { navController.popBackStack() }, // Navigate back to shopping
+                onClick = { navController.navigate("home_route")}, // Navigate back to shopping
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(text = "Continue Shopping")
@@ -127,7 +171,7 @@ fun AnimatedCheckmarkIcon() {
     Image(
         painter = painterResource(id = R.drawable.baseline_verified_24) , // Placeholder image
         contentDescription = null, // Content description for accessibility
-        modifier = Modifier.size(120.dp) // Adjust the size as needed
+        modifier = Modifier.size(80.dp) // Adjust the size as needed
     )
 }
 

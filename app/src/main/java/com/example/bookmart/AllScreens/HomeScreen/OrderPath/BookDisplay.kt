@@ -183,7 +183,9 @@ fun BookDisplay(navController: NavHostController, item: ListItem) {
                                     id = item.id,
                                     name = item.name,
                                     price = item.price,
-                                    quantity=quantity
+                                    quantity=quantity,
+                                    imageResId = item.imageResId,
+
                                 )
                                 Toast.makeText(context, "Added to Wishlist", Toast.LENGTH_SHORT).show()
                                 // Add the item to the cart using the ViewModel

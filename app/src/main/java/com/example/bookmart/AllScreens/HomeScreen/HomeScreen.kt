@@ -49,6 +49,7 @@ import kotlinx.coroutines.delay
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.platform.LocalContext
 
 fun isInternetConnected(context: Context): Boolean {
@@ -78,7 +79,7 @@ fun HomeScreen(navController: NavHostController)
     Column(
         modifier = Modifier
             .background(brush=brush)
-            .padding(16.dp,50.dp,16.dp,50.dp
+            .padding(16.dp,50.dp,16.dp,80.dp
 
             ) ){
         var isCardVisible by remember { mutableStateOf(true) }
@@ -159,11 +160,15 @@ fun HomeScreen(navController: NavHostController)
 @Composable
 fun DepartmentBooks(navController: NavHostController) {
     var text by remember { mutableStateOf("") }
+
     val lazyColumnState = rememberLazyListState()
+    val textState = rememberUpdatedState(text)
     Spacer(modifier = Modifier.height(12.dp))
     TextField(
+
         value = text,
-        onValueChange = { newText ->
+        onValueChange = {
+                newText ->
             text = newText
 
         },
@@ -182,12 +187,14 @@ fun DepartmentBooks(navController: NavHostController) {
             }
         },
     )
-    if (text.isNotEmpty()) {
+
+    if ( textState.value.isNotEmpty()) {
         LaunchedEffect(lazyColumnState) {
             // Animate scroll to the top
             lazyColumnState.animateScrollToItem(index = 0)
         }
     }
+
     val searchQuery = text
     fun searchBooksByName(query: String): List<ListItem> {
         val lowercaseQuery = query.toLowerCase()

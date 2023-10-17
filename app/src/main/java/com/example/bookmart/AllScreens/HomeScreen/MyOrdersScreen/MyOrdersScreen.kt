@@ -1,5 +1,7 @@
 package com.example.bookmart.AllScreens.HomeScreen.MyOrdersScreen
 
+import android.widget.Toast
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -9,9 +11,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Text
@@ -22,16 +26,21 @@ import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.bookmart.R
 import com.example.bookmart.data.AddToCart.CartItem
+import com.example.bookmart.data.AddToCart.CartViewModel
 import com.example.bookmart.data.AddToCart.MyOrders
+import com.example.bookmart.data.AddToCart.MyOrdersViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -40,6 +49,9 @@ import com.google.firebase.database.ValueEventListener
 
 @Composable
 fun MyOrdersScreen(navController: NavController) {
+
+
+
     val textureColor = Color(0xFF6a6f9a) // Define your texture color
 
     val brush = Brush.horizontalGradient(
@@ -161,7 +173,23 @@ fun MyOrdersScreen(navController: NavController) {
 
 @Composable
 fun CartItemRow(cartItem: CartItem,navController:NavController) {
-
+    val currentUser = FirebaseAuth.getInstance().currentUser
+    val userId =currentUser?.uid
+    val context = LocalContext.current
+    val CartViewModel = viewModel<CartViewModel>()
+    //val cartlistkey= CartViewModel.cartkey
+//    fun deleteSpecificEntries() {
+//        val cartlistRef = FirebaseDatabase.getInstance().getReference("users/$userId/cartlist/$cartlistkey")
+//
+//        cartlistRef.removeValue()
+//            .addOnSuccessListener {
+//                Toast.makeText(context, "$cartlistkey", Toast.LENGTH_SHORT).show()
+//
+//            }.addOnFailureListener {
+//                Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
+//
+//            }
+   // }
     ElevatedCard(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 4.dp
@@ -174,13 +202,24 @@ fun CartItemRow(cartItem: CartItem,navController:NavController) {
         ),
         ) {
 
+        Row {
+
+
         Row(
             modifier = Modifier
                 .padding(16.dp)
-                .clickable(onClick = {
-                    navController.navigate("BuyNow/${cartItem.id}/${cartItem.quantity}")
-                }),
-        ) {
+//                .clickable(onClick = {
+//                    navController.navigate("BuyNow/${cartItem.id}/${cartItem.quantity}")
+//                }),
+        ) { Column {
+            Image(painter = painterResource(id = cartItem.imageResId),
+                contentDescription = "wishlist image",
+                modifier = Modifier
+                    .height(
+                        100.dp
+                    )
+                    .width(100.dp))
+        }
             Column {
                 Text(
                     text = cartItem.name,
@@ -190,11 +229,34 @@ fun CartItemRow(cartItem: CartItem,navController:NavController) {
                         fontSize = 14.sp
                     ),
                 )
-                Text(text = "${cartItem.price} X ${cartItem.quantity }Qty =Rs${cartItem.price*cartItem.quantity}",
-                    color =colorResource(id = R.color.LightBackgroundColor))
-                Spacer(modifier = Modifier.width(300.dp))
+                Row {
+                    Text(
+                        text = "${cartItem.price} X ${cartItem.quantity}Qty =Rs${cartItem.price * cartItem.quantity}",
+                        color = colorResource(id = R.color.LightBackgroundColor)
+                    )
+                }
+                Column {
+                    Row {
+                        Spacer(modifier = Modifier.width(20.dp))
+                        Button(
+                            onClick = {
+                                // Trigger the deletion of specific entries here
+                                navController.navigate("BuyNow/${cartItem.id}/${cartItem.quantity}")
+                            },
+                            modifier = Modifier
+                                .padding(0.dp,5.dp,0.dp,0.dp)
+                                .height(40.dp)
+                                .width(150.dp)
+                        ) {
+                            Text(text = "BuyNow")
+                        }
+                    }
+                }
             }
+
+
         }
+           }
     }
 }
 
@@ -222,6 +284,8 @@ fun OrderItemList(orders: List<MyOrders>,navController: NavController) {
 
 @Composable
 fun OrderItem(orders: MyOrders,navController: NavController) {
+    val MyOrdersViewModel = viewModel<MyOrdersViewModel>()
+
     ElevatedCard(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 4.dp
@@ -234,32 +298,44 @@ fun OrderItem(orders: MyOrders,navController: NavController) {
         ),
 
         ) {
+        Row(modifier = Modifier.padding(8.dp)) {
+
+            Column {
+                Image(painter = painterResource(id = orders.imageResIdorder),
+                    contentDescription = "wishlist image",
+                    modifier = Modifier
+                        .height(
+                            100.dp
+                        )
+                        .width(100.dp))
+            }
         Column(
             modifier = Modifier
                 .padding(16.dp)
                 .clickable(onClick = {
-                navController.navigate("confirmation_screen/${orders.id}")
-            }),
+                    navController.navigate("confirmation_screen/${orders.id}/${orders.orderkey}/${orders.orderlistkey}")
+                }),
         ) {
             Text(
                 text = orders.name,
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
-                    color =colorResource(id = R.color.LightBackgroundColor),
+                    color = colorResource(id = R.color.LightBackgroundColor),
                     fontSize = 14.sp
                 ),
             )
             Row {
-                Text(text = orders.payment,
+                Text(
+                    text = orders.payment,
 
-                    color =colorResource(id = R.color.LightBackgroundColor),
-                    )
-                Spacer(modifier = Modifier.width(190.dp))
-                Text(text = orders.status,
-                    color =colorResource(id = R.color.LightBackgroundColor),)
-
-
+                    color = colorResource(id = R.color.LightBackgroundColor),
+                )
             }
+            Text(
+                text = orders.status,
+                color = colorResource(id = R.color.LightBackgroundColor),
+            )
+        }
         }
     }
 }
