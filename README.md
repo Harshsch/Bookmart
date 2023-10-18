@@ -1,5 +1,3 @@
-# Bookmart
-Certainly, here's a structured README file for your Book Mart app, presented as if it were a Google Play Store page:
 
 # Book Mart - Engineering Books Store
 
