@@ -1,18 +1,24 @@
 {
   "project_info": {
     "project_number": "535180868650",
+    "firebase_url": "https://book-mart-6613c-default-rtdb.firebaseio.com",
     "project_id": "book-mart-6613c",
     "storage_bucket": "book-mart-6613c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:535180868650:android:50aa9c658652458b665753",
+        "mobilesdk_app_id": "1:535180868650:android:e74bc8136424fc2c665753",
         "android_client_info": {
-          "package_name": "com.example.bookmart"
+          "package_name": "com.BookMart.bookmart"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "535180868650-sd6usjk34p8nt4vaif40t40naiqj6rrt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyA3k7SVk4voXQ1bYr-9MCRyk3zMpgYRiuw"
@@ -20,7 +26,41 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "535180868650-sd6usjk34p8nt4vaif40t40naiqj6rrt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:535180868650:android:50aa9c658652458b665753",
+        "android_client_info": {
+          "package_name": "com.example.bookmart"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "535180868650-sd6usjk34p8nt4vaif40t40naiqj6rrt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3k7SVk4voXQ1bYr-9MCRyk3zMpgYRiuw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "535180868650-sd6usjk34p8nt4vaif40t40naiqj6rrt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

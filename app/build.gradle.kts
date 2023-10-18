@@ -4,20 +4,20 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     // Add the Google services Gradle plugin
-    id("com.google.gms.google-services")
+    //id("com.google.gms.google-services")
 }
 
 android {
-    namespace = "com.example.bookmart"
+    namespace = "com.BookMart.bookmart"
     compileSdk = 34
 
     defaultConfig {
 
-        applicationId = "com.example.bookmart"
+        applicationId = "com.BookMart.bookmart"
         minSdk = 24
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 4
+        versionName = "4.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -76,7 +76,7 @@ dependencies {
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-firestore-ktx")
     implementation("com.google.firebase:firebase-database-ktx")
-    implementation("com.google.android.gms:play-services-auth:20.7.0")
+    //implementation("com.google.android.gms:play-services-auth:20.7.0")
 
 
 
