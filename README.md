@@ -64,6 +64,3 @@ We want to express our gratitude to all the students and engineers who have made
 
 *Book Mart - Bringing Engineering Knowledge to Your Fingertips.*
 
----
-
-Please replace `screenshots/screenshot1.png` and `screenshots/screenshot2.png` with actual screenshots of your app. Additionally, make sure to create and provide the content for the "Privacy Policy," "Terms of Service," and "License" sections according to your app's policies and licensing. This structured README file should give users a clear understanding of your app and help build trust.
