@@ -1,5 +1,8 @@
-package com.BookMart.bookmart.AllScreens.HomeScreen
+package com.BookMart.bookmart
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -24,11 +27,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -39,18 +44,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.BookMart.bookmart.BooksRow
-import com.BookMart.bookmart.R
 import com.BookMart.bookmart.data.ListItem
 import com.BookMart.bookmart.data.itemList
+import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.delay
-
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.ui.platform.LocalContext
 
 fun isInternetConnected(context: Context): Boolean {
     val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -65,7 +63,9 @@ fun isInternetConnected(context: Context): Boolean {
 @Composable
 fun HomeScreen(navController: NavHostController)
 {
+
     val context = LocalContext.current
+    FirebaseApp.initializeApp(context)
     val textureColor = Color(0xFF6a6f9a) // Define your texture color
     val brush = Brush.horizontalGradient(
         colors = listOf( textureColor ,textureColor),

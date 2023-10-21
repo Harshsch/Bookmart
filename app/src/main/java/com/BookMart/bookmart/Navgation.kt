@@ -6,7 +6,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.BookMart.bookmart.AllScreens.HomeScreen.HomeScreen
 import com.BookMart.bookmart.AllScreens.HomeScreen.MyOrdersScreen.MyOrdersScreen
 import com.BookMart.bookmart.AllScreens.HomeScreen.NoInternetScreen
 import com.BookMart.bookmart.AllScreens.HomeScreen.OrderPath.AddressCard
@@ -20,7 +19,6 @@ import com.BookMart.bookmart.AllScreens.HomeScreen.SettingScreen.SettingsScreen
 import com.BookMart.bookmart.AllScreens.HomeScreen.SettingScreen.TermsAndCondition
 import com.BookMart.bookmart.AllScreens.HomeScreen.SplashScreen
 import com.BookMart.bookmart.AllScreens.HomeScreen.UserProfile.UserProfile
-import com.BookMart.bookmart.AllScreens.HomeScreen.isInternetConnected
 import com.BookMart.bookmart.data.itemList
 
 @Composable
