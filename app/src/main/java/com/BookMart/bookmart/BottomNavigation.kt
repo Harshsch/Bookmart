@@ -171,7 +171,6 @@ fun BottomBarScreen(
                                     if (currentUserinfo != null) {
                                         navController.navigate(destination)
                                     }
-//
                                     else {
                                         navController.navigate("Signup")
                                     }
