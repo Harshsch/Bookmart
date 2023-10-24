@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -28,6 +29,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -57,13 +59,17 @@ import com.google.firebase.ktx.Firebase
 fun BookDisplay(navController: NavHostController, item: ListItem) {
     // Initialize Firebase Auth
     var quantity by remember { mutableIntStateOf(1) }
-
     val auth: FirebaseAuth = Firebase.auth
     val context = LocalContext.current
     val scrollState = rememberScrollState()
+
+    LaunchedEffect(scrollState) {
+        // Animate scroll to the top
+        scrollState.scrollTo( 10000)
+    }
     Box(modifier = Modifier
         .background(colorResource(id = R.color.DarkSurfaceColor))
-        .padding(0.dp,50.dp,0.dp,50.dp )
+        .padding(16.dp)
 
     ) {
         ElevatedCard(
@@ -71,8 +77,8 @@ fun BookDisplay(navController: NavHostController, item: ListItem) {
                 defaultElevation = 10.dp
             ),
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp, 16.dp, 16.dp, 16.dp),
+                .fillMaxSize()
+                .padding(0.dp),
         ) {
             Column(
                 modifier = Modifier.fillMaxSize()
@@ -81,6 +87,7 @@ fun BookDisplay(navController: NavHostController, item: ListItem) {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
+
                 Image(
                     painter = painterResource(id = item.imageResId),
                     contentDescription = "Book Cover",

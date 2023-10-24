@@ -31,7 +31,6 @@ fun NoInternetScreen(navController: NavController) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // You can replace the 'your_no_internet_gif' with your own GIF resource
         Image(
             painter = painterResource(id = R.drawable.lost_connection),
             contentDescription = "No Internet GIF",

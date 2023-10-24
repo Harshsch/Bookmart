@@ -79,9 +79,8 @@ fun HomeScreen(navController: NavHostController)
     Column(
         modifier = Modifier
             .background(brush=brush)
-            .padding(16.dp,50.dp,16.dp,80.dp
-
-            ) ){
+            .padding(16.dp)
+    ){
         var isCardVisible by remember { mutableStateOf(true) }
 
         if (isCardVisible) {
@@ -96,14 +95,14 @@ fun HomeScreen(navController: NavHostController)
                     ),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp, 0.dp, 16.dp, 0.dp)
+                        .padding(16.dp)
                     ,
                     colors = CardDefaults.cardColors(
                         containerColor = colorResource(id = R.color.DarkSecondaryColor),
                     ),
                 ) {
                     Column(
-                        modifier = Modifier.padding(20.dp, 20.dp, 20.dp, 0.dp),
+                       // modifier = Modifier.padding(20.dp, 20.dp, 20.dp, 0.dp),
                     ) {
                         if (currentUser != null) {
                             // User is signed in, display the welcome message

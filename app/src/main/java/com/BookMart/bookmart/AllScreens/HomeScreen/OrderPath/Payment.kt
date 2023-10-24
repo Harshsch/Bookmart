@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
@@ -58,7 +60,11 @@ fun Payment(navController: NavController, item: ListItem,quantity:Int) {
     val defaultdatabaseReference =
         FirebaseDatabase.getInstance().getReference("users/$userId/defaultAddress")
 
-
+    val scrollState = rememberScrollState()
+    LaunchedEffect(scrollState) {
+        // Animate scroll to the top
+        scrollState.scrollTo( 10000)
+    }
     LaunchedEffect(Unit) {
         // Add a ValueEventListener to fetch and update the data
         val valueEventListener = object : ValueEventListener {
@@ -109,8 +115,8 @@ fun Payment(navController: NavController, item: ListItem,quantity:Int) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(16.dp),
-                //.verticalScroll(state = scrollState),
+                    .padding(16.dp)
+                .verticalScroll(state = scrollState),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {

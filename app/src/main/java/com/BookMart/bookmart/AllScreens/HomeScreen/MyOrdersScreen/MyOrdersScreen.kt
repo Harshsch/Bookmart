@@ -13,11 +13,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment.Companion.CenterVertically
@@ -34,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.BookMart.bookmart.R
 import com.BookMart.bookmart.data.AddToCart.CartItem
 import com.BookMart.bookmart.data.AddToCart.CartViewModel
@@ -46,8 +50,9 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 @Composable
-fun MyOrdersScreen(navController: NavController) {
+fun MyOrdersScreen(navController: NavHostController) {
 
+    val scrollState = rememberScrollState()
 
 
     val textureColor = Color(0xFF6a6f9a) // Define your texture color
@@ -115,6 +120,7 @@ fun MyOrdersScreen(navController: NavController) {
             .fillMaxSize()
             .padding(16.dp)
             .background(brush = brush)
+            .verticalScroll(state = scrollState),
     ) {
         Text(
             text = "My Orders ",
@@ -123,7 +129,7 @@ fun MyOrdersScreen(navController: NavController) {
                 fontSize = 24.sp,
                 color = colorResource(id = R.color.LightBackgroundColor),
             ),
-            modifier = Modifier.padding(bottom = 16.dp, top = 60.dp)
+            modifier = Modifier.padding( 16.dp)
         )
         if (ordersItems.isNotEmpty()) {
             OrderItemList(ordersItems,navController=navController)
