@@ -1,6 +1,7 @@
 package com.BookMart.bookmart.ui.theme
 
 import androidx.compose.ui.graphics.Color
+val darkblue=Color(0xFF080949)
 val DarkBackgroundColor = Color(0xFF0d0e1c)
 val DarkSurfaceColor = Color(0xFF1c1f31)
 val DarkPrimaryColor = Color(0xFF3d405c)

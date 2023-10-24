@@ -103,19 +103,26 @@ fun Navigation() {
                 navController.navigate("no_internet")
             }
             else {
-                TermsAndConditionsScreen()
+                topbackbar(navController)
+                {
+                    TermsAndConditionsScreen()
+                }
             }
         }
         composable("User_Profile") {
-            BottomBarScreen(navController) {
+
                 if(!isInternetConnected(LocalContext.current))
                 {
                     navController.navigate("no_internet")
                 }
                 else {
-                    UserProfile(navController = navController)
+                    topbackbar(navController)
+                    {
+                        val title="Profile"
+                        UserProfile(navController = navController)
+                    }
                 }
-            }
+
         }
         composable("Terms") {
             if(!isInternetConnected(LocalContext.current))
@@ -123,9 +130,11 @@ fun Navigation() {
                 navController.navigate("no_internet")
             }
             else{
-            BottomBarScreen(navController) {
-                TermsAndCondition()
-            }}
+                topbackbar(navController)
+                {
+                    TermsAndCondition()
+                }
+            }
         }
         composable("SavedAddress") {
             if(!isInternetConnected(LocalContext.current))
@@ -133,9 +142,12 @@ fun Navigation() {
                 navController.navigate("no_internet")
             }
             else{
-            BottomBarScreen(navController) {
-                SavedAddressesScreen(navController = navController)
-            }}
+                topbackbar(navController)
+                {
+                    SavedAddressesScreen(navController = navController)
+
+                }
+            }
         }
         composable("FAQ") {
             if(!isInternetConnected(LocalContext.current))
@@ -143,7 +155,8 @@ fun Navigation() {
                 navController.navigate("no_internet")
             }
             else{
-            BottomBarScreen(navController) {
+                topbackbar(navController)
+                {
                 FAQ()
             }}
         }
@@ -160,6 +173,7 @@ fun Navigation() {
                 navController.navigate("no_internet")
             }
             else{
+
             selectedItem?.let { item ->
                 if (orderkey != null) {
                     if (orderlistkey != null) {
@@ -169,21 +183,7 @@ fun Navigation() {
 
             }}
         }
-//        composable("BuyNow/{itemId}") {
-//                backStackEntry ->
-//            val arguments = requireNotNull(backStackEntry.arguments)
-//            val itemId = arguments.getString("itemId")?.toIntOrNull()
-//            val selectedItem = itemList.find { it.id == itemId }
-//            if(!isInternetConnected(LocalContext.current))
-//            {
-//                navController.navigate("no_internet")
-//            }
-//            else{
-//            selectedItem?.let { item ->
-//                BuyNowPage(navController = navController, item = item)
-//
-//            }}
-//        }
+
         composable("BuyNow/{itemId}/{quantity}") {
                 backStackEntry ->
             val arguments = requireNotNull(backStackEntry.arguments)
@@ -196,12 +196,14 @@ fun Navigation() {
                 navController.navigate("no_internet")
             }
             else{
+                topbackbar(navController)
+                {
                 selectedItem?.let { item ->
                     if (quantity != null) {
                         AddressCard(navController = navController, item = item,quantity=quantity)
                     }
 
-                }}
+                }}}
         }
         composable("order_details/{itemId}/{quantity}") {
                 backStackEntry ->
@@ -215,12 +217,14 @@ fun Navigation() {
                 navController.navigate("no_internet")
             }
             else{
+                topbackbar(navController)
+                {
                 selectedItem?.let { item ->
                     if (quantity != null) {
                         Order_Details(navController = navController, item = item,quantity=quantity)
                     }
 
-                }}
+                }}}
         }
         composable("Payment/{itemId}/{quantity}") {
                 backStackEntry ->
@@ -233,12 +237,14 @@ fun Navigation() {
                 navController.navigate("no_internet")
             }
             else{
+                topbackbar(navController)
+                {
                 selectedItem?.let { item ->
                     if (quantity != null) {
                         Payment(navController = navController, item = item, quantity =quantity )
                     }
 
-                }}
+                }}}
         }
 
         composable("BookDisplay/{itemId}") { backStackEntry ->
@@ -251,7 +257,8 @@ fun Navigation() {
             }
             else{
             selectedItem?.let { item ->
-                BottomBarScreen(navController) {
+                topbackbar(navController)
+                {
                     BookDisplay(navController = navController, item = item)
                 }}
             }

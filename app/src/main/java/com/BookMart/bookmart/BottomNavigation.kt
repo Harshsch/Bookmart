@@ -1,16 +1,23 @@
 package com.BookMart.bookmart
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.Email
-import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
@@ -19,47 +26,70 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import com.BookMart.bookmart.AllScreens.HomeScreen.MyOrdersScreen.MyOrdersScreen
+import com.BookMart.bookmart.AllScreens.HomeScreen.SettingScreen.SettingsScreen
+import com.BookMart.bookmart.ui.theme.DarkPrimaryColor
+import com.BookMart.bookmart.ui.theme.DarkSurfaceColor
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.launch
 
 data class BottomNavigationItem(
     val id: Int,
     val title: String,
-    val selectedIcon: ImageVector,
-    val unselectedIcon: ImageVector,
+    val selectedIcon: Painter,
+    val unselectedIcon: Painter,
     val hasNews: Boolean,
     val badgeCount: Int? = null
 )
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun BottomBarScreen(
-    navController: NavController,
+    navController: NavHostController,
     screenContent: @Composable () -> Unit
 ) {
+    val coroutineScope = rememberCoroutineScope()
+    val pagerState = rememberPagerState(
+        initialPage = 0,
+        initialPageOffsetFraction = 0f
+    ) {
+        3
+    }
+    val routs = listOf(
+        "home_route",
+        "my_orders_route",
+        "settings_route",
+    )
     val currentUserinfo = FirebaseAuth.getInstance().currentUser
 
     val userId = FirebaseAuth.getInstance().currentUser?.uid
@@ -78,35 +108,41 @@ fun BottomBarScreen(
         BottomNavigationItem(
             id = 0,
             title = "Home",
-            selectedIcon = Icons.Filled.Home,
-            unselectedIcon = Icons.Outlined.Home,
+            selectedIcon = painterResource(id = R.drawable.baseline_home_24),
+            unselectedIcon = painterResource(id = R.drawable.outline_home_24),
             hasNews = false,
         ),
         BottomNavigationItem(
             id = 1,
             title = "MyOrders",
-            selectedIcon = Icons.Filled.Email,
-            unselectedIcon = Icons.Outlined.Email,
+            selectedIcon = painterResource(id = R.drawable.baseline_email_24),
+            unselectedIcon = painterResource(id = R.drawable.outline_email_24),
             hasNews = false,
             badgeCount = count
         ),
         BottomNavigationItem(
             id = 2,
             title = "Settings",
-            selectedIcon = Icons.Filled.Settings,
-            unselectedIcon = Icons.Outlined.Settings,
+            selectedIcon = painterResource(id = R.drawable.baseline_settings_24),
+            unselectedIcon = painterResource(id = R.drawable.outline_settings_24),
             hasNews = true,
         ),
     )
     var BottomselectedItemIndex by rememberSaveable {
         mutableIntStateOf(0)
     }
+    LaunchedEffect(pagerState) {
+        snapshotFlow { pagerState.currentPage }
+            .distinctUntilChanged()
+            .collect { page ->
+                BottomselectedItemIndex = page
+            }
+    }
+
     navController.addOnDestinationChangedListener { _, destination, _ ->
-        BottomselectedItemIndex = when (destination.route) {
-            "home_route" -> 0
-            "my_orders_route" -> 1
-            "settings_route" -> 2
-            else -> -1 // Define a fallback index for unmatched routes
+        val destinationIndex = routs.indexOf(destination.route)
+        if (destinationIndex >= 0) {
+            BottomselectedItemIndex = destinationIndex
         }
     }
     // Initialize Firebase Auth
@@ -120,14 +156,36 @@ fun BottomBarScreen(
                 topBar = {
                     TopAppBar(
                         title = {
-                            Text(
-                                "",
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis
-                            )
+                            Column(verticalArrangement = Arrangement.Center) {
+                                Text(
+                                    text = "Howdy ${currentUserinfo?.displayName}  !!",
+                                    style = MaterialTheme.typography.titleMedium,
+                                    color = Color.White
+                                )
+//                                Spacer(modifier = Modifier.size(4.dp))
+//                                Row(
+//                                    verticalAlignment = Alignment.CenterVertically
+//                                ) {
+//                                    Icon(
+//                                        imageVector = Icons.Default.LocationOn,
+//                                        contentDescription = "User location",
+//                                        modifier = Modifier
+//                                            .size(16.dp),
+//                                        tint = Color.White
+//
+//                                    )
+//                                    Spacer(modifier = Modifier.size(4.dp))
+//                                    Text(
+//                                        text = "Pimpri , Maharashtra  ",
+//                                        style = MaterialTheme.typography.bodyMedium,
+//                                        color = Color.White
+//                                    )
+//                                }
+
+                            }
                         },
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(20.dp)),
+                        modifier = Modifier,
+
                               actions = {
                             IconButton(onClick =
                             {
@@ -137,50 +195,46 @@ fun BottomBarScreen(
                                     navController.navigate("Signup")
                                 }}) {
                                 Icon(
-                                    imageVector = Icons.Filled.AccountCircle,
-                                    contentDescription = "User Profile"
+                                    painter = painterResource(id = R.drawable.baseline_account_circle_24) ,
+                                    contentDescription = "User Profile",
+                                    tint = Color.White
                                 )
                             }
                         },
                         colors = TopAppBarDefaults.smallTopAppBarColors(
-                            containerColor =colorResource(id = R.color.DarkPrimaryColor),
+                            containerColor =DarkSurfaceColor,
 
                             )
                        )
                 },
                 bottomBar = {
                     NavigationBar(
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(20.dp)),
-                        containerColor= colorResource(id = R.color.DarkPrimaryColor),
-                        contentColor= Color.Cyan,
+                        modifier = Modifier,
+                            //.background(DarkPrimaryColor),
+                        containerColor= DarkSurfaceColor,
+                        //contentColor= Color.Cyan,
                     ) {
                         items.forEachIndexed { index, item ->
                             val isSelected = BottomselectedItemIndex == index
                             NavigationBarItem(
                                 selected = isSelected,
                                 onClick = {
-
-                                    BottomselectedItemIndex = index
-                                    val destination = when (item.title) {
-                                        "Home" -> "home_route"
-                                        "MyOrders" -> "my_orders_route"
-                                        "Settings" -> "settings_route"
-                                        else -> "fallback_route" // Define a fallback route for unmatched titles
-                                    }
                                     if (currentUserinfo != null) {
-                                        navController.navigate(destination)
+                                        coroutineScope.launch {
+                                            pagerState.scrollToPage(index)
+                                        }
                                     }
-                                    else {
-                                        navController.navigate("Signup")
-                                    }
+                                    else{navController.navigate("Signup")}
+                                    BottomselectedItemIndex = index
+
                                 },
                                 label = {
-                                    Text(text = item.title)
+                                    Text(text = item.title,
+                                        color = Color.White
+                                        )
                                 },
                                 alwaysShowLabel = false,
                                 icon = {
-
                                     BadgedBox(
                                         badge = {
                                             if (item.badgeCount != null) {
@@ -192,24 +246,57 @@ fun BottomBarScreen(
                                             }
                                         }
                                     ) {
-                                        Icon(
-                                            imageVector = if (isSelected) {
-                                                item.selectedIcon
+                                        if (isSelected) {
+                                            Icon(
+                                                painter =item.selectedIcon,
+                                                contentDescription = item.title,
+                                                tint = Color.Black
+                                            )
 
-                                            } else {
-                                                item.unselectedIcon
-                                            },
-                                            contentDescription = item.title,
-                                        )
+
+                                        } else {
+                                            Icon(
+                                                painter =item.unselectedIcon,
+                                                contentDescription = item.title,
+                                                tint = Color.White
+                                            )
+
+                                        }
+
                                     }
-                                }
+                                },
                             )
                         }
                     }
                 },
-            ) {
 
-                screenContent()
+            ) {
+                    innerPadding ->
+                Column(
+                    modifier = Modifier
+                        .padding(innerPadding),
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                ) {
+
+                    HorizontalPager(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        state = pagerState
+                    ) { page ->
+
+                        when (page) {
+                            0 -> HomeScreen(navController = navController)
+                            1 -> MyOrdersScreen(navController = navController)
+                            2 -> SettingsScreen(navController = navController)
+                        }
+
+                    }
+                }
+//                innerpadding->
+//                Column(modifier = Modifier.padding(innerpadding))
+//                {
+//                    screenContent()
+//                }
 
             }
     }

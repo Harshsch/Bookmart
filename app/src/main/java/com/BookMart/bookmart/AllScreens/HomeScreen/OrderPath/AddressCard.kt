@@ -13,7 +13,9 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Button
@@ -50,6 +52,7 @@ import com.google.firebase.database.ValueEventListener
 @Composable
 fun AddressCard(navController: NavController, item: ListItem,quantity:Int)
 {
+    val scrollState = rememberScrollState()
     val current = "Address"
 
     val userId = FirebaseAuth.getInstance().currentUser?.uid
@@ -96,8 +99,8 @@ fun AddressCard(navController: NavController, item: ListItem,quantity:Int)
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(16.dp),
-                        //.verticalScroll(state = scrollState),
+                        .padding(16.dp)
+                       .verticalScroll(state = scrollState),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {

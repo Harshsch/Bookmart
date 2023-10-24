@@ -42,12 +42,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.BookMart.bookmart.R
 import com.google.firebase.auth.FirebaseAuth
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "SuspiciousIndentation")
 @Composable
-fun SettingsScreen(navController: NavController) {
+fun SettingsScreen(navController: NavHostController) {
     val context = LocalContext.current
    val textureColor = Color(0xFF6a6f9a) // Define your texture color
     val brush = Brush.horizontalGradient(
@@ -67,7 +68,7 @@ fun SettingsScreen(navController: NavController) {
             ){
 
             item {
-                Spacer(modifier = Modifier.height(80.dp))
+
                 Text(
                     text = "Hey! BookMart Customer",
                     style = TextStyle(

@@ -52,29 +52,23 @@ fun UserProfile(
     val user = FirebaseAuth.getInstance().currentUser
     val userId = FirebaseAuth.getInstance().currentUser?.uid
 
-
-
-    // Retrieve the last valid values of firstName and lastName
-    val lastValidFirstName = remember { mutableStateOf(signupViewModel.registrationUIState.value.firstName) }
+  val lastValidFirstName = remember { mutableStateOf(signupViewModel.registrationUIState.value.firstName) }
     val lastValidLastName = remember { mutableStateOf(signupViewModel.registrationUIState.value.lastName) }
-
-    // Store the current values of firstName and lastName
-    var firstName by remember { mutableStateOf(signupViewModel.registrationUIState.value.firstName) }
+  var firstName by remember { mutableStateOf(signupViewModel.registrationUIState.value.firstName) }
     var lastName by remember { mutableStateOf(signupViewModel.registrationUIState.value.lastName) }
 
-    // Store the enabled/disabled state of the "Update" button
     var isUpdateButtonEnabled by remember { mutableStateOf(false) }
     var defaultAddress by remember { mutableStateOf<Address?>(null) }
 
     val defaultdatabaseReference =
         FirebaseDatabase.getInstance().getReference("users/$userId/defaultAddress")
 
+
+
     LaunchedEffect(Unit) {
-        // Add a ValueEventListener to fetch and update the data
-        val valueEventListener = object : ValueEventListener {
+         val valueEventListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                // Retrieve the Address object from Firebase
-                val value = snapshot.getValue(Address::class.java)
+                  val value = snapshot.getValue(Address::class.java)
                 if (value != null) {
                     defaultAddress = value
                 }
@@ -128,15 +122,14 @@ fun UserProfile(
 
                 // Text fields for first name and last name
                 MyTextFieldComponent(
-                    labelValue = stringResource(id = R.string.first_name),
+                    labelValue = stringResource(id =R.string.first_name),
                     painterResource(id = R.drawable.profile),
-                    //value = firstName,
                     onTextChanged = {
                         firstName = it
                         signupViewModel.onEvent(SignupUIEvent.FirstNameChanged(it))
-                        // Check validation and enable/disable the button
                         isUpdateButtonEnabled = isFormValid(firstName, lastName)
                     },
+                    errorStatus = signupViewModel.registrationUIState.value.firstNameError
                 )
 
                 MyTextFieldComponent(
@@ -146,17 +139,15 @@ fun UserProfile(
                     onTextChanged = {
                         lastName = it
                         signupViewModel.onEvent(SignupUIEvent.LastNameChanged(it))
-                        // Check validation and enable/disable the button
                         isUpdateButtonEnabled = isFormValid(firstName, lastName)
                     },
+                    errorStatus = signupViewModel.registrationUIState.value.lastNameError
                 )
                 Spacer(modifier = Modifier.height(20.dp))
 
-                // Button to update user profile
-                ButtonComponent(
+                 ButtonComponent(
                     value = stringResource(id = R.string.update),
                     onButtonClicked = {
-                        // Update user data in Firebase
                         updateUserProfile(firstName, lastName)
                         navController.navigate("home_route")
                     },
@@ -166,7 +157,6 @@ fun UserProfile(
         }
     }
 
-    // Update the last valid values when the input fields change
     DisposableEffect(Unit) {
         onDispose {
             lastValidFirstName.value = firstName
@@ -174,31 +164,23 @@ fun UserProfile(
         }
     }
 }
-
 fun isFormValid(firstName: String, lastName: String): Boolean {
     return firstName.isNotBlank() && firstName.length >= 3 &&
             lastName.isNotBlank() && lastName.length >= 3
 }
-
-
 private fun updateUserProfile(firstName: String, lastName: String) {
     val user = FirebaseAuth.getInstance().currentUser
     val profileUpdates = UserProfileChangeRequest.Builder()
         .setDisplayName("$firstName $lastName")
-
-        // You can also set other profile information here, like photo URL, etc.
         .build()
 
     user?.updateProfile(profileUpdates)
         ?.addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                // Profile updated successfully
-                // You can also update other user data in your Firebase Realtime Database or Firestore here.
-            } else {
-                // Handle error
+        } else {
                 val exception = task.exception
                 if (exception != null) {
-                    // Handle the exception
+
                 }
             }
         }
@@ -272,18 +254,6 @@ fun UserInfo(
                     fontSize = 18.sp
                 )
             }
-//            Button(
-//                onClick = {
-//                    navController.navigate("SavedAddress")
-//
-//
-//                },
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .height(50.dp)
-//            ) {
-//                Text(text = "Change")
-//            }
         }
     }
 }

@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -18,6 +20,7 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -33,6 +36,11 @@ import com.BookMart.bookmart.data.ListItem
 fun Order_Details(navController: NavController, item: ListItem,quantity:Int) {
    // var quantity by remember { mutableIntStateOf(1) }
     val current = "Order"
+    val scrollState = rememberScrollState()
+    LaunchedEffect(scrollState) {
+        // Animate scroll to the top
+        scrollState.scrollTo( 10000)
+    }
 
     Box(modifier = Modifier
         .background(colorResource(id = R.color.DarkSurfaceColor))
@@ -49,8 +57,8 @@ fun Order_Details(navController: NavController, item: ListItem,quantity:Int) {
         ) {
             Column(
                 modifier = Modifier.fillMaxSize()
-                    .padding(16.dp),
-                //.verticalScroll(state = scrollState),
+                    .padding(16.dp)
+                .verticalScroll(state = scrollState),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
