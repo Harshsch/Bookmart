@@ -3,9 +3,7 @@ package com.BookMart.bookmart
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -21,11 +19,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.BookMart.bookmart.AllScreens.HomeScreen.MyOrdersScreen.MyOrdersScreen
-import com.BookMart.bookmart.AllScreens.HomeScreen.SettingScreen.SettingsScreen
-import com.BookMart.bookmart.ui.theme.DarkPrimaryColor
-import com.BookMart.bookmart.ui.theme.LightSecondaryColor
-import com.BookMart.bookmart.ui.theme.LightSurfaceColor
+import com.BookMart.bookmart.ui.theme.DarkSurfaceColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -42,12 +36,13 @@ fun topbackbar(navController: NavHostController,screenContent: @Composable () ->
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
                         contentDescription = null,
-                        tint = Color.Black,
+                        tint = Color.White,
                         modifier = Modifier.clickable(onClick = { navController.navigate("home_route") }
                         ))
                 },
+
                 colors = TopAppBarDefaults.smallTopAppBarColors(
-                    containerColor = colorResource(id = R.color.DarkPrimaryColor),
+                    containerColor = DarkSurfaceColor,
 
                     )
             )

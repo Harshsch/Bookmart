@@ -210,7 +210,7 @@ fun DepartmentBooks(navController: NavHostController) {
                 Modifier.padding(10.dp)
                 ,
 
-                style = TextStyle(
+                 style = TextStyle(
                     fontSize = 24.sp,
                     fontWeight = FontWeight(600),
                     color =colorResource(id = R.color.LightBackgroundColor),

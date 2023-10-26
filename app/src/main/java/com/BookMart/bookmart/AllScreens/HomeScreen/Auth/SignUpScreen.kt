@@ -76,7 +76,7 @@ fun SignUpScreen(navController: NavController,signupViewModel: SignupViewModel =
 
                 MyTextFieldComponent(
                     labelValue = stringResource(id = R.string.email),
-                    painterResource = painterResource(id = R.drawable.message),
+                    painterResource = painterResource(id = R.drawable.baseline_email_24),
                     onTextChanged = {
                         signupViewModel.onEvent(SignupUIEvent.EmailChanged(it))
                     },
@@ -85,7 +85,7 @@ fun SignUpScreen(navController: NavController,signupViewModel: SignupViewModel =
 
                 PasswordTextFieldComponent(
                     labelValue = stringResource(id = R.string.password),
-                    painterResource = painterResource(id = R.drawable.ic_lock),
+                    painterResource = painterResource(id = R.drawable.lock),
                     onTextSelected = {
                      signupViewModel.onEvent(SignupUIEvent.PasswordChanged(it))
                   },

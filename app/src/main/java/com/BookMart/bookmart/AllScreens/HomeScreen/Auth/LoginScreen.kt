@@ -59,7 +59,7 @@ fun LoginScreen(navController: NavController,loginViewModel: LoginViewModel = vi
                 Spacer(modifier = Modifier.height(20.dp))
 
                 MyTextFieldComponent(labelValue = stringResource(id = R.string.email),
-                    painterResource(id = R.drawable.message),
+                    painterResource(id = R.drawable.baseline_email_24),
                     onTextChanged = {
                         loginViewModel.onEvent(LoginUIEvent.EmailChanged(it))
                     },

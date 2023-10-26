@@ -85,7 +85,6 @@ fun SavedAddressesScreen(navController: NavController) {
 
     Column(
         modifier = Modifier
-            .padding(0.dp, 60.dp, 0.dp, 50.dp)
             .fillMaxSize()
             .background(colorResource(id = R.color.DarkPrimaryColor))
 
@@ -93,7 +92,7 @@ fun SavedAddressesScreen(navController: NavController) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp, 0.dp, 16.dp, 0.dp)
+                .padding(16.dp)
                 .background(colorResource(id = R.color.DarkPrimaryColor))
 
         ) {
@@ -183,7 +182,7 @@ fun AddressItem(address: Address, navController: NavController) {
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp)
+            //.padding(vertical = 8.dp)
             .clickable {
 
                 databaseReference.setValue(address)
