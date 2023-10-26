@@ -2,23 +2,12 @@ package com.BookMart.bookmart
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.outlined.Email
-import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -26,9 +15,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -43,17 +30,14 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.BookMart.bookmart.AllScreens.HomeScreen.MyOrdersScreen.MyOrdersScreen
 import com.BookMart.bookmart.AllScreens.HomeScreen.SettingScreen.SettingsScreen
-import com.BookMart.bookmart.ui.theme.DarkPrimaryColor
 import com.BookMart.bookmart.ui.theme.DarkSurfaceColor
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -98,8 +82,9 @@ fun BottomBarScreen(
     reference.addListenerForSingleValueEvent(object : ValueEventListener {
         override fun onDataChange(snapshot: DataSnapshot) {
             val numberOfElements = snapshot.childrenCount
-            count= numberOfElements.toInt()
+            count = numberOfElements.toInt()
         }
+
         override fun onCancelled(error: DatabaseError) {
             println("Database Error: $error")
         }
@@ -151,156 +136,146 @@ fun BottomBarScreen(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-            Scaffold(
+        Scaffold(
 
-                topBar = {
-                    TopAppBar(
-                        title = {
-                            Column(verticalArrangement = Arrangement.Center) {
-                                Text(
-                                    text = "Howdy ${currentUserinfo?.displayName}  !!",
-                                    style = MaterialTheme.typography.titleMedium,
-                                    color = Color.White
-                                )
-//                                Spacer(modifier = Modifier.size(4.dp))
-//                                Row(
-//                                    verticalAlignment = Alignment.CenterVertically
-//                                ) {
-//                                    Icon(
-//                                        imageVector = Icons.Default.LocationOn,
-//                                        contentDescription = "User location",
-//                                        modifier = Modifier
-//                                            .size(16.dp),
-//                                        tint = Color.White
-//
-//                                    )
-//                                    Spacer(modifier = Modifier.size(4.dp))
-//                                    Text(
-//                                        text = "Pimpri , Maharashtra  ",
-//                                        style = MaterialTheme.typography.bodyMedium,
-//                                        color = Color.White
-//                                    )
-//                                }
-
-                            }
-                        },
-                        modifier = Modifier,
-
-                              actions = {
-                            IconButton(onClick =
-                            {
-                                if (currentUserinfo != null) {
-                                    navController.navigate("User_Profile")
-                                } else {
-                                    navController.navigate("Signup")
-                                }}) {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.baseline_account_circle_24) ,
-                                    contentDescription = "User Profile",
-                                    tint = Color.White
-                                )
-                            }
-                        },
-                        colors = TopAppBarDefaults.smallTopAppBarColors(
-                            containerColor =DarkSurfaceColor,
-
+            topBar = {
+                TopAppBar(
+                    title = {
+                        Column(verticalArrangement = Arrangement.Center) {
+                            Text(
+                                text = "Howdy ${currentUserinfo?.displayName}  !!",
+                                style = MaterialTheme.typography.titleMedium,
+                                color = Color.White
                             )
-                       )
-                },
-                bottomBar = {
-                    NavigationBar(
-                        modifier = Modifier,
-                            //.background(DarkPrimaryColor),
-                        containerColor= DarkSurfaceColor,
-                        //contentColor= Color.Cyan,
-                    ) {
-                        items.forEachIndexed { index, item ->
-                            val isSelected = BottomselectedItemIndex == index
-                            NavigationBarItem(
-                                selected = isSelected,
-                                onClick = {
-                                    if (currentUserinfo != null) {
-                                        coroutineScope.launch {
-                                            pagerState.scrollToPage(index)
-                                        }
-                                    }
-                                    else{navController.navigate("Signup")}
-                                    BottomselectedItemIndex = index
 
-                                },
-                                label = {
-                                    Text(text = item.title,
-                                        color = Color.White
-                                        )
-                                },
-                                alwaysShowLabel = false,
-                                icon = {
-                                    BadgedBox(
-                                        badge = {
-                                            if (item.badgeCount != null) {
-                                                Badge {
-                                                    Text(text = item.badgeCount.toString())
-                                                }
-                                            } else if (item.hasNews) {
-                                                Badge()
-                                            }
-                                        }
-                                    ) {
-                                        if (isSelected) {
-                                            Icon(
-                                                painter =item.selectedIcon,
-                                                contentDescription = item.title,
-                                                tint = Color.Black
-                                            )
+                        }
+                    },
+                    modifier = Modifier,
 
-
-                                        } else {
-                                            Icon(
-                                                painter =item.unselectedIcon,
-                                                contentDescription = item.title,
-                                                tint = Color.White
-                                            )
-
-                                        }
-
-                                    }
-                                },
+                    actions = {
+                        IconButton(onClick =
+                        {
+                            if (currentUserinfo != null) {
+                                navController.navigate("User_Profile")
+                            } else {
+                                navController.navigate("Signup")
+                            }
+                        }) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.baseline_account_circle_24),
+                                contentDescription = "User Profile",
+                                tint = Color.White
                             )
                         }
-                    }
-                },
+                    },
+                    colors = TopAppBarDefaults.smallTopAppBarColors(
+                        containerColor = DarkSurfaceColor,
 
-            ) {
-                    innerPadding ->
-                Column(
-                    modifier = Modifier
-                        .padding(innerPadding),
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                        )
+                )
+            },
+            bottomBar = {
+                NavigationBar(
+                    modifier = Modifier,
+                    //.background(DarkPrimaryColor),
+                    containerColor = DarkSurfaceColor,
+                    //contentColor= Color.Cyan,
                 ) {
+                    items.forEachIndexed { index, item ->
+                        val isSelected = BottomselectedItemIndex == index
+                        NavigationBarItem(
+                            selected = isSelected,
+                            onClick = {
+                                if (currentUserinfo != null) {
+                                    coroutineScope.launch {
+                                        pagerState.scrollToPage(index)
+                                    }
+                                } else {
+                                    navController.navigate("Signup")
+                                }
+                                BottomselectedItemIndex = index
 
-                    HorizontalPager(
-                        modifier = Modifier
-                            .fillMaxSize(),
-                        state = pagerState
-                    ) { page ->
+                            },
+                            label = {
+                                Text(
+                                    text = item.title,
+                                    color = Color.White
+                                )
+                            },
+                            alwaysShowLabel = false,
+                            icon = {
+                                BadgedBox(
+                                    badge = {
+                                        if (item.badgeCount != null) {
+                                            Badge {
+                                                Text(text = item.badgeCount.toString())
+                                            }
+                                        } else if (item.hasNews) {
+                                            Badge()
+                                        }
+                                    }
+                                ) {
+                                    if (isSelected) {
+                                        Icon(
+                                            painter = item.selectedIcon,
+                                            contentDescription = item.title,
+                                            tint = Color.Black
+                                        )
+
+
+                                    } else {
+                                        Icon(
+                                            painter = item.unselectedIcon,
+                                            contentDescription = item.title,
+                                            tint = Color.White
+                                        )
+
+                                    }
+
+                                }
+                            },
+                        )
+                    }
+                }
+            },
+
+            ) { innerPadding ->
+            Column(
+                modifier = Modifier
+                    .padding(innerPadding),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+            ) {
+
+                HorizontalPager(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    state = pagerState
+                ) { page ->
 
                         when (page) {
                             0 -> HomeScreen(navController = navController)
-                            1 -> MyOrdersScreen(navController = navController)
-                            2 -> SettingsScreen(navController = navController)
+                            1 ->  if (currentUserinfo != null ) {MyOrdersScreen(navController = navController)}
+                            else {
+                                navController.navigate("Signup")
+                            }
+                            2 ->  if (currentUserinfo != null) {SettingsScreen(navController = navController)}
+                            else {
+                                navController.navigate("Signup")
+                            }
                         }
 
                     }
                 }
-//                innerpadding->
-//                Column(modifier = Modifier.padding(innerpadding))
-//                {
-//                    screenContent()
-//                }
-
             }
+        }
     }
-}
+
+
+
+
+
+
+
 
 
 

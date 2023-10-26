@@ -1,16 +1,23 @@
 package com.BookMart.bookmart.AllScreens.HomeScreen.UserProfile
 
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Arrangement.Absolute.SpaceBetween
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,6 +29,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -37,6 +45,8 @@ import com.BookMart.bookmart.R
 import com.BookMart.bookmart.SignupUIEvent
 import com.BookMart.bookmart.SignupViewModel
 import com.BookMart.bookmart.data.AddToCart.Address
+import com.BookMart.bookmart.ui.theme.DarkSurfaceColor
+import com.BookMart.bookmart.ui.theme.LightSurfaceColor
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.database.DataSnapshot
@@ -82,78 +92,69 @@ fun UserProfile(
         defaultdatabaseReference.addValueEventListener(valueEventListener)
     }
 
+
     Surface(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = colorResource(id = R.color.DarkPrimaryColor))
-        ,
-    ){
+        modifier = Modifier.fillMaxSize(),
+        color = LightSurfaceColor
+    ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
             modifier = Modifier
-                .background(color = colorResource(id = R.color.DarkSurfaceColor))
-
+                .fillMaxSize()
+                //.background(color = colorResource(id = R.color.DarkSurfaceColor))
         ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier
-                    .padding(10.dp)
-                    .background(color = colorResource(id = R.color.DarkSurfaceColor))
+            Image(
+                painter = painterResource(id = R.drawable.baseline_account_circle_24),
+                contentDescription = "User",
+                alignment = Alignment.Center,
+                modifier = Modifier.padding(16.dp)
+            )
+            UserInfo(
+                Name = user?.displayName,
+                mobilenumber = defaultAddress?.mobileNumber,
+                AddressStreet = defaultAddress?.streetAddress,
+                AddressCity = defaultAddress?.city
+            )
 
-            ) {
-                UserInfo(
-                    Name = user?.displayName,
-                    mobilenumber = defaultAddress?.mobileNumber,
-                    AddressStreet = defaultAddress?.streetAddress,
-                    AddressCity=defaultAddress?.city
-                )
-                // Display user profile image
-                Image(
-                    painter = painterResource(id = R.drawable.profile),
-                    contentDescription = "user",
-                    alignment = Alignment.Center
-                )
-                Spacer(modifier = Modifier.height(20.dp))
-
-                HeadingTextComponent(value = "Change Username  ")
+            // Display user profile image
 
 
-                // Text fields for first name and last name
-                MyTextFieldComponent(
-                    labelValue = stringResource(id =R.string.first_name),
-                    painterResource(id = R.drawable.profile),
-                    onTextChanged = {
-                        firstName = it
-                        signupViewModel.onEvent(SignupUIEvent.FirstNameChanged(it))
-                        isUpdateButtonEnabled = isFormValid(firstName, lastName)
-                    },
-                    errorStatus = signupViewModel.registrationUIState.value.firstNameError
-                )
+            HeadingTextComponent(value = "Change Username")
 
-                MyTextFieldComponent(
-                    labelValue = stringResource(id = R.string.last_name),
-                    painterResource = painterResource(id = R.drawable.profile),
-                    // value = lastName,
-                    onTextChanged = {
-                        lastName = it
-                        signupViewModel.onEvent(SignupUIEvent.LastNameChanged(it))
-                        isUpdateButtonEnabled = isFormValid(firstName, lastName)
-                    },
-                    errorStatus = signupViewModel.registrationUIState.value.lastNameError
-                )
-                Spacer(modifier = Modifier.height(20.dp))
+            // Text fields for first name and last name
+            MyTextFieldComponent(
+                labelValue = stringResource(id = R.string.first_name),
+                painterResource(id = R.drawable.profile),
+                onTextChanged = {
+                    firstName = it
+                    signupViewModel.onEvent(SignupUIEvent.FirstNameChanged(it))
+                    isUpdateButtonEnabled = isFormValid(firstName, lastName)
+                },
+                errorStatus = signupViewModel.registrationUIState.value.firstNameError
+            )
 
-                 ButtonComponent(
-                    value = stringResource(id = R.string.update),
-                    onButtonClicked = {
-                        updateUserProfile(firstName, lastName)
-                        navController.navigate("home_route")
-                    },
-                    isEnabled = isUpdateButtonEnabled, // Enable/disable the button
-                )
-            }
+            MyTextFieldComponent(
+                labelValue = stringResource(id = R.string.last_name),
+                painterResource = painterResource(id = R.drawable.profile),
+                onTextChanged = {
+                    lastName = it
+                    signupViewModel.onEvent(SignupUIEvent.LastNameChanged(it))
+                    isUpdateButtonEnabled = isFormValid(firstName, lastName)
+                },
+                errorStatus = signupViewModel.registrationUIState.value.lastNameError
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            ButtonComponent(
+                value = stringResource(id = R.string.update),
+                onButtonClicked = {
+                    updateUserProfile(firstName, lastName)
+                    navController.navigate("home_route")
+                },
+                isEnabled = isUpdateButtonEnabled, // Enable/disable the button
+            )
         }
     }
 
@@ -163,6 +164,7 @@ fun UserProfile(
             lastValidLastName.value = lastName
         }
     }
+
 }
 fun isFormValid(firstName: String, lastName: String): Boolean {
     return firstName.isNotBlank() && firstName.length >= 3 &&
@@ -200,7 +202,7 @@ fun UserInfo(
             .fillMaxWidth()
             .padding(16.dp),
         colors = CardDefaults.cardColors(
-            containerColor = colorResource(id = R.color.DarkPrimaryColor),
+            containerColor = DarkSurfaceColor,
         ),
     ) {
         Column(
@@ -210,48 +212,82 @@ fun UserInfo(
             Text(
                 text = "User Information ",
                 fontWeight = FontWeight.Bold,
-                fontSize = 18.sp
+                fontSize = 22.sp,
+                color = Color.White
             )
-            if (Name != null) {
-                Text(
-                    text = "Name: $Name",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp
-                )
-            } else {
-                Text(
-                    text = "Null",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp
+            Row(horizontalArrangement = SpaceBetween) {
+                if (Name != null) {
+                    Text(
+                        text = "Name: $Name",
+                        fontWeight = FontWeight.Normal,
+                        fontSize = 18.sp,
+                        color = Color.White
+                    )
+                } else {
+                    Text(
+                        text = "Null",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp,
+                        color = Color.White
+                    )
+                }
+                Spacer(modifier = Modifier.width(160.dp))
+                Icon(
+                    painter = painterResource(id = R.drawable.baseline_edit_24) ,
+                    contentDescription = "Editname",
+                    modifier = Modifier.clickable(onClick = {}),
+                    tint = Color.White
+                   )
+            }
+            Row(horizontalArrangement = SpaceBetween) {
+                if (mobilenumber != null) {
+                    Text(
+                        text = "Mobile Number : $mobilenumber",
+                        fontWeight = FontWeight.Normal,
+                        fontSize = 18.sp,
+                        color = Color.White
+                    )
+                } else {
+                    Text(
+                        text = "Mobile Number not available",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp,
+                        color = Color.White
+                    )
+                }
+                Spacer(modifier = Modifier.width(160.dp))
+                Icon(
+                    painter = painterResource(id = R.drawable.baseline_edit_24) ,
+                    contentDescription = "Editmobilenumber",
+                    modifier = Modifier.clickable(onClick = {}),
+                    tint = Color.White
                 )
             }
-
-            if (mobilenumber != null) {
-                Text(
-                    text = "Mobile Number : $mobilenumber",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp
-                )
-            } else {
-                Text(
-                    text = "Mobile Number not available",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp
-                )
-            }
-
             Spacer(modifier = Modifier.height(16.dp))
-            if (mobilenumber != null) {
-                Text(
-                    text = " Default Address : $AddressStreet\n $AddressCity",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp
-                )
-            } else {
-                Text(
-                    text = "Mobile Number not available",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp
+            Row (){
+
+
+                if (mobilenumber != null) {
+                    Text(
+                        text = " Default Address : $AddressStreet\n $AddressCity",
+                        fontWeight = FontWeight.Normal,
+                        fontSize = 18.sp,
+                        color = Color.White
+                    )
+                } else {
+                    Text(
+                        text = "Mobile Number not available",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp,
+                        color = Color.White
+                    )
+                }
+                Spacer(modifier = Modifier.width(160.dp))
+                Icon(
+                    painter = painterResource(id = R.drawable.baseline_edit_24) ,
+                    contentDescription = "EditAddress",
+                    modifier = Modifier.clickable(onClick = {}),
+                    tint = Color.White
                 )
             }
         }

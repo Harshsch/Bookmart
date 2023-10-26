@@ -19,7 +19,7 @@ fun TermsAndConditionsScreen() {
         //elevation = CardDefaults.elevation(5.dp),
         modifier = Modifier
             .wrapContentSize()
-            .padding(16.dp,80.dp,16.dp,80.dp)
+            .padding(16.dp)
             .verticalScroll(state = scrollState)
     )
     {

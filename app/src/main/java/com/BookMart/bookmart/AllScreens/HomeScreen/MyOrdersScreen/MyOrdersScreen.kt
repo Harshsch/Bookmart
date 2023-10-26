@@ -212,9 +212,7 @@ fun CartItemRow(cartItem: CartItem,navController:NavController) {
         Row(
             modifier = Modifier
                 .padding(16.dp)
-//                .clickable(onClick = {
-//                    navController.navigate("BuyNow/${cartItem.id}/${cartItem.quantity}")
-//                }),
+
         ) { Column {
             Image(painter = painterResource(id = cartItem.imageResId),
                 contentDescription = "wishlist image",
