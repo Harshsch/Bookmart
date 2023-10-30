@@ -3,8 +3,13 @@
     package="com.BookMart.bookmart"
     xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <application
+
+
+
 
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"

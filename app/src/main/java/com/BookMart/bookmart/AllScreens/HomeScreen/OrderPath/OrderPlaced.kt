@@ -122,7 +122,7 @@ import com.google.firebase.database.FirebaseDatabase
 
             Spacer(modifier = Modifier.height(32.dp))
             Text(
-                text = "Email is sent to you   ",
+                text = " THIS IS ONLY FOR TEST PURPOSE \nBOOKS DELIVERY  WILL START SOON  ",
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
