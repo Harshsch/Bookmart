@@ -16,8 +16,8 @@ android {
         applicationId = "com.BookMart.bookmart"
         minSdk = 24
         targetSdk = 34
-        versionCode = 5
-        versionName = "5.1"
+        versionCode = 6
+        versionName = "6.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -75,7 +75,7 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore-ktx")
     implementation("com.google.firebase:firebase-database-ktx")
     implementation("com.google.android.gms:play-services-auth:20.7.0")
-
+    implementation("com.google.android.gms:play-services-location:21.0.1")
 
 
     implementation("androidx.compose.material:material-icons-extended:1.5.1")

@@ -85,10 +85,10 @@ fun HomeScreen(navController: NavHostController)
 
         if (isCardVisible) {
             // Automatically close the card after 5 seconds
-            LaunchedEffect(isCardVisible) {
-                delay(5000) // Adjust the delay duration as needed (5000 milliseconds = 5 seconds)
-                isCardVisible = false
-            }
+//            LaunchedEffect(isCardVisible) {
+//                delay(5000) // Adjust the delay duration as needed (5000 milliseconds = 5 seconds)
+//                isCardVisible = false
+//            }
                 ElevatedCard(
                     elevation = CardDefaults.cardElevation(
                         defaultElevation = 10.dp
@@ -101,41 +101,8 @@ fun HomeScreen(navController: NavHostController)
                         containerColor = colorResource(id = R.color.DarkSecondaryColor),
                     ),
                 ) {
-                    Column(
-                       // modifier = Modifier.padding(20.dp, 20.dp, 20.dp, 0.dp),
-                    ) {
-                        if (currentUser != null) {
-                            // User is signed in, display the welcome message
-                            Text(
-                                text = "Welcome back ${currentUser.displayName}",
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .heightIn(min = 40.dp),
-                                style = TextStyle(
-                                    fontSize = 24.sp,
-                                    fontWeight = FontWeight.Normal,
-                                    fontStyle = FontStyle.Normal
-                                ), color = colorResource(id = R.color.LightBackgroundColor),
-                                textAlign = TextAlign.Center
-                            )
-                        } else {
-                            // User is not signed in
-                            Text(
-                                text = "Welcome",
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .heightIn(min = 40.dp),
-                                style = TextStyle(
-                                    fontSize = 24.sp,
-                                    fontWeight = FontWeight.Normal,
-                                    fontStyle = FontStyle.Normal
-                                ), color = colorResource(id = R.color.LightBackgroundColor),
-                                textAlign = TextAlign.Center
-                            )
 
-                        }
-                    }
-                    Column(modifier = Modifier.padding(20.dp, 0.dp, 20.dp, 20.dp)) {
+                    Column(modifier = Modifier.padding(20.dp)) {
                         Text(
                             text = stringResource(id = R.string.ready_for_exam),
                             modifier = Modifier

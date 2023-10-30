@@ -102,6 +102,7 @@ fun UserProfile(
             verticalArrangement = Arrangement.Center,
             modifier = Modifier
                 .fillMaxSize()
+                .padding(20.dp)
                 //.background(color = colorResource(id = R.color.DarkSurfaceColor))
         ) {
             Image(
@@ -109,22 +110,23 @@ fun UserProfile(
                 contentDescription = "User",
                 alignment = Alignment.Center,
                 modifier = Modifier.padding(16.dp)
+                    .size(100.dp)
             )
             UserInfo(
                 Name = user?.displayName,
                 mobilenumber = defaultAddress?.mobileNumber,
                 AddressStreet = defaultAddress?.streetAddress,
-                AddressCity = defaultAddress?.city
+                AddressCity = defaultAddress?.city,
+                navController=navController
             )
 
             // Display user profile image
-
 
             HeadingTextComponent(value = "Change Username")
 
             // Text fields for first name and last name
             MyTextFieldComponent(
-                labelValue = stringResource(id = R.string.first_name),
+                labelValue = "First Name",
                 painterResource(id = R.drawable.profile),
                 onTextChanged = {
                     firstName = it
@@ -192,7 +194,8 @@ fun UserInfo(
    Name: String?,
     mobilenumber: String?,
    AddressStreet:String?,
-   AddressCity:String?
+   AddressCity:String?,
+   navController:NavHostController
 ) {
     ElevatedCard(
         elevation = CardDefaults.cardElevation(
@@ -215,7 +218,7 @@ fun UserInfo(
                 fontSize = 22.sp,
                 color = Color.White
             )
-            Row(horizontalArrangement = SpaceBetween) {
+            Row() {
                 if (Name != null) {
                     Text(
                         text = "Name: $Name",
@@ -231,15 +234,9 @@ fun UserInfo(
                         color = Color.White
                     )
                 }
-                Spacer(modifier = Modifier.width(160.dp))
-                Icon(
-                    painter = painterResource(id = R.drawable.baseline_edit_24) ,
-                    contentDescription = "Editname",
-                    modifier = Modifier.clickable(onClick = {}),
-                    tint = Color.White
-                   )
+
             }
-            Row(horizontalArrangement = SpaceBetween) {
+            Row() {
                 if (mobilenumber != null) {
                     Text(
                         text = "Mobile Number : $mobilenumber",
@@ -255,13 +252,7 @@ fun UserInfo(
                         color = Color.White
                     )
                 }
-                Spacer(modifier = Modifier.width(160.dp))
-                Icon(
-                    painter = painterResource(id = R.drawable.baseline_edit_24) ,
-                    contentDescription = "Editmobilenumber",
-                    modifier = Modifier.clickable(onClick = {}),
-                    tint = Color.White
-                )
+
             }
             Spacer(modifier = Modifier.height(16.dp))
             Row (){
@@ -282,11 +273,11 @@ fun UserInfo(
                         color = Color.White
                     )
                 }
-                Spacer(modifier = Modifier.width(160.dp))
+                Spacer(modifier = Modifier.width(90.dp))
                 Icon(
                     painter = painterResource(id = R.drawable.baseline_edit_24) ,
                     contentDescription = "EditAddress",
-                    modifier = Modifier.clickable(onClick = {}),
+                    modifier = Modifier.clickable(onClick = { navController.navigate("SavedAddress")}),
                     tint = Color.White
                 )
             }

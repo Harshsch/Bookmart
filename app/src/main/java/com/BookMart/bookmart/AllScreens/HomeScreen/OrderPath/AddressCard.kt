@@ -1,5 +1,6 @@
 package com.BookMart.bookmart.AllScreens.HomeScreen.OrderPath
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -34,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -54,6 +56,7 @@ fun AddressCard(navController: NavController, item: ListItem,quantity:Int)
 {
     val scrollState = rememberScrollState()
     val current = "Address"
+    val context = LocalContext.current
 
     val userId = FirebaseAuth.getInstance().currentUser?.uid
     val currentUser = FirebaseAuth.getInstance().currentUser
@@ -137,8 +140,15 @@ fun AddressCard(navController: NavController, item: ListItem,quantity:Int)
                         Spacer(modifier = Modifier.width(50.dp))
 
                         Button(onClick = {
-                            navController.navigate("order_details/${item.id}/$quantity")
-                        })
+                            if((defaultAddress?.streetAddress != null) &&
+                                (defaultAddress?.city != null))
+                            {                            navController.navigate("order_details/${item.id}/$quantity")
+                            }
+                            else{
+                                Toast.makeText(context, "Change Address", Toast.LENGTH_SHORT).show()
+                            }
+                        },
+                            )
                         {
                             Text(text = "Contiue")
 
@@ -208,4 +218,94 @@ fun StepIndicator(text: String, isCurrent: Boolean, isCompleted: Boolean) {
         )
     }
 }
+@Composable
+fun AddressCard(
+    streetaddress: String?,
+    city: String?,
+    mobilenumber: String?,
+    navController: NavController
+) {
+    ElevatedCard(
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 5.dp
+        ),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+        ) {
+            Text(
+                text = "Address",
+                fontWeight = FontWeight.Bold,
+                fontSize = 18.sp
+            )
+            if (streetaddress != null) {
+                Text(
+                    text = streetaddress,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp
+                )
+            } else {
+                Text(
+                    text = "Street Address not available",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp
+                )
+            }
+            if (city != null) {
+                Text(
+                    text = city,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp
+                )
+            } else {
+                Text(
+                    text = "City not available",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp
+                )
+            }
+            if (mobilenumber != null) {
+                Text(
+                    text = mobilenumber,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp
+                )
+            } else {
+                Text(
+                    text = "Mobile Number not available",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp
+                )
+            }
 
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(
+                onClick = {
+                    navController.navigate("SavedAddress")
+
+
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp)
+            ) {
+                Text(text = "Change")
+            }
+        }
+    }
+}
+
+@Composable
+fun Price(quantity:Int,item: ListItem)
+{
+    val totalPrice = quantity * item.price
+    Text(
+        text = "Total Price: ₹$totalPrice",
+        style = MaterialTheme.typography.headlineMedium,
+
+        )
+}
