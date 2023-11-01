@@ -142,6 +142,9 @@ fun SignUpScreen(navController: NavController,signupViewModel: SignupViewModel =
 
                                         }
                                     navController.navigate("home_route")
+                                    {
+                                        popUpTo("Signup") { inclusive = true }
+                                    }
                                 } else {
                                     // Handle the registration error
                                     val exception = task.exception
@@ -160,6 +163,9 @@ fun SignUpScreen(navController: NavController,signupViewModel: SignupViewModel =
 
                 ClickableLoginTextComponent(tryingToLogin = true, onTextSelected = {
                     navController.navigate("Login")
+                    {
+                        popUpTo("Signup") { inclusive = true }
+                    }
                 })
 
             }

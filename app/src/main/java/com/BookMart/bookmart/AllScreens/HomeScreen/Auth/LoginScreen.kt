@@ -95,6 +95,10 @@ fun LoginScreen(navController: NavController,loginViewModel: LoginViewModel = vi
 
 
                         navController.navigate("home_route")
+                        {
+                            popUpTo("Login") { inclusive = true }
+                        }
+
                     },
                     isEnabled = loginViewModel.allValidationsPassed.value
                 )

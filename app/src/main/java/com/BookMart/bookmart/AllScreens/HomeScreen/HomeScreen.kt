@@ -3,6 +3,7 @@ package com.BookMart.bookmart
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -152,9 +153,10 @@ fun DepartmentBooks(navController: NavHostController) {
                 )
             }
         },
+
     )
 
-    if ( textState.value.isNotEmpty()) {
+    AnimatedVisibility ( textState.value.isNotEmpty()) {
         LaunchedEffect(lazyColumnState) {
             // Animate scroll to the top
             lazyColumnState.animateScrollToItem(index = 0)
