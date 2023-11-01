@@ -1,6 +1,7 @@
 package com.BookMart.bookmart
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -176,10 +177,12 @@ fun BottomBarScreen(
             },
             bottomBar = {
                 NavigationBar(
-                    modifier = Modifier,
+                    modifier = Modifier
+                    .animateContentSize(),
                     //.background(DarkPrimaryColor),
                     containerColor = DarkSurfaceColor,
                     //contentColor= Color.Cyan,
+
                 ) {
                     items.forEachIndexed { index, item ->
                         val isSelected = BottomselectedItemIndex == index
