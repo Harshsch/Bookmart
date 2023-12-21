@@ -37,7 +37,10 @@ fun topbackbar(navController: NavHostController,screenContent: @Composable () ->
                         imageVector = Icons.Default.ArrowBack,
                         contentDescription = null,
                         tint = Color.White,
-                        modifier = Modifier.clickable(onClick = { navController.navigate("home_route") }
+                        modifier = Modifier.clickable(onClick = {
+                            navController.popBackStack()
+//
+                        }
                         ))
                 },
 
