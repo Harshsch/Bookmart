@@ -61,103 +61,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.BookMart.bookmart.data.ListItem
-import com.BookMart.bookmart.ui.theme.DarkPrimaryColor
-import com.BookMart.bookmart.ui.theme.DarkSecondaryColor
-import com.BookMart.bookmart.ui.theme.DarkSurfaceColor
+import com.BookMart.bookmart.config.ui.theme.DarkPrimaryColor
+import com.BookMart.bookmart.config.ui.theme.DarkSecondaryColor
+import com.BookMart.bookmart.config.ui.theme.DarkSurfaceColor
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun BooksRow(navController: NavHostController, item: ListItem) {
-    Column {
-
-        Card(
-            onClick = { navController.navigate("BookDisplay/${item.id}")
-            },
-            modifier = Modifier
-                .padding(5.dp)
-                .shadow(
-                    elevation = 14.dp,
-                    spotColor = Color(0x0D06070D),
-                    ambientColor = Color(0x0D06070D)
-                )
-                .width(180.dp)
-                .height(290.60001.dp),
-            colors = CardDefaults.cardColors(
-                containerColor =colorResource(id = R.color.DarkSecondaryColor),
-            ),
-
-
-
-        ) {
-            Image(
-                painter = painterResource(id = item.imageResId),
-                contentDescription = "image description",
-                modifier = Modifier
-                    .shadow(
-                        elevation = 14.dp,
-                        spotColor = Color(0x0D06070D),
-                        ambientColor = Color(0x0D06070D)
-                    )
-                    .width(180.dp)
-                    .height(249.60001.dp),
-                contentScale = ContentScale.FillBounds
-            )
-            Text(
-                text = item.name,
-                Modifier,
-                style = TextStyle(
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight(600),
-                    color = colorResource(id = R.color.LightBackgroundColor),
-                    textAlign = TextAlign.Center,
-                )
-            )
-            Text(
-                text = "Year ${item.year}, Semester ${item.semester}",
-                Modifier
-                    .width(155.dp)
-                    .height(18.dp)
-                    .align(Alignment.CenterHorizontally),
-                style = TextStyle(
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight(500),
-                    color = Color(0xFFF2F2F2),
-                    textAlign = TextAlign.Center,
-                )
-            )
-            Text(
-                text = "Department: ${item.department}",
-                Modifier
-                    .width(155.dp)
-                    .height(18.dp)
-                    .align(Alignment.CenterHorizontally),
-                style = TextStyle(
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight(500),
-                    color = Color(0xFF9D9D9D),
-                    textAlign = TextAlign.Center,
-                )
-            )
-            Text(
-                text = "Price: ${item.price}",
-                Modifier
-                    .width(155.dp)
-                    .height(18.dp)
-                    .align(Alignment.CenterHorizontally),
-                style = TextStyle(
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight(500),
-                    color = Color(0xFF9D9D9D),
-                    textAlign = TextAlign.Center,
-                )
-            )
-        }
-    }
-}
-
 
 @Composable
 fun NormalTextComponent(value: String) {
@@ -354,7 +262,8 @@ fun ClickableTextComponent(value: String, onTextSelected: (String) -> Unit) {
 
 @Composable
 fun ButtonComponent(value: String,
-                    onButtonClicked: () -> Unit, isEnabled: Boolean = false
+                    onButtonClicked: () -> Unit,
+                    isEnabled: Boolean = false
 ) {
     Button(
         modifier = Modifier
@@ -421,7 +330,6 @@ fun DividerTextComponent() {
     }
 }
 
-
 @Composable
 fun ClickableLoginTextComponent(tryingToLogin: Boolean = true, onTextSelected: (String) -> Unit) {
     val initialText =
@@ -461,7 +369,6 @@ fun ClickableLoginTextComponent(tryingToLogin: Boolean = true, onTextSelected: (
         },
     )
 }
-
 
 @Composable
 fun ClickableForgotPasswordTextComponent(email:String) {

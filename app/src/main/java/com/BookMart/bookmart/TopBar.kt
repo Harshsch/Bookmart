@@ -19,7 +19,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.BookMart.bookmart.ui.theme.DarkSurfaceColor
+import com.BookMart.bookmart.config.ui.theme.DarkSurfaceColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
