@@ -179,10 +179,7 @@ fun BottomBarScreen(
                 NavigationBar(
                     modifier = Modifier
                     .animateContentSize(),
-                    //.background(DarkPrimaryColor),
                     containerColor = DarkSurfaceColor,
-                    //contentColor= Color.Cyan,
-
                 ) {
                     items.forEachIndexed { index, item ->
                         val isSelected = BottomselectedItemIndex == index
