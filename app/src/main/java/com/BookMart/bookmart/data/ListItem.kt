@@ -1,40 +1,8 @@
 package com.BookMart.bookmart.data
 
 import com.BookMart.bookmart.R
-import com.BookMart.bookmart.data.AddToCart.CartItem
+import com.BookMart.bookmart.domain.models.products.ListItem
 
-data class BuyNowData(
-    val name: String,
-    val streetAddress: String,
-    val city: String,
-    val mobilenumber:String,
-    val productname: String,
-    val priceperunit: Int,
-    val quantity: Int,
-    val totalprice: String
-
-)
-data class CartBuyNowData(
-    val name: String,
-    val streetAddress: String,
-    val city: String,
-    val cartItems: List<CartItem>,
-    //val quantity: Int,
-
-
-)
-
-
-data class ListItem(
-    val id: Int,
-    val imageResId: Int,
-    val name: String,
-    val price: Int,
-    val department: String,
-    val year: Int,
-    val semester: Int,
-    val description: String
-)
 val itemList = listOf(
     ListItem(1, R.drawable.img_1, "COMPUTER NETWORKS", 375, "Computer", 2023, 1, "A comprehensive guide to computer networks with real-world examples. This book covers a wide range of topics in the field of computer networks, including network protocols, data transmission, network security, and more. Whether you are a beginner or an experienced network engineer, this book has something to offer."),
     ListItem(2, R.drawable.img_2, "CRYPTOGRAPHY AND CYBER SECURITY", 245, "Computer", 2023, 2, "Learn the art of securing data and communications. This comprehensive guide to cryptography and cyber security covers various encryption techniques, security protocols, and real-world examples. It's a must-read for anyone interested in keeping data safe in the digital age."),
@@ -126,7 +94,6 @@ val itemList = listOf(
     ListItem(87, R.drawable.img_10, "DEEP LEARNING", 295, "Information Technology", 2022, 1, "Discover advanced techniques in deep neural networks. This book explores the field of deep learning, including deep neural networks, convolutional neural networks (CNNs), and recurrent neural networks (RNNs). It's a valuable resource for AI and machine learning enthusiasts."),
 
     )
-
 
 // Sorting function to sort by department, year, and semester
 //fun sortBooks() {

@@ -37,9 +37,9 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.BookMart.bookmart.AllScreens.HomeScreen.MyOrdersScreen.MyOrdersScreen
-import com.BookMart.bookmart.AllScreens.HomeScreen.SettingScreen.SettingsScreen
-import com.BookMart.bookmart.ui.theme.DarkSurfaceColor
+import com.BookMart.bookmart.views.myorders.MyOrdersScreen
+import com.BookMart.bookmart.views.setting.SettingsScreen
+import com.BookMart.bookmart.config.ui.theme.DarkSurfaceColor
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -254,11 +254,15 @@ fun BottomBarScreen(
 
                         when (page) {
                             0 -> HomeScreen(navController = navController)
-                            1 ->  if (currentUserinfo != null ) {MyOrdersScreen(navController = navController)}
+                            1 ->  if (currentUserinfo != null ) {
+                                MyOrdersScreen(navController = navController)
+                            }
                             else {
                                 navController.navigate("Signup")
                             }
-                            2 ->  if (currentUserinfo != null) {SettingsScreen(navController = navController)}
+                            2 ->  if (currentUserinfo != null) {
+                                SettingsScreen(navController = navController)
+                            }
                             else {
                                 navController.navigate("Signup")
                             }
