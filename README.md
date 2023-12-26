@@ -1,3 +1,14 @@
+<div id="badges">
+  <a href="https://www.linkedin.com/in/harsh-chavan-57a991221/" target="_blank">
+    <img src="https://img.shields.io/badge/LinkedIn-blue?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn Badge" height="30"/>
+  </a>
+  <a href="https://www.youtube.com/watch?v=YSJGIFFxClw" target="_blank">
+    <img src="https://img.shields.io/badge/YouTube-red?style=for-the-badge&logo=youtube&logoColor=white" alt="Youtube Badge" height="30"/>
+  </a>
+  <a href="https://play.google.com/store/apps/details?id=com.BookMart.bookmart" target="_blank">
+    <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="PlayStore" height="50"/>
+  </a>
+</div>
 
 # Book Mart - Engineering Books Store
 
@@ -51,10 +62,6 @@ Your privacy is important to us. Read our privacy policy [here](privacy-policy.m
 ## Terms of Service
 
 By using the Book Mart app, you agree to our terms of service. Read them [here](terms-of-service.md).
-
-## License
-
-This app is licensed under the XYZ License - see the [LICENSE](LICENSE.md) file for details.
 
 ## Acknowledgments
 
