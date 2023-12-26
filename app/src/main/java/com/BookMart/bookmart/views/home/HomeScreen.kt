@@ -1,8 +1,5 @@
 package com.BookMart.bookmart
 
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -50,11 +47,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.BookMart.bookmart.data.ListItem
 import com.BookMart.bookmart.data.itemList
+import com.BookMart.bookmart.domain.models.products.ListItem
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.coroutines.delay
 
 @Composable
 fun HomeScreen(navController: NavHostController)

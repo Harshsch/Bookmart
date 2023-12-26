@@ -38,10 +38,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.BookMart.bookmart.R
-import com.BookMart.bookmart.data.AddToCart.CartItem
-import com.BookMart.bookmart.data.AddToCart.CartViewModel
-import com.BookMart.bookmart.data.AddToCart.MyOrders
-import com.BookMart.bookmart.data.AddToCart.MyOrdersViewModel
+import com.BookMart.bookmart.domain.models.myorders.CartItem
+import com.BookMart.bookmart.domain.models.myorders.MyOrders
+import com.BookMart.bookmart.viewModels.myorders.CartViewModel
+import com.BookMart.bookmart.viewModels.myorders.MyOrdersViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -175,7 +175,7 @@ fun MyOrdersScreen(navController: NavHostController) {
 }
 
 @Composable
-fun CartItemRow(cartItem: CartItem,navController:NavController) {
+fun CartItemRow(cartItem: CartItem, navController:NavController) {
     val currentUser = FirebaseAuth.getInstance().currentUser
     val userId =currentUser?.uid
     val context = LocalContext.current
@@ -262,7 +262,7 @@ fun CartItemRow(cartItem: CartItem,navController:NavController) {
 }
 
 @Composable
-fun CartItemList(cartItems: List<CartItem>,navController: NavController) {
+fun CartItemList(cartItems: List<CartItem>, navController: NavController) {
     LazyColumn(modifier = Modifier
         .height(300.dp)
     ) {
@@ -272,7 +272,7 @@ fun CartItemList(cartItems: List<CartItem>,navController: NavController) {
     }
 }
 @Composable
-fun OrderItemList(orders: List<MyOrders>,navController: NavController) {
+fun OrderItemList(orders: List<MyOrders>, navController: NavController) {
     LazyColumn(modifier = Modifier
         .height(300.dp)
     ) {

@@ -1,7 +1,6 @@
 package com.BookMart.bookmart.viewModels.myorders
 
 import androidx.lifecycle.ViewModel
-import com.BookMart.bookmart.data.AddToCart.MyOrders
 import com.BookMart.bookmart.domain.models.myorders.MyOrders
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference

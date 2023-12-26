@@ -3,7 +3,6 @@ package com.BookMart.bookmart.views.setting
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
@@ -41,9 +41,9 @@ import com.BookMart.bookmart.MyTextFieldComponent
 import com.BookMart.bookmart.R
 import com.BookMart.bookmart.SignupUIEvent
 import com.BookMart.bookmart.SignupViewModel
-import com.BookMart.bookmart.data.AddToCart.Address
 import com.BookMart.bookmart.config.ui.theme.DarkSurfaceColor
 import com.BookMart.bookmart.config.ui.theme.LightSurfaceColor
+import com.BookMart.bookmart.domain.models.myorders.Address
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.database.DataSnapshot

@@ -41,7 +41,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.BookMart.bookmart.NormalTextComponent
 import com.BookMart.bookmart.R
-import com.BookMart.bookmart.data.AddToCart.Address
+import com.BookMart.bookmart.domain.models.myorders.Address
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError

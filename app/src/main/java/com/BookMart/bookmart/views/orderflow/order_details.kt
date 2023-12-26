@@ -29,12 +29,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.BookMart.bookmart.R
-import com.BookMart.bookmart.data.ListItem
-import com.BookMart.bookmart.views.orderflow.ProgressBar
+import com.BookMart.bookmart.domain.models.products.ListItem
 
 
 @Composable
-fun Order_Details(navController: NavController, item: ListItem,quantity:Int) {
+fun Order_Details(navController: NavController, item: ListItem, quantity:Int) {
    // var quantity by remember { mutableIntStateOf(1) }
     val current = "Order"
     val scrollState = rememberScrollState()

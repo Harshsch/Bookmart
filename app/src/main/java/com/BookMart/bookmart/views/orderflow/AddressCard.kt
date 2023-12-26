@@ -43,8 +43,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.BookMart.bookmart.R
-import com.BookMart.bookmart.data.AddToCart.Address
-import com.BookMart.bookmart.data.ListItem
+import com.BookMart.bookmart.domain.models.myorders.Address
+import com.BookMart.bookmart.domain.models.products.ListItem
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -52,7 +52,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 @Composable
-fun AddressCard(navController: NavController, item: ListItem,quantity:Int)
+fun AddressCard(navController: NavController, item: ListItem, quantity:Int)
 {
     val scrollState = rememberScrollState()
     val current = "Address"
