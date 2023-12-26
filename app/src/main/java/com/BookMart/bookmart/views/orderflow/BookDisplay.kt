@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -48,9 +47,9 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.BookMart.bookmart.R
-import com.BookMart.bookmart.data.AddToCart.CartItem
-import com.BookMart.bookmart.data.AddToCart.CartViewModel
-import com.BookMart.bookmart.data.ListItem
+import com.BookMart.bookmart.domain.models.myorders.CartItem
+import com.BookMart.bookmart.domain.models.products.ListItem
+import com.BookMart.bookmart.viewModels.myorders.CartViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase

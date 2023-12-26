@@ -30,13 +30,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.BookMart.bookmart.R
-import com.BookMart.bookmart.data.ListItem
+import com.BookMart.bookmart.domain.models.products.ListItem
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
 
 @Composable
- fun OrderPlacedPage(navController: NavController, item: ListItem,orderkey:String,orderlistkey:String) {
+ fun OrderPlacedPage(navController: NavController, item: ListItem, orderkey:String, orderlistkey:String) {
 
     val currentUser = FirebaseAuth.getInstance().currentUser
     val uid = currentUser?.uid
