@@ -20,6 +20,8 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -55,30 +57,25 @@ import com.google.firebase.auth.FirebaseAuth
 @Composable
 fun HomeScreen(navController: NavHostController)
 {
-
     val context = LocalContext.current
     FirebaseApp.initializeApp(context)
-    val textureColor = Color(0xFF6a6f9a) // Define your texture color
-    val brush = Brush.horizontalGradient(
-        colors = listOf( textureColor ,textureColor),
-    )
     FirebaseAuth.getInstance().currentUser
-    Column(
-        modifier = Modifier
-            .background(brush=brush)
-            .padding(16.dp)
-    ){
-        var isCardVisible by remember { mutableStateOf(true) }
 
-        if (isCardVisible) {
+    Surface(color = MaterialTheme.colorScheme.background){
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+        ) {
+            var isCardVisible by remember { mutableStateOf(true) }
+
+            if (isCardVisible) {
                 ElevatedCard(
                     elevation = CardDefaults.cardElevation(
                         defaultElevation = 10.dp
                     ),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp)
-                    ,
+                        .padding(16.dp),
                     colors = CardDefaults.cardColors(
                         containerColor = colorResource(id = R.color.DarkSecondaryColor),
                     ),
@@ -101,6 +98,7 @@ fun HomeScreen(navController: NavHostController)
             }
             DepartmentBooks(navController = navController)
         }
+    }
     }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -156,7 +154,7 @@ fun DepartmentBooks(navController: NavHostController) {
                  style = TextStyle(
                     fontSize = 24.sp,
                     fontWeight = FontWeight(600),
-                    color =colorResource(id = R.color.LightBackgroundColor),
+                    color =MaterialTheme.colorScheme.onPrimary,
 
                     textAlign = TextAlign.Center,
                 )
@@ -177,7 +175,7 @@ fun DepartmentBooks(navController: NavHostController) {
                 style = TextStyle(
                     fontSize = 24.sp,
                     fontWeight = FontWeight(600),
-                    color =colorResource(id = R.color.LightBackgroundColor),
+                    color =MaterialTheme.colorScheme.onPrimary,
 
                     textAlign = TextAlign.Center,
                 )
@@ -199,7 +197,7 @@ fun DepartmentBooks(navController: NavHostController) {
                 style = TextStyle(
                     fontSize = 24.sp,
                     fontWeight = FontWeight(600),
-                    color =colorResource(id = R.color.LightBackgroundColor),
+                    color =MaterialTheme.colorScheme.onPrimary,
 
                     textAlign = TextAlign.Center,
                 )
@@ -207,14 +205,14 @@ fun DepartmentBooks(navController: NavHostController) {
         }
         item {
             Text(
-                text = "SE ",
+                text = "SE",
                 Modifier.padding(10.dp),
                 textAlign = TextAlign.Center,
 
                 style = TextStyle(
                     fontSize = 24.sp,
                     fontWeight = FontWeight(600),
-                    color = Color(0xFFCCCCCC),
+                    color = MaterialTheme.colorScheme.onPrimary,
                     textAlign = TextAlign.Center,
                 )
             )
@@ -235,7 +233,7 @@ fun DepartmentBooks(navController: NavHostController) {
                 style = TextStyle(
                     fontSize = 24.sp,
                     fontWeight = FontWeight(600),
-                    color = Color(0xFFCCCCCC),
+                    color = MaterialTheme.colorScheme.onPrimary,
                     textAlign = TextAlign.Center,
                 )
             )
@@ -256,7 +254,7 @@ fun DepartmentBooks(navController: NavHostController) {
                 style = TextStyle(
                     fontSize = 24.sp,
                     fontWeight = FontWeight(600),
-                    color = Color(0xFFCCCCCC),
+                    color = MaterialTheme.colorScheme.onPrimary,
                     textAlign = TextAlign.Center,
                 )
             )
@@ -275,7 +273,7 @@ fun DepartmentBooks(navController: NavHostController) {
                 style = TextStyle(
                     fontSize = 24.sp,
                     fontWeight = FontWeight(600),
-                    color =colorResource(id = R.color.LightBackgroundColor),
+                    color =MaterialTheme.colorScheme.onPrimary,
 
                     textAlign = TextAlign.Center,
                 )
@@ -290,7 +288,7 @@ fun DepartmentBooks(navController: NavHostController) {
                 style = TextStyle(
                     fontSize = 24.sp,
                     fontWeight = FontWeight(600),
-                    color = Color(0xFFCCCCCC),
+                    color = MaterialTheme.colorScheme.onPrimary,
                     textAlign = TextAlign.Center,
                 )
             )
@@ -311,7 +309,7 @@ fun DepartmentBooks(navController: NavHostController) {
                 style = TextStyle(
                     fontSize = 24.sp,
                     fontWeight = FontWeight(600),
-                    color = Color(0xFFCCCCCC),
+                    color = MaterialTheme.colorScheme.onPrimary,
                     textAlign = TextAlign.Center,
                 )
             )
@@ -332,7 +330,7 @@ fun DepartmentBooks(navController: NavHostController) {
                 style = TextStyle(
                     fontSize = 24.sp,
                     fontWeight = FontWeight(600),
-                    color = Color(0xFFCCCCCC),
+                    color = MaterialTheme.colorScheme.onPrimary,
                     textAlign = TextAlign.Center,
                 )
             )
@@ -351,7 +349,7 @@ fun DepartmentBooks(navController: NavHostController) {
                 style = TextStyle(
                     fontSize = 24.sp,
                     fontWeight = FontWeight(600),
-                    color =colorResource(id = R.color.LightBackgroundColor),
+                    color =MaterialTheme.colorScheme.onPrimary,
                     )
             )
         }
@@ -369,7 +367,7 @@ fun DepartmentBooks(navController: NavHostController) {
                 style = TextStyle(
                     fontSize = 24.sp,
                     fontWeight = FontWeight(600),
-                    color =colorResource(id = R.color.LightBackgroundColor),
+                    color =MaterialTheme.colorScheme.onPrimary,
                     textAlign = TextAlign.Center,
                 )
             )
