@@ -3,9 +3,7 @@ import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.util.Log
 import android.widget.Toast
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,11 +25,12 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
@@ -49,23 +48,16 @@ import com.google.firebase.auth.FirebaseAuth
 @Composable
 fun SettingsScreen(navController: NavHostController) {
     val context = LocalContext.current
-   val textureColor = Color(0xFF6a6f9a) // Define your texture color
-    val brush = Brush.horizontalGradient(
-        colors = listOf( textureColor ,textureColor),
-    )
-        Column(
-            modifier = Modifier
 
-                .background(brush=brush),
-
+        Surface(
+            color = MaterialTheme.colorScheme.background
         ) { LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .fillMaxSize().padding(16.dp)
-                .background(brush=brush),
+
 
             ){
-
             item {
 
                 Text(
@@ -73,7 +65,7 @@ fun SettingsScreen(navController: NavHostController) {
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 24.sp,
-                        color =colorResource(id = R.color.LightBackgroundColor),
+                        color =MaterialTheme.colorScheme.onPrimary,
                     ),           modifier = Modifier.padding(bottom = 16.dp),
 
                     )
@@ -122,7 +114,7 @@ fun SettingsScreen(navController: NavHostController) {
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 24.sp,
-                        color =colorResource(id = R.color.LightBackgroundColor),
+                        color =MaterialTheme.colorScheme.onPrimary,
                     ),  modifier = Modifier.padding(bottom = 16.dp),
 
                     )
@@ -147,10 +139,6 @@ fun SettingsScreen(navController: NavHostController) {
             item {
                 Spacer(modifier = Modifier.height(32.dp))
             }
-
-
-
-
             item{
         Button(
             onClick = {  val firebaseAuth = FirebaseAuth.getInstance()
@@ -165,17 +153,12 @@ fun SettingsScreen(navController: NavHostController) {
 
                     } else {
                         Log.d(TAG, "signoutnot complete")
-
-
                     }
 
                 }
                 firebaseAuth.addAuthStateListener(authStateListener)
                 navController.navigate("home_route")
             },
-            //modifier = Modifier.align(Alignment.CenterHorizontally)
-
-
         ) {
             Text(text = "Logout")
         }}}}
@@ -197,23 +180,21 @@ fun SettingsItem(icon: ImageVector, title: String, onClick: () -> Unit) {
             imageVector = icon,
             contentDescription = null,
             modifier = Modifier.size(24.dp),
-            tint =colorResource(id = R.color.LightBackgroundColor),
+            tint =MaterialTheme.colorScheme.onPrimary,
 
             )
         Spacer(modifier = Modifier.width(16.dp))
         Text(text = title,style = TextStyle(
-            fontWeight = FontWeight.Normal
-
-            ,
+            fontWeight = FontWeight.Normal,
             fontSize = 24.sp,
-            color =colorResource(id = R.color.LightBackgroundColor),
+            color =MaterialTheme.colorScheme.onPrimary,
         ),)
         Spacer(modifier = Modifier.weight(1f))
         Icon(
             painter = painterResource(id = R.drawable.baseline_chevron_right_24),
             contentDescription = null,
             modifier = Modifier.size(24.dp),
-            tint =colorResource(id = R.color.LightBackgroundColor),
+            tint =MaterialTheme.colorScheme.onPrimary,
 
             )
     }
@@ -309,7 +290,6 @@ fun FAQ() {
     val scrollState = rememberScrollState()
 
     ElevatedCard(
-        //elevation = CardDefaults.elevation(5.dp),
         modifier = Modifier
             .wrapContentSize()
             .padding(16.dp)

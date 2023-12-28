@@ -18,6 +18,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
@@ -52,14 +54,6 @@ import com.google.firebase.database.ValueEventListener
 fun MyOrdersScreen(navController: NavHostController) {
 
     val scrollState = rememberScrollState()
-
-
-    val textureColor = Color(0xFF6a6f9a) // Define your texture color
-
-    val brush = Brush.horizontalGradient(
-        colors = listOf( textureColor ,textureColor),
-    )
-
     val cartItems = remember { mutableStateListOf<CartItem>() }
     val ordersItems = remember { mutableStateListOf<MyOrders>() }
     val userId = FirebaseAuth.getInstance().currentUser?.uid // Get the user's ID
@@ -110,15 +104,13 @@ fun MyOrdersScreen(navController: NavHostController) {
     })
 
 
-    Column(
-        modifier = Modifier
-            .background(brush=brush),
+    Surface(
+        color = MaterialTheme.colorScheme.background
         ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
-            .background(brush = brush)
             .verticalScroll(state = scrollState),
     ) {
         Text(
@@ -126,14 +118,15 @@ fun MyOrdersScreen(navController: NavHostController) {
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 fontSize = 24.sp,
-                color = colorResource(id = R.color.LightBackgroundColor),
+                color = MaterialTheme.colorScheme.onPrimary,
             ),
             modifier = Modifier.padding( 16.dp)
         )
         if (ordersItems.isNotEmpty()) {
             OrderItemList(ordersItems,navController=navController)
         } else {
-            Text(text = "No orders placed")
+            Text(text = "No orders placed",
+                color = MaterialTheme.colorScheme.onPrimary)
         }
 
         Text(
@@ -141,7 +134,7 @@ fun MyOrdersScreen(navController: NavHostController) {
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 fontSize = 20.sp,
-                color = colorResource(id = R.color.LightBackgroundColor),
+                color =MaterialTheme.colorScheme.onPrimary,
             ),
             modifier = Modifier.padding(top = 16.dp)
         )
@@ -162,7 +155,7 @@ fun MyOrdersScreen(navController: NavHostController) {
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp,
-                    color = colorResource(id = R.color.LightBackgroundColor),
+                    color = MaterialTheme.colorScheme.onPrimary,
                 ),
                 modifier = Modifier.align(CenterVertically),
                 textAlign = TextAlign.Center
