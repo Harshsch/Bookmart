@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -92,7 +93,7 @@ fun UserProfile(
 
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = LightSurfaceColor
+        color = MaterialTheme.colorScheme.background
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -213,7 +214,7 @@ fun UserInfo(
                 text = "User Information ",
                 fontWeight = FontWeight.Bold,
                 fontSize = 22.sp,
-                color = Color.White
+                color = MaterialTheme.colorScheme.onPrimary
             )
             Row() {
                 if (Name != null) {
@@ -221,14 +222,14 @@ fun UserInfo(
                         text = "Name: $Name",
                         fontWeight = FontWeight.Normal,
                         fontSize = 18.sp,
-                        color = Color.White
+                        color = MaterialTheme.colorScheme.onPrimary
                     )
                 } else {
                     Text(
                         text = "Null",
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp,
-                        color = Color.White
+                        color = MaterialTheme.colorScheme.onPrimary
                     )
                 }
 
@@ -239,35 +240,32 @@ fun UserInfo(
                         text = "Mobile Number : $mobilenumber",
                         fontWeight = FontWeight.Normal,
                         fontSize = 18.sp,
-                        color = Color.White
+                        color = MaterialTheme.colorScheme.onPrimary
                     )
                 } else {
                     Text(
                         text = "Mobile Number not available",
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp,
-                        color = Color.White
+                        color = MaterialTheme.colorScheme.onPrimary
                     )
                 }
-
             }
             Spacer(modifier = Modifier.height(16.dp))
-            Row (){
-
-
+            Row {
                 if (mobilenumber != null) {
                     Text(
                         text = " Default Address : $AddressStreet\n $AddressCity",
                         fontWeight = FontWeight.Normal,
                         fontSize = 18.sp,
-                        color = Color.White
+                        color =MaterialTheme.colorScheme.onPrimary
                     )
                 } else {
                     Text(
                         text = "Mobile Number not available",
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp,
-                        color = Color.White
+                        color = MaterialTheme.colorScheme.onPrimary
                     )
                 }
                 Spacer(modifier = Modifier.width(90.dp))
@@ -275,7 +273,7 @@ fun UserInfo(
                     painter = painterResource(id = R.drawable.baseline_edit_24) ,
                     contentDescription = "EditAddress",
                     modifier = Modifier.clickable(onClick = { navController.navigate("SavedAddress")}),
-                    tint = Color.White
+                    tint = MaterialTheme.colorScheme.onPrimary
                 )
             }
         }

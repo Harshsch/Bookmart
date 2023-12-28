@@ -16,7 +16,6 @@ fun TermsAndConditionsScreen() {
     val scrollState = rememberScrollState()
 
     ElevatedCard(
-        //elevation = CardDefaults.elevation(5.dp),
         modifier = Modifier
             .wrapContentSize()
             .padding(16.dp)
