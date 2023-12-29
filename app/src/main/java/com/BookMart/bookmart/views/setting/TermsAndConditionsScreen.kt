@@ -8,6 +8,7 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 
 
@@ -18,7 +19,7 @@ fun TermsAndConditionsScreen() {
     ElevatedCard(
         modifier = Modifier
             .wrapContentSize()
-            .padding(16.dp)
+            .padding(dimensionResource(id = R.dimen.dim_16))
             .verticalScroll(state = scrollState)
     )
     {

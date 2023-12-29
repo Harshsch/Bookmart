@@ -37,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -88,41 +89,41 @@ fun AddressCard(navController: NavController, item: ListItem, quantity:Int)
 
         Box(modifier = Modifier
             .background(colorResource(id = R.color.DarkSurfaceColor))
-            .padding(0.dp, 50.dp, 0.dp, 50.dp)
+            .padding(dimensionResource(id = R.dimen.dim_0), dimensionResource(id = R.dimen.dim_50), dimensionResource(id = R.dimen.dim_0), dimensionResource(id = R.dimen.dim_50))
 
         ) {
             ElevatedCard(
                 elevation = CardDefaults.cardElevation(
-                    defaultElevation = 10.dp
+                    defaultElevation = dimensionResource(id = R.dimen.dim_10)
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp, 16.dp, 16.dp, 16.dp),
+                    .padding(dimensionResource(id = R.dimen.dim_16), dimensionResource(id = R.dimen.dim_16), dimensionResource(id = R.dimen.dim_16), dimensionResource(id = R.dimen.dim_16)),
             ) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(16.dp)
+                        .padding(dimensionResource(id = R.dimen.dim_16))
                        .verticalScroll(state = scrollState),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
                     ProgressBar(steps = listOf("Address", "Order", "Payment"), currentStep = current)
 
-                    Spacer(modifier = Modifier.height(12.dp))
+                    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dim_12)))
 
                     if (currentUser != null) {
             Text(
                 text = "Customer name:${currentUser.displayName}",
                 style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.padding(bottom = 16.dp)
+                modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.dim_16))
             )
         }
         // Address Form
         Text(
             text = "Shipping Address",
             style = MaterialTheme.typography.titleLarge,
-            modifier = Modifier.padding(bottom = 8.dp)
+            modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.dim_8))
         )
 
             AddressCard(
@@ -135,9 +136,9 @@ fun AddressCard(navController: NavController, item: ListItem, quantity:Int)
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(text = "${item.price} X ${quantity }Qty =Rs${total}",
                             fontWeight = FontWeight.Bold,
-                            fontSize = 18.sp)
+                            fontSize = dimensionResource(id = R.dimen.fon_18).value.sp)
 
-                        Spacer(modifier = Modifier.width(50.dp))
+                        Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.dim_50)))
 
                         Button(onClick = {
                             if((defaultAddress?.streetAddress != null) &&
@@ -170,8 +171,8 @@ fun ProgressBar(steps: List<String>, currentStep: String) {
                     modifier = Modifier
                         .align(alignment = CenterVertically)
                         .weight(1f)
-                        .height(2.dp)
-                        .offset(x = 1.dp) // Adjust the offset as needed
+                        .height(dimensionResource(id = R.dimen.dim_2))
+                        .offset(x = dimensionResource(id = R.dimen.dim_1)) // Adjust the offset as needed
                         .background(
                             if (index <= currentStepIndex) Color.Green else Color.Gray
                         )
@@ -197,7 +198,7 @@ fun StepIndicator(text: String, isCurrent: Boolean, isCompleted: Boolean) {
     ) {
         Box(
             modifier = Modifier
-                .size(24.dp)
+                .size(dimensionResource(id = R.dimen.dim_24))
                 .background(indicatorColor, CircleShape)
 
         ) {
@@ -227,62 +228,62 @@ fun AddressCard(
 ) {
     ElevatedCard(
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 5.dp
+            defaultElevation = dimensionResource(id = R.dimen.dim_5)
         ),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
+            .padding(dimensionResource(id = R.dimen.dim_16)),
     ) {
         Column(
             modifier = Modifier
-                .padding(16.dp)
+                .padding(dimensionResource(id = R.dimen.dim_16))
         ) {
             Text(
                 text = "Address",
                 fontWeight = FontWeight.Bold,
-                fontSize = 18.sp
+                fontSize = dimensionResource(id = R.dimen.fon_18).value.sp
             )
             if (streetaddress != null) {
                 Text(
                     text = streetaddress,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp
+                    fontSize = dimensionResource(id = R.dimen.fon_18).value.sp
                 )
             } else {
                 Text(
                     text = "Street Address not available",
                     fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp
+                    fontSize = dimensionResource(id = R.dimen.fon_18).value.sp
                 )
             }
             if (city != null) {
                 Text(
                     text = city,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp
+                    fontSize = dimensionResource(id = R.dimen.fon_18).value.sp
                 )
             } else {
                 Text(
                     text = "City not available",
                     fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp
+                    fontSize = dimensionResource(id = R.dimen.fon_18).value.sp
                 )
             }
             if (mobilenumber != null) {
                 Text(
                     text = mobilenumber,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp
+                    fontSize = dimensionResource(id = R.dimen.fon_18).value.sp
                 )
             } else {
                 Text(
                     text = "Mobile Number not available",
                     fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp
+                    fontSize = dimensionResource(id = R.dimen.fon_18).value.sp
                 )
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dim_16)))
             Button(
                 onClick = {
                     navController.navigate("SavedAddress")
@@ -291,7 +292,7 @@ fun AddressCard(
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(50.dp)
+                    .height(dimensionResource(id = R.dimen.dim_50))
             ) {
                 Text(text = "Change")
             }

@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -70,11 +71,11 @@ import com.google.firebase.database.FirebaseDatabase
     }
     ElevatedCard(
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 10.dp
+            defaultElevation = dimensionResource(id = R.dimen.dim_10)
         ),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp, 50.dp, 16.dp, 16.dp),
+            .padding(dimensionResource(id = R.dimen.dim_16), dimensionResource(id = R.dimen.dim_50), dimensionResource(id = R.dimen.dim_16), dimensionResource(id = R.dimen.dim_16)),
     )
     {
         Row(horizontalArrangement =Arrangement.End,
@@ -93,7 +94,7 @@ import com.google.firebase.database.FirebaseDatabase
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
+                .padding(dimensionResource(id = R.dimen.dim_16))
                 .verticalScroll(state = scrollState),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -102,7 +103,7 @@ import com.google.firebase.database.FirebaseDatabase
             // Animated checkmark icon
             AnimatedCheckmarkIcon()
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dim_16)))
 
             // Order ID
             Text(
@@ -111,7 +112,7 @@ import com.google.firebase.database.FirebaseDatabase
                 fontWeight = FontWeight.Bold
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dim_16)))
 
             // Display the order ID
             Text(
@@ -120,14 +121,14 @@ import com.google.firebase.database.FirebaseDatabase
                 color = Color.Gray
             )
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dim_32)))
             Text(
                 text = " THIS IS ONLY FOR TEST PURPOSE \nBOOKS DELIVERY  WILL START SOON  ",
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
             )
-            //Spacer(modifier = Modifier.height(32.dp))
+            //Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dim_32)))
             if (currentUser != null) {
                 Text(
                     text = "${currentUser.email} ",
@@ -136,12 +137,12 @@ import com.google.firebase.database.FirebaseDatabase
                             textAlign = TextAlign.Center
                 )
             }
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dim_32)))
 
             // Animated image (You can replace this with your own image)
             AnimatedOrderImage(item)
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dim_32)))
 
 
                 Button(
@@ -171,7 +172,7 @@ fun AnimatedCheckmarkIcon() {
     Image(
         painter = painterResource(id = R.drawable.baseline_verified_24) , // Placeholder image
         contentDescription = null, // Content description for accessibility
-        modifier = Modifier.size(80.dp) // Adjust the size as needed
+        modifier = Modifier.size(dimensionResource(id = R.dimen.dim_80)) // Adjust the size as needed
     )
 }
 
