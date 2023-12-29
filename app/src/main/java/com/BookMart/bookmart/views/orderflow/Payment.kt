@@ -30,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -105,32 +106,32 @@ fun Payment(navController: NavController, item: ListItem, quantity:Int) {
 
     Box(modifier = Modifier
         .background(colorResource(id = R.color.DarkSurfaceColor))
-        .padding(0.dp, 50.dp, 0.dp, 50.dp)
+        .padding(dimensionResource(id = R.dimen.dim_0), dimensionResource(id = R.dimen.dim_50), dimensionResource(id = R.dimen.dim_0), dimensionResource(id = R.dimen.dim_50))
 
     ) {
         ElevatedCard(
             elevation = CardDefaults.cardElevation(
-                defaultElevation = 10.dp
+                defaultElevation = dimensionResource(id = R.dimen.dim_10)
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp, 16.dp, 16.dp, 16.dp),
+                .padding(dimensionResource(id = R.dimen.dim_16), dimensionResource(id = R.dimen.dim_16), dimensionResource(id = R.dimen.dim_16), dimensionResource(id = R.dimen.dim_16)),
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(16.dp)
+                    .padding(dimensionResource(id = R.dimen.dim_16))
                 .verticalScroll(state = scrollState),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
                 ProgressBar(steps = listOf("Address", "Order", "Payment"), currentStep = current)
 
-                Spacer(modifier = Modifier.height(22.dp))
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dim_22)))
             Text(
                 text = "Select Payment Method",
                 style = MaterialTheme.typography.headlineMedium,
-                modifier = Modifier.padding(bottom = 16.dp)
+                modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.dim_16))
             )
 
             var selectedPaymentMethod by remember { mutableStateOf<PaymentMethod?>(null) }
@@ -140,7 +141,7 @@ fun Payment(navController: NavController, item: ListItem, quantity:Int) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 16.dp),
+                    .padding(bottom = dimensionResource(id = R.dimen.dim_16)),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 PaymentOption(
@@ -157,9 +158,9 @@ fun Payment(navController: NavController, item: ListItem, quantity:Int) {
                 )
             }
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dim_32)))
             Price(quantity = quantity, item = item)
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dim_32)))
 
             val MyOrdersViewModel = viewModel<MyOrdersViewModel>()
                 val orderlistkey=MyOrdersViewModel.orderkey
@@ -229,10 +230,10 @@ fun PaymentOption(
     Box(
         modifier = Modifier
             .width(150.dp)
-            .height(50.dp)
+            .height(dimensionResource(id = R.dimen.dim_50))
             .background(
                 color = if (isSelected) Color.Gray else Color.White,
-                shape = RoundedCornerShape(8.dp)
+                shape = RoundedCornerShape(dimensionResource(id = R.dimen.dim_8))
             )
             .clickable {
                 onPaymentMethodSelected(paymentMethod)

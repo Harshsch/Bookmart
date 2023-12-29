@@ -13,6 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -54,7 +55,7 @@ fun SplashScreen(navController: NavController) {
             contentDescription = "Logo",
             modifier = Modifier
                 .scale(scale.value)
-                .size(width = 1000.dp, height = 1000.dp)
+                .size(width = dimensionResource(id = R.dimen.dim_1000), height = dimensionResource(id = R.dimen.dim_1000))
         )
     }
 }
