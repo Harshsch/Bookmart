@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -110,17 +111,17 @@ fun MyOrdersScreen(navController: NavHostController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(dimensionResource(id = R.dimen.dim_16))
             .verticalScroll(state = scrollState),
     ) {
         Text(
             text = "My Orders ",
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
-                fontSize = 24.sp,
+                fontSize = dimensionResource(id = R.dimen.fon_24).value.sp,
                 color = MaterialTheme.colorScheme.onPrimary,
             ),
-            modifier = Modifier.padding( 16.dp)
+            modifier = Modifier.padding( dimensionResource(id = R.dimen.dim_16))
         )
         if (ordersItems.isNotEmpty()) {
             OrderItemList(ordersItems,navController=navController)
@@ -133,10 +134,10 @@ fun MyOrdersScreen(navController: NavHostController) {
             text = "Wishlist",
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
-                fontSize = 20.sp,
+                fontSize = dimensionResource(id = R.dimen.fon_20).value.sp,
                 color =MaterialTheme.colorScheme.onPrimary,
             ),
-            modifier = Modifier.padding(top = 16.dp)
+            modifier = Modifier.padding(top = dimensionResource(id = R.dimen.dim_16))
         )
         var totalprice = 0
         if (cartItems.isNotEmpty()) {
@@ -148,19 +149,19 @@ fun MyOrdersScreen(navController: NavHostController) {
         } else {
             Text(text = "Your Wishlist is empty.")
         }
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dim_16)))
         Row {
             Text(
                 text = "Total Wishlist Price=Rs $totalprice",
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp,
+                    fontSize = dimensionResource(id = R.dimen.fon_20).value.sp,
                     color = MaterialTheme.colorScheme.onPrimary,
                 ),
                 modifier = Modifier.align(CenterVertically),
                 textAlign = TextAlign.Center
             )
-            Spacer(modifier = Modifier.width(170.dp))
+            Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.dim_170)))
 
         }
       }
@@ -188,11 +189,11 @@ fun CartItemRow(cartItem: CartItem, navController:NavController) {
    // }
     ElevatedCard(
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 4.dp
+            defaultElevation = dimensionResource(id = R.dimen.dim_4)
         ),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp),
+            .padding(vertical = dimensionResource(id = R.dimen.dim_8)),
         colors = CardDefaults.cardColors(
             containerColor =colorResource(id = R.color.DarkSecondaryColor),
         ),
@@ -203,16 +204,16 @@ fun CartItemRow(cartItem: CartItem, navController:NavController) {
 
         Row(
             modifier = Modifier
-                .padding(16.dp)
+                .padding(dimensionResource(id = R.dimen.dim_16))
 
         ) { Column {
             Image(painter = painterResource(id = cartItem.imageResId),
                 contentDescription = "wishlist image",
                 modifier = Modifier
                     .height(
-                        100.dp
+                        dimensionResource(id = R.dimen.dim_100)
                     )
-                    .width(100.dp))
+                    .width(dimensionResource(id = R.dimen.dim_100)))
         }
             Column {
                 Text(
@@ -220,7 +221,7 @@ fun CartItemRow(cartItem: CartItem, navController:NavController) {
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         color = colorResource(id = R.color.LightBackgroundColor),
-                        fontSize = 14.sp
+                        fontSize = dimensionResource(id = R.dimen.fon_14).value.sp
                     ),
                 )
                 Row {
@@ -231,15 +232,15 @@ fun CartItemRow(cartItem: CartItem, navController:NavController) {
                 }
                 Column {
                     Row {
-                        Spacer(modifier = Modifier.width(20.dp))
+                        Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.dim_20)))
                         Button(
                             onClick = {
                                 // Trigger the deletion of specific entries here
                                 navController.navigate("BuyNow/${cartItem.id}/${cartItem.quantity}")
                             },
                             modifier = Modifier
-                                .padding(0.dp,5.dp,0.dp,0.dp)
-                                .height(40.dp)
+                                .padding(dimensionResource(id = R.dimen.dim_0),dimensionResource(id = R.dimen.dim_5),dimensionResource(id = R.dimen.dim_0),dimensionResource(id = R.dimen.dim_0))
+                                .height(dimensionResource(id = R.dimen.dim_40))
                                 .width(150.dp)
                         ) {
                             Text(text = "BuyNow")
@@ -257,7 +258,7 @@ fun CartItemRow(cartItem: CartItem, navController:NavController) {
 @Composable
 fun CartItemList(cartItems: List<CartItem>, navController: NavController) {
     LazyColumn(modifier = Modifier
-        .height(300.dp)
+        .height(dimensionResource(id = R.dimen.dim_300))
     ) {
         items(cartItems) { cartItem ->
             CartItemRow(cartItem,navController = navController )
@@ -267,7 +268,7 @@ fun CartItemList(cartItems: List<CartItem>, navController: NavController) {
 @Composable
 fun OrderItemList(orders: List<MyOrders>, navController: NavController) {
     LazyColumn(modifier = Modifier
-        .height(300.dp)
+        .height(dimensionResource(id = R.dimen.dim_300))
     ) {
         items(orders) { orderitem ->
             OrderItem(orderitem, navController =navController )
@@ -282,30 +283,30 @@ fun OrderItem(orders: MyOrders,navController: NavController) {
 
     ElevatedCard(
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 4.dp
+            defaultElevation = dimensionResource(id = R.dimen.dim_4)
         ),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp),
+            .padding(vertical = dimensionResource(id = R.dimen.dim_8)),
         colors = CardDefaults.cardColors(
             containerColor =colorResource(id = R.color.DarkSecondaryColor),
         ),
 
         ) {
-        Row(modifier = Modifier.padding(8.dp)) {
+        Row(modifier = Modifier.padding(dimensionResource(id = R.dimen.dim_8))) {
 
             Column {
                 Image(painter = painterResource(id = orders.imageResIdorder),
                     contentDescription = "wishlist image",
                     modifier = Modifier
                         .height(
-                            100.dp
+                            dimensionResource(id = R.dimen.dim_100)
                         )
-                        .width(100.dp))
+                        .width(dimensionResource(id = R.dimen.dim_100)))
             }
         Column(
             modifier = Modifier
-                .padding(16.dp)
+                .padding(dimensionResource(id = R.dimen.dim_16))
                 .clickable(onClick = {
                     navController.navigate("confirmation_screen/${orders.id}/${orders.orderkey}/${orders.orderlistkey}")
                 }),
@@ -315,7 +316,7 @@ fun OrderItem(orders: MyOrders,navController: NavController) {
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     color = colorResource(id = R.color.LightBackgroundColor),
-                    fontSize = 14.sp
+                    fontSize = dimensionResource(id = R.dimen.fon_14).value.sp
                 ),
             )
             Row {

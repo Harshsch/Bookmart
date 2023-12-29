@@ -45,16 +45,16 @@ fun SignUpScreen(navController: NavController,signupViewModel: SignupViewModel =
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.White)
-                .padding(28.dp)
+                .padding(dimensionResource(id = R.dimen.dim_28))
         ) {
             Column(modifier = Modifier.fillMaxSize()
-                .padding(16.dp)
+                .padding(dimensionResource(id = R.dimen.dim_16))
                 .verticalScroll(state = scrollState),
                 ) {
 
                 NormalTextComponent(value = stringResource(id = R.string.hello))
                 HeadingTextComponent(value = stringResource(id = R.string.create_account))
-                Spacer(modifier = Modifier.height(20.dp))
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dim_20)))
 
                 MyTextFieldComponent(
                     labelValue = stringResource(id =R.string.first_name),
@@ -101,7 +101,7 @@ fun SignUpScreen(navController: NavController,signupViewModel: SignupViewModel =
                     }
                )
 
-                Spacer(modifier = Modifier.height(40.dp))
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dim_40)))
                 val context = LocalContext.current
 
 
@@ -157,7 +157,7 @@ fun SignUpScreen(navController: NavController,signupViewModel: SignupViewModel =
                     },
                     isEnabled = signupViewModel.allValidationsPassed.value
                 )
-                Spacer(modifier = Modifier.height(20.dp))
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dim_20)))
 
                 DividerTextComponent()
 
