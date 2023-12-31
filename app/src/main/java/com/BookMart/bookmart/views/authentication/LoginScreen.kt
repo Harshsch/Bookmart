@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -27,8 +28,6 @@ import androidx.navigation.NavController
 import com.BookMart.bookmart.viewModels.authentication.login.LoginViewModel
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-
-
 @Composable
 fun LoginScreen(navController: NavController,loginViewModel: LoginViewModel = viewModel()) {
     val context = LocalContext.current
@@ -40,6 +39,7 @@ fun LoginScreen(navController: NavController,loginViewModel: LoginViewModel = vi
             modifier = Modifier
                 .fillMaxSize(),
             color=MaterialTheme.colorScheme.background
+
         ) {
             Column(
                 modifier = Modifier
@@ -49,7 +49,7 @@ fun LoginScreen(navController: NavController,loginViewModel: LoginViewModel = vi
             ) {
                 NormalTextComponent(value = stringResource(id = R.string.login))
                 HeadingTextComponent(value = stringResource(id = R.string.welcome))
-                Spacer(modifier = Modifier.height(20.dp))
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dim_20)))
 
                 MyTextFieldComponent(labelValue = stringResource(id = R.string.email),
                     painterResource(id = R.drawable.baseline_email_24),
@@ -67,12 +67,12 @@ fun LoginScreen(navController: NavController,loginViewModel: LoginViewModel = vi
                     },
                     errorStatus = loginViewModel.loginUIState.value.passwordError
                 )
-                Spacer(modifier = Modifier.height(20.dp))
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dim_20)))
 
                 if( loginViewModel.loginUIState.value.emailError)
                 {ClickableForgotPasswordTextComponent(loginViewModel.loginUIState.value.email.toString()) }
 
-                Spacer(modifier = Modifier.height(40.dp))
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dim_40)))
 
 
                 ButtonComponent(
@@ -96,7 +96,7 @@ fun LoginScreen(navController: NavController,loginViewModel: LoginViewModel = vi
                     isEnabled = loginViewModel.allValidationsPassed.value
                 )
 
-                Spacer(modifier = Modifier.height(20.dp))
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dim_20)))
 
                 DividerTextComponent()
 

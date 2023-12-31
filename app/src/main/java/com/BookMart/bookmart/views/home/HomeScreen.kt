@@ -40,6 +40,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -64,30 +65,30 @@ fun HomeScreen(navController: NavHostController)
     Surface(color = MaterialTheme.colorScheme.background){
         Column(
             modifier = Modifier
-                .padding(16.dp)
+                .padding(dimensionResource(id = R.dimen.dim_16))
         ) {
             var isCardVisible by remember { mutableStateOf(true) }
 
             if (isCardVisible) {
                 ElevatedCard(
                     elevation = CardDefaults.cardElevation(
-                        defaultElevation = 10.dp
+                        defaultElevation = dimensionResource(id = R.dimen.dim_10)
                     ),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp),
+                        .padding(dimensionResource(id = R.dimen.dim_16)),
                     colors = CardDefaults.cardColors(
                         containerColor = colorResource(id = R.color.DarkSecondaryColor),
                     ),
                 ) {
-                    Column(modifier = Modifier.padding(20.dp)) {
+                    Column(modifier = Modifier.padding(dimensionResource(id = R.dimen.dim_20))) {
                         Text(
                             text = stringResource(id = R.string.ready_for_exam),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .heightIn(),
                             style = TextStyle(
-                                fontSize = 30.sp,
+                                fontSize = dimensionResource(id = R.dimen.fon_30).value.sp,
                                 fontWeight = FontWeight.Bold,
                                 fontStyle = FontStyle.Normal
                             ), color = colorResource(id = R.color.LightBackgroundColor),
@@ -99,7 +100,8 @@ fun HomeScreen(navController: NavHostController)
             DepartmentBooks(navController = navController)
         }
     }
-    }
+
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -107,7 +109,7 @@ fun DepartmentBooks(navController: NavHostController) {
     var text by remember { mutableStateOf("") }
     val lazyColumnState = rememberLazyListState()
     val textState = rememberUpdatedState(text)
-    Spacer(modifier = Modifier.height(12.dp))
+    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dim_12)))
     TextField(
         value = text,
         onValueChange = {
@@ -117,8 +119,8 @@ fun DepartmentBooks(navController: NavHostController) {
         },
         modifier = Modifier
             .fillMaxWidth()
-            .padding(20.dp)
-            .clip(RoundedCornerShape(30.dp))
+            .padding(dimensionResource(id = R.dimen.dim_20))
+            .clip(RoundedCornerShape(dimensionResource(id = R.dimen.dim_30)))
         ,
         leadingIcon = {
             IconButton(onClick = { /*TODO*/ }) {
@@ -148,11 +150,11 @@ fun DepartmentBooks(navController: NavHostController) {
         item {
             Text(
                 text = "Search Results",
-                Modifier.padding(10.dp)
+                Modifier.padding(dimensionResource(id = R.dimen.dim_10))
                 ,
 
                  style = TextStyle(
-                    fontSize = 24.sp,
+                    fontSize = dimensionResource(id = R.dimen.fon_24).value.sp,
                     fontWeight = FontWeight(600),
                     color =MaterialTheme.colorScheme.onPrimary,
 
@@ -170,10 +172,10 @@ fun DepartmentBooks(navController: NavHostController) {
         item {
             Text(
                 text = "First Year",
-                Modifier.padding(10.dp),
+                Modifier.padding(dimensionResource(id = R.dimen.dim_10)),
 
                 style = TextStyle(
-                    fontSize = 24.sp,
+                    fontSize = dimensionResource(id = R.dimen.fon_24).value.sp,
                     fontWeight = FontWeight(600),
                     color =MaterialTheme.colorScheme.onPrimary,
 
@@ -192,10 +194,10 @@ fun DepartmentBooks(navController: NavHostController) {
         item {
             Text(
                 text = "Computer Science ",
-                Modifier.padding(10.dp),
+                Modifier.padding(dimensionResource(id = R.dimen.dim_10)),
 
                 style = TextStyle(
-                    fontSize = 24.sp,
+                    fontSize = dimensionResource(id = R.dimen.fon_24).value.sp,
                     fontWeight = FontWeight(600),
                     color =MaterialTheme.colorScheme.onPrimary,
 
@@ -206,11 +208,11 @@ fun DepartmentBooks(navController: NavHostController) {
         item {
             Text(
                 text = "SE",
-                Modifier.padding(10.dp),
+                Modifier.padding(dimensionResource(id = R.dimen.dim_10)),
                 textAlign = TextAlign.Center,
 
                 style = TextStyle(
-                    fontSize = 24.sp,
+                    fontSize = dimensionResource(id = R.dimen.fon_24).value.sp,
                     fontWeight = FontWeight(600),
                     color = MaterialTheme.colorScheme.onPrimary,
                     textAlign = TextAlign.Center,
@@ -227,11 +229,11 @@ fun DepartmentBooks(navController: NavHostController) {
         item {
             Text(
                 text = "TE ",
-                Modifier.padding(10.dp),
+                Modifier.padding(dimensionResource(id = R.dimen.dim_10)),
                 textAlign = TextAlign.Center,
 
                 style = TextStyle(
-                    fontSize = 24.sp,
+                    fontSize = dimensionResource(id = R.dimen.fon_24).value.sp,
                     fontWeight = FontWeight(600),
                     color = MaterialTheme.colorScheme.onPrimary,
                     textAlign = TextAlign.Center,
@@ -248,11 +250,11 @@ fun DepartmentBooks(navController: NavHostController) {
         item {
             Text(
                 text = "BE ",
-                Modifier.padding(10.dp),
+                Modifier.padding(dimensionResource(id = R.dimen.dim_10)),
                 textAlign = TextAlign.Center,
 
                 style = TextStyle(
-                    fontSize = 24.sp,
+                    fontSize = dimensionResource(id = R.dimen.fon_24).value.sp,
                     fontWeight = FontWeight(600),
                     color = MaterialTheme.colorScheme.onPrimary,
                     textAlign = TextAlign.Center,
@@ -269,9 +271,9 @@ fun DepartmentBooks(navController: NavHostController) {
         item {
             Text(
                 text = "Information Technology",
-                Modifier.padding(10.dp),
+                Modifier.padding(dimensionResource(id = R.dimen.dim_10)),
                 style = TextStyle(
-                    fontSize = 24.sp,
+                    fontSize = dimensionResource(id = R.dimen.fon_24).value.sp,
                     fontWeight = FontWeight(600),
                     color =MaterialTheme.colorScheme.onPrimary,
 
@@ -282,11 +284,11 @@ fun DepartmentBooks(navController: NavHostController) {
         item {
             Text(
                 text = "SE ",
-                Modifier.padding(10.dp),
+                Modifier.padding(dimensionResource(id = R.dimen.dim_10)),
                 textAlign = TextAlign.Center,
 
                 style = TextStyle(
-                    fontSize = 24.sp,
+                    fontSize = dimensionResource(id = R.dimen.fon_24).value.sp,
                     fontWeight = FontWeight(600),
                     color = MaterialTheme.colorScheme.onPrimary,
                     textAlign = TextAlign.Center,
@@ -303,11 +305,11 @@ fun DepartmentBooks(navController: NavHostController) {
         item {
             Text(
                 text = "TE ",
-                Modifier.padding(10.dp),
+                Modifier.padding(dimensionResource(id = R.dimen.dim_10)),
                 textAlign = TextAlign.Center,
 
                 style = TextStyle(
-                    fontSize = 24.sp,
+                    fontSize = dimensionResource(id = R.dimen.fon_24).value.sp,
                     fontWeight = FontWeight(600),
                     color = MaterialTheme.colorScheme.onPrimary,
                     textAlign = TextAlign.Center,
@@ -324,11 +326,11 @@ fun DepartmentBooks(navController: NavHostController) {
         item {
             Text(
                 text = "BE ",
-                Modifier.padding(10.dp),
+                Modifier.padding(dimensionResource(id = R.dimen.dim_10)),
                 textAlign = TextAlign.Center,
 
                 style = TextStyle(
-                    fontSize = 24.sp,
+                    fontSize = dimensionResource(id = R.dimen.fon_24).value.sp,
                     fontWeight = FontWeight(600),
                     color = MaterialTheme.colorScheme.onPrimary,
                     textAlign = TextAlign.Center,
@@ -345,9 +347,9 @@ fun DepartmentBooks(navController: NavHostController) {
         item {
             Text(
                 text = "Electronics And Telecommunication",
-                Modifier.padding(10.dp),
+                Modifier.padding(dimensionResource(id = R.dimen.dim_10)),
                 style = TextStyle(
-                    fontSize = 24.sp,
+                    fontSize = dimensionResource(id = R.dimen.fon_24).value.sp,
                     fontWeight = FontWeight(600),
                     color =MaterialTheme.colorScheme.onPrimary,
                     )
@@ -363,9 +365,9 @@ fun DepartmentBooks(navController: NavHostController) {
         item {
             Text(
                 text = "Comming Soon........",
-                Modifier.padding(10.dp),
+                Modifier.padding(dimensionResource(id = R.dimen.dim_10)),
                 style = TextStyle(
-                    fontSize = 24.sp,
+                    fontSize = dimensionResource(id = R.dimen.fon_24).value.sp,
                     fontWeight = FontWeight(600),
                     color =MaterialTheme.colorScheme.onPrimary,
                     textAlign = TextAlign.Center,
@@ -384,31 +386,28 @@ fun BooksRow(navController: NavHostController, item: ListItem) {
             onClick = { navController.navigate("BookDisplay/${item.id}")
             },
             modifier = Modifier
-                .padding(5.dp)
+                .padding(dimensionResource(id = R.dimen.dim_5))
                 .shadow(
-                    elevation = 14.dp,
+                    elevation = dimensionResource(id = R.dimen.dim_14),
                     spotColor = Color(0x0D06070D),
                     ambientColor = Color(0x0D06070D)
                 )
-                .width(180.dp)
+                .width(dimensionResource(id = R.dimen.dim_180))
                 .height(290.60001.dp),
             colors = CardDefaults.cardColors(
                 containerColor =colorResource(id = R.color.DarkSecondaryColor),
             ),
-
-
-
             ) {
             Image(
                 painter = painterResource(id = item.imageResId),
                 contentDescription = "image description",
                 modifier = Modifier
                     .shadow(
-                        elevation = 14.dp,
+                        elevation = dimensionResource(id = R.dimen.dim_14),
                         spotColor = Color(0x0D06070D),
                         ambientColor = Color(0x0D06070D)
                     )
-                    .width(180.dp)
+                    .width(dimensionResource(id = R.dimen.dim_180))
                     .height(249.60001.dp),
                 contentScale = ContentScale.FillBounds
             )
@@ -416,7 +415,7 @@ fun BooksRow(navController: NavHostController, item: ListItem) {
                 text = item.name,
                 Modifier,
                 style = TextStyle(
-                    fontSize = 16.sp,
+                    fontSize = dimensionResource(id = R.dimen.fon_16).value.sp,
                     fontWeight = FontWeight(600),
                     color = colorResource(id = R.color.LightBackgroundColor),
                     textAlign = TextAlign.Center,
@@ -425,11 +424,11 @@ fun BooksRow(navController: NavHostController, item: ListItem) {
             Text(
                 text = "Year ${item.year}, Semester ${item.semester}",
                 Modifier
-                    .width(155.dp)
-                    .height(18.dp)
+                    .width(dimensionResource(id = R.dimen.dim_155))
+                    .height(dimensionResource(id = R.dimen.dim_18))
                     .align(Alignment.CenterHorizontally),
                 style = TextStyle(
-                    fontSize = 12.sp,
+                    fontSize = dimensionResource(id = R.dimen.fon_12).value.sp,
                     fontWeight = FontWeight(500),
                     color = Color(0xFFF2F2F2),
                     textAlign = TextAlign.Center,
@@ -438,11 +437,11 @@ fun BooksRow(navController: NavHostController, item: ListItem) {
             Text(
                 text = "Department: ${item.department}",
                 Modifier
-                    .width(155.dp)
-                    .height(18.dp)
+                    .width(dimensionResource(id = R.dimen.dim_155))
+                    .height(dimensionResource(id = R.dimen.dim_18))
                     .align(Alignment.CenterHorizontally),
                 style = TextStyle(
-                    fontSize = 12.sp,
+                    fontSize = dimensionResource(id = R.dimen.fon_12).value.sp,
                     fontWeight = FontWeight(500),
                     color = Color(0xFF9D9D9D),
                     textAlign = TextAlign.Center,
@@ -451,11 +450,11 @@ fun BooksRow(navController: NavHostController, item: ListItem) {
             Text(
                 text = "Price: ${item.price}",
                 Modifier
-                    .width(155.dp)
-                    .height(18.dp)
+                    .width(dimensionResource(id = R.dimen.dim_155))
+                    .height(dimensionResource(id = R.dimen.dim_18))
                     .align(Alignment.CenterHorizontally),
                 style = TextStyle(
-                    fontSize = 12.sp,
+                    fontSize = dimensionResource(id = R.dimen.fon_12).value.sp,
                     fontWeight = FontWeight(500),
                     color = Color(0xFF9D9D9D),
                     textAlign = TextAlign.Center,

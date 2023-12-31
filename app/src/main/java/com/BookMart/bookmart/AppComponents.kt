@@ -37,6 +37,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
@@ -63,9 +64,9 @@ fun NormalTextComponent(value: String) {
         text = value,
         modifier = Modifier
             .fillMaxWidth()
-            .heightIn(min = 40.dp),
+            .heightIn(min = dimensionResource(id = R.dimen.dim_40)),
         style = TextStyle(
-            fontSize = 24.sp,
+            fontSize = dimensionResource(id = R.dimen.fon_24).value.sp,
             fontWeight = FontWeight.Normal,
             fontStyle = FontStyle.Normal
         ), color = MaterialTheme.colorScheme.onPrimary,
@@ -81,7 +82,7 @@ fun HeadingTextComponent(value: String) {
             .fillMaxWidth()
             .heightIn(),
         style = TextStyle(
-            fontSize = 30.sp,
+            fontSize = dimensionResource(id = R.dimen.fon_30).value.sp,
             fontWeight = FontWeight.Bold,
             fontStyle = FontStyle.Normal
         ), color = MaterialTheme.colorScheme.onPrimary,
@@ -200,7 +201,7 @@ fun CheckboxComponent(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .heightIn(56.dp),
+            .heightIn(dimensionResource(id = R.dimen.dim_56)),
         verticalAlignment = Alignment.CenterVertically,
     ) {
 
@@ -265,19 +266,19 @@ fun ButtonComponent(value: String,
     Button(
         modifier = Modifier
             .fillMaxWidth()
-            .heightIn(48.dp),
+            .heightIn(dimensionResource(id = R.dimen.dim_48)),
         onClick = {
             onButtonClicked.invoke()
         },
         contentPadding = PaddingValues(),
         colors = ButtonDefaults.buttonColors(Color.Transparent),
-        shape = RoundedCornerShape(50.dp),
+        shape = RoundedCornerShape(dimensionResource(id = R.dimen.dim_50)),
         enabled = isEnabled
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .heightIn(48.dp)
+                .heightIn(dimensionResource(id = R.dimen.dim_48))
                 .background(
                     color = colorResource(id = R.color.DarkBgColor)
 
@@ -286,7 +287,7 @@ fun ButtonComponent(value: String,
         ) {
             Text(
                 text = value,
-                fontSize = 18.sp,
+                fontSize = dimensionResource(id = R.dimen.fon_18).value.sp,
                 color = Color.White,
                 fontWeight = FontWeight.Bold
             )
@@ -308,21 +309,23 @@ fun DividerTextComponent() {
                 .fillMaxWidth()
                 .weight(1f),
             color = DarkSecondaryColor,
-            thickness = 1.dp
+            thickness = dimensionResource(id = R.dimen.dim_1)
         )
 
         Text(
-            modifier = Modifier.padding(8.dp),
+            modifier = Modifier.padding(dimensionResource(id = R.dimen.dim_8)),
             text = stringResource(R.string.or),
+
             fontSize = 18.sp,
             color = MaterialTheme.colorScheme.onPrimary
+
         )
         Divider(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f),
             color = DarkSecondaryColor,
-            thickness = 1.dp
+            thickness = dimensionResource(id = R.dimen.dim_1)
         )
     }
 }
@@ -345,9 +348,9 @@ fun ClickableLoginTextComponent(tryingToLogin: Boolean = true, onTextSelected: (
     ClickableText(
         modifier = Modifier
             .fillMaxWidth()
-            .heightIn(min = 40.dp),
+            .heightIn(min = dimensionResource(id = R.dimen.dim_40)),
         style = TextStyle(
-            fontSize = 21.sp,
+            fontSize = dimensionResource(id = R.dimen.fon_21).value.sp,
             fontWeight = FontWeight.Normal,
             fontStyle = FontStyle.Normal,
             textAlign = TextAlign.Center
@@ -381,9 +384,9 @@ fun ClickableForgotPasswordTextComponent(email:String) {
     ClickableText(
         modifier = Modifier
             .fillMaxWidth()
-            .heightIn(min = 40.dp),
+            .heightIn(min = dimensionResource(id = R.dimen.dim_40)),
         style = TextStyle(
-            fontSize = 21.sp,
+            fontSize = dimensionResource(id = R.dimen.fon_21).value.sp,
             fontWeight = FontWeight.Normal,
             fontStyle = FontStyle.Normal,
             textAlign = TextAlign.Center

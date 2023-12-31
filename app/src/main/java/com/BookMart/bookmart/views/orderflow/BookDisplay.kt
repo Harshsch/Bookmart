@@ -39,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -67,13 +68,15 @@ fun BookDisplay(navController: NavHostController, item: ListItem) {
         // Animate scroll to the top
         scrollState.scrollTo( 10000)
     }
+
     Surface(modifier = Modifier
         .padding(16.dp),
         color=MaterialTheme.colorScheme.background
     ) {
+
             Column(
                 modifier = Modifier.fillMaxSize()
-                    .padding(16.dp)
+                    .padding(dimensionResource(id = R.dimen.dim_16))
                     .verticalScroll(state = scrollState),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
@@ -83,15 +86,15 @@ fun BookDisplay(navController: NavHostController, item: ListItem) {
                     painter = painterResource(id = item.imageResId),
                     contentDescription = "Book Cover",
                 )
-                Column(modifier = Modifier.padding(15.dp),
+                Column(modifier = Modifier.padding(dimensionResource(id = R.dimen.dim_15)),
                     horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                     Text(
                         text = item.name,
                         modifier = Modifier
-                            .padding(16.dp),
+                            .padding(dimensionResource(id = R.dimen.dim_16)),
                         style = TextStyle(
-                            fontSize = 16.sp,
+                            fontSize = dimensionResource(id = R.dimen.fon_16).value.sp,
                             fontWeight = FontWeight(600),
                             color = MaterialTheme.colorScheme.onPrimary,
                             textAlign = TextAlign.Center,
@@ -101,7 +104,7 @@ fun BookDisplay(navController: NavHostController, item: ListItem) {
                         text = item.department,
                         modifier = Modifier,
                         style = TextStyle(
-                            fontSize = 18.sp,
+                            fontSize = dimensionResource(id = R.dimen.fon_18).value.sp,
                             fontWeight = FontWeight(600),
                             color = MaterialTheme.colorScheme.onPrimary,
                             textAlign = TextAlign.Center,
@@ -112,15 +115,15 @@ fun BookDisplay(navController: NavHostController, item: ListItem) {
                 Text(
                     text = item.description,
                     modifier = Modifier
-                        .padding(16.dp),
+                        .padding(dimensionResource(id = R.dimen.dim_16)),
                     style = TextStyle(
-                        fontSize = 14.sp,
+                        fontSize = dimensionResource(id = R.dimen.fon_14).value.sp,
                         fontWeight = FontWeight(400),
                         color = Color(0xFF9D9D9D),
                     )
                 )
 
-                Spacer(modifier = Modifier.height(32.dp))
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dim_32)))
                 Row {
                     Text("Price per Unit:  ")
                     Text("₹${item.price} ")
@@ -128,7 +131,7 @@ fun BookDisplay(navController: NavHostController, item: ListItem) {
                 }
 
                 Row(
-                    modifier = Modifier.padding(top = 8.dp),
+                    modifier = Modifier.padding(top = dimensionResource(id = R.dimen.dim_8)),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
@@ -137,7 +140,7 @@ fun BookDisplay(navController: NavHostController, item: ListItem) {
                     )
                     IconButton(
                         onClick = { if (quantity > 1) quantity-- },
-                        modifier = Modifier.size(32.dp)
+                        modifier = Modifier.size(dimensionResource(id = R.dimen.dim_32))
                     ) {
                         Text(
                             text = "-",
@@ -151,7 +154,7 @@ fun BookDisplay(navController: NavHostController, item: ListItem) {
                     )
                     IconButton(
                         onClick = { quantity++ },
-                        modifier = Modifier.size(32.dp)
+                        modifier = Modifier.size(dimensionResource(id = R.dimen.dim_32))
                     ) {
                         Text(
                             text = "+",
@@ -162,9 +165,9 @@ fun BookDisplay(navController: NavHostController, item: ListItem) {
                 var totalprice=item.price *quantity
                 Text(
                     text = "₹${totalprice}", // Assuming item.price is the price of the book
-                    modifier = Modifier.padding(top = 8.dp),
+                    modifier = Modifier.padding(top = dimensionResource(id = R.dimen.dim_8)),
                     style = TextStyle(
-                        fontSize = 18.sp,
+                        fontSize = dimensionResource(id = R.dimen.fon_18).value.sp,
                         fontWeight = FontWeight(600),
                         color = MaterialTheme.colorScheme.onPrimary,
                         textAlign = TextAlign.Center,
@@ -193,16 +196,16 @@ fun BookDisplay(navController: NavHostController, item: ListItem) {
                             }
                         },
                         modifier = Modifier
-                            .width(173.dp)
-                            .height(55.dp)
+                            .width(dimensionResource(id = R.dimen.dim_173))
+                            .height(dimensionResource(id = R.dimen.dim_55))
                             .background(
                                 color = Color.White,
-                                shape = RoundedCornerShape(size = 26.dp)
+                                shape = RoundedCornerShape(size = dimensionResource(id = R.dimen.dim_26))
                             ),
                     ) {
                         Text(text = "Wishlist")
                     }
-                    Spacer(modifier = Modifier.width(10.dp))
+                    Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.dim_10)))
                     Button(
                         onClick = {
                             // Check if user is signed in (non-null) and update UI accordingly.
@@ -215,11 +218,11 @@ fun BookDisplay(navController: NavHostController, item: ListItem) {
                             }
                         },
                         modifier = Modifier
-                            .width(173.dp)
-                            .height(55.dp)
+                            .width(dimensionResource(id = R.dimen.dim_173))
+                            .height(dimensionResource(id = R.dimen.dim_55))
                             .background(
                                 color = Color.White,
-                                shape = RoundedCornerShape(size = 26.dp)
+                                shape = RoundedCornerShape(size = dimensionResource(id = R.dimen.dim_26))
                             )
                     ) {
                         Text(text = "Buy")
@@ -257,9 +260,9 @@ fun QuantitySelector(
 
         Text(
             text = quantity.toString(),
-            modifier = Modifier.padding(horizontal = 16.dp),
+            modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.dim_16)),
             fontWeight = FontWeight.Bold,
-            fontSize = 18.sp
+            fontSize = dimensionResource(id = R.dimen.fon_18).value.sp
         )
 
         IconButton(

@@ -36,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -89,6 +90,8 @@ fun SavedAddressesScreen(navController: NavController) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
+
+
         ) {
             LazyColumn(
                 modifier = Modifier
@@ -175,10 +178,10 @@ fun AddressItem(address: Address, navController: NavController) {
 }
 
     ElevatedCard(
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = dimensionResource(id = R.dimen.dim_4)),
         modifier = Modifier
             .fillMaxWidth()
-            //.padding(vertical = 8.dp)
+            //.padding(vertical = dimensionResource(id = R.dimen.dim_8))
             .clickable {
 
                 databaseReference.setValue(address)
@@ -195,8 +198,8 @@ fun AddressItem(address: Address, navController: NavController) {
                     imageVector = Icons.Default.CheckCircle,
                     contentDescription = "Selected Icon",
                     modifier = Modifier
-                        .padding(10.dp)
-                        .size(26.dp)
+                        .padding(dimensionResource(id = R.dimen.dim_10))
+                        .size(dimensionResource(id = R.dimen.dim_26))
                         .align(Alignment.CenterVertically),
                     tint = Color.Green
                 )
@@ -205,8 +208,8 @@ fun AddressItem(address: Address, navController: NavController) {
                     imageVector = Icons.Default.Circle ,
                     contentDescription = "Selected Icon",
                     modifier = Modifier
-                        .padding(10.dp)
-                        .size(24.dp)
+                        .padding(dimensionResource(id = R.dimen.dim_10))
+                        .size(dimensionResource(id = R.dimen.dim_24))
                         .align(Alignment.CenterVertically),
                     tint = Color.Black
                 )
@@ -214,13 +217,13 @@ fun AddressItem(address: Address, navController: NavController) {
 
 
             Column(
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier.padding(dimensionResource(id = R.dimen.dim_16))
             ) {
                 Text(
                     text = address.name,
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
-                        fontSize = 14.sp,
+                        fontSize = dimensionResource(id = R.dimen.fon_14).value.sp,
                         color = colorResource(id = R.color.LightBackgroundColor),
                     ),
                 )
@@ -249,7 +252,7 @@ fun AddressItem(address: Address, navController: NavController) {
 
 @Composable
 fun AddressItemList(address: List<Address>, navController: NavController) {
-    LazyColumn(modifier = Modifier.height(300.dp)) {
+    LazyColumn(modifier = Modifier.height(dimensionResource(id = R.dimen.dim_300))) {
         items(address) { addresses ->
             AddressItem(addresses, navController = navController)
         }
@@ -274,8 +277,8 @@ fun AddressTextField(
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 8.dp)
-                .padding(8.dp),
+                .padding(bottom = dimensionResource(id = R.dimen.dim_8))
+                .padding(dimensionResource(id = R.dimen.dim_8)),
             label = { Text(text = label) },
             value = textValue.value,
             onValueChange = {

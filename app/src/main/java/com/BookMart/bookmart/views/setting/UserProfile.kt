@@ -29,6 +29,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -100,15 +101,15 @@ fun UserProfile(
             verticalArrangement = Arrangement.Center,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(20.dp)
+                .padding(dimensionResource(id = R.dimen.dim_20))
                 //.background(color = colorResource(id = R.color.DarkSurfaceColor))
         ) {
             Image(
                 painter = painterResource(id = R.drawable.baseline_account_circle_24),
                 contentDescription = "User",
                 alignment = Alignment.Center,
-                modifier = Modifier.padding(16.dp)
-                    .size(100.dp)
+                modifier = Modifier.padding(dimensionResource(id = R.dimen.dim_16))
+                    .size(dimensionResource(id = R.dimen.dim_100))
             )
             UserInfo(
                 Name = user?.displayName,
@@ -145,7 +146,7 @@ fun UserProfile(
                 errorStatus = signupViewModel.registrationUIState.value.lastNameError
             )
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dim_20)))
 
             ButtonComponent(
                 value = stringResource(id = R.string.update),
@@ -197,30 +198,33 @@ fun UserInfo(
 ) {
     ElevatedCard(
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 5.dp
+            defaultElevation = dimensionResource(id = R.dimen.dim_5)
         ),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
+            .padding(dimensionResource(id = R.dimen.dim_16)),
         colors = CardDefaults.cardColors(
             containerColor = DarkSurfaceColor,
         ),
     ) {
         Column(
             modifier = Modifier
-                .padding(16.dp)
+                .padding(dimensionResource(id = R.dimen.dim_16))
         ) {
             Text(
                 text = "User Information ",
                 fontWeight = FontWeight.Bold,
+
                 fontSize = 22.sp,
                 color = Color.White
+
             )
             Row() {
                 if (Name != null) {
                     Text(
                         text = "Name: $Name",
                         fontWeight = FontWeight.Normal,
+
                         fontSize = 18.sp,
                         color = Color.White
                     )
@@ -230,6 +234,7 @@ fun UserInfo(
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp,
                         color = Color.White
+
                     )
                 }
 
@@ -239,8 +244,10 @@ fun UserInfo(
                     Text(
                         text = "Mobile Number : $mobilenumber",
                         fontWeight = FontWeight.Normal,
+
                         fontSize = 18.sp,
                         color = Color.White
+
                     )
                 } else {
                     Text(
@@ -248,13 +255,14 @@ fun UserInfo(
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp,
                         color = Color.White
+
                     )
                 }
 
             }
+
             Spacer(modifier = Modifier.height(16.dp))
             Row (){
-
 
                 if (mobilenumber != null) {
                     Text(
@@ -262,16 +270,18 @@ fun UserInfo(
                         fontWeight = FontWeight.Normal,
                         fontSize = 18.sp,
                         color = Color.White
+
                     )
                 } else {
                     Text(
                         text = "Mobile Number not available",
                         fontWeight = FontWeight.Bold,
+
                         fontSize = 18.sp,
                         color = Color.White
                     )
                 }
-                Spacer(modifier = Modifier.width(90.dp))
+                Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.dim_90)))
                 Icon(
                     painter = painterResource(id = R.drawable.baseline_edit_24) ,
                     contentDescription = "EditAddress",

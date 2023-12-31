@@ -35,6 +35,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -54,7 +55,7 @@ fun SettingsScreen(navController: NavHostController) {
         ) { LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .fillMaxSize().padding(16.dp)
+                .fillMaxSize().padding(dimensionResource(id = R.dimen.dim_16))
 
 
             ){
@@ -64,9 +65,9 @@ fun SettingsScreen(navController: NavHostController) {
                     text = "Hey! BookMart Customer",
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
-                        fontSize = 24.sp,
+                        fontSize = dimensionResource(id = R.dimen.fon_24).value.sp,
                         color =MaterialTheme.colorScheme.onPrimary,
-                    ),           modifier = Modifier.padding(bottom = 16.dp),
+                    ),           modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.dim_16)),
 
                     )
             }
@@ -93,7 +94,7 @@ fun SettingsScreen(navController: NavHostController) {
                     thickness = 0.5.dp,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 16.dp)
+                        .padding(vertical = dimensionResource(id = R.dimen.dim_16))
                 )
             }
 
@@ -104,7 +105,7 @@ fun SettingsScreen(navController: NavHostController) {
                     thickness = 0.5.dp,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 16.dp)
+                        .padding(vertical = dimensionResource(id = R.dimen.dim_16))
                 )
             }
 
@@ -113,9 +114,9 @@ fun SettingsScreen(navController: NavHostController) {
                     text = "Feedback & Information",
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
-                        fontSize = 24.sp,
+                        fontSize = dimensionResource(id = R.dimen.fon_24).value.sp,
                         color =MaterialTheme.colorScheme.onPrimary,
-                    ),  modifier = Modifier.padding(bottom = 16.dp),
+                    ),  modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.dim_16)),
 
                     )
             }
@@ -137,7 +138,7 @@ fun SettingsScreen(navController: NavHostController) {
             }
 
             item {
-                Spacer(modifier = Modifier.height(32.dp))
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dim_32)))
             }
             item{
         Button(
@@ -173,27 +174,27 @@ fun SettingsItem(icon: ImageVector, title: String, onClick: () -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .clickable { onClick() }
-            .padding(vertical = 12.dp)
+            .padding(vertical = dimensionResource(id = R.dimen.dim_12))
             //.background(colorResource(id = R.color.DarkSecondaryColor))
     ) {
         Icon(
             imageVector = icon,
             contentDescription = null,
-            modifier = Modifier.size(24.dp),
+            modifier = Modifier.size(dimensionResource(id = R.dimen.dim_24)),
             tint =MaterialTheme.colorScheme.onPrimary,
 
             )
-        Spacer(modifier = Modifier.width(16.dp))
+        Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.dim_16)))
         Text(text = title,style = TextStyle(
             fontWeight = FontWeight.Normal,
-            fontSize = 24.sp,
+            fontSize = dimensionResource(id = R.dimen.fon_24).value.sp,
             color =MaterialTheme.colorScheme.onPrimary,
         ),)
         Spacer(modifier = Modifier.weight(1f))
         Icon(
             painter = painterResource(id = R.drawable.baseline_chevron_right_24),
             contentDescription = null,
-            modifier = Modifier.size(24.dp),
+            modifier = Modifier.size(dimensionResource(id = R.dimen.dim_24)),
             tint =MaterialTheme.colorScheme.onPrimary,
 
             )
@@ -207,7 +208,7 @@ fun TermsAndCondition() {
         //elevation = CardDefaults.elevation(5.dp),
         modifier = Modifier
             .wrapContentSize()
-            .padding(16.dp)
+            .padding(dimensionResource(id = R.dimen.dim_16))
             .verticalScroll(state = scrollState)
     )
     {
@@ -292,7 +293,7 @@ fun FAQ() {
     ElevatedCard(
         modifier = Modifier
             .wrapContentSize()
-            .padding(16.dp)
+            .padding(dimensionResource(id = R.dimen.dim_16))
             .verticalScroll(state = scrollState)
     )
     {

@@ -25,6 +25,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -49,32 +50,32 @@ fun Order_Details(navController: NavController, item: ListItem, quantity:Int) {
     ) {
             Column(
                 modifier = Modifier.fillMaxSize()
-                    .padding(16.dp)
+                    .padding(dimensionResource(id = R.dimen.dim_16))
                 .verticalScroll(state = scrollState),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
                 ProgressBar(steps = listOf("Address", "Order", "Payment"), currentStep = current)
 
-                Spacer(modifier = Modifier.height(22.dp))
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dim_22)))
                 Text(
                     text = "Product Information",
                     style = MaterialTheme.typography.headlineMedium,
-                    modifier = Modifier.padding(bottom = 16.dp)
+                    modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.dim_16))
                 )
-                Card(modifier = Modifier.padding(8.dp)) {
+                Card(modifier = Modifier.padding(dimensionResource(id = R.dimen.dim_8))) {
                     Row {
                         Text("Product Name:",
                             fontWeight = FontWeight.Bold,
-                            fontSize = 18.sp)
+                            fontSize = dimensionResource(id = R.dimen.fon_18).value.sp)
                         Text(item.name)
 
                     }
-                    Spacer(modifier = Modifier.height(12.dp))
+                    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dim_12)))
                     Row {
                         Text("Description: ",
                             fontWeight = FontWeight.Bold,
-                            fontSize = 18.sp)
+                            fontSize = dimensionResource(id = R.dimen.fon_18).value.sp)
                         Text(item.description)
 
                     }
@@ -86,9 +87,9 @@ fun Order_Details(navController: NavController, item: ListItem, quantity:Int) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(text = "${item.price} X ${quantity }Qty =Rs${total}",
                         fontWeight = FontWeight.Bold,
-                        fontSize = 18.sp)
+                        fontSize = dimensionResource(id = R.dimen.fon_18).value.sp)
 
-                    Spacer(modifier = Modifier.width(50.dp))
+                    Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.dim_50)))
                     Button(onClick = {
                         navController.navigate("Payment/${item.id}/$quantity")
                     })
