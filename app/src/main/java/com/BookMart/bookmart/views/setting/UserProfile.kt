@@ -214,23 +214,27 @@ fun UserInfo(
             Text(
                 text = "User Information ",
                 fontWeight = FontWeight.Bold,
-                fontSize = dimensionResource(id = R.dimen.fon_22).value.sp,
-                color = MaterialTheme.colorScheme.onPrimary
+
+                fontSize = 22.sp,
+                color = Color.White
+
             )
             Row() {
                 if (Name != null) {
                     Text(
                         text = "Name: $Name",
                         fontWeight = FontWeight.Normal,
-                        fontSize = dimensionResource(id = R.dimen.fon_18).value.sp,
-                        color = MaterialTheme.colorScheme.onPrimary
+
+                        fontSize = 18.sp,
+                        color = Color.White
                     )
                 } else {
                     Text(
                         text = "Null",
                         fontWeight = FontWeight.Bold,
-                        fontSize = dimensionResource(id = R.dimen.fon_18).value.sp,
-                        color = MaterialTheme.colorScheme.onPrimary
+                        fontSize = 18.sp,
+                        color = Color.White
+
                     )
                 }
 
@@ -240,33 +244,41 @@ fun UserInfo(
                     Text(
                         text = "Mobile Number : $mobilenumber",
                         fontWeight = FontWeight.Normal,
-                        fontSize = dimensionResource(id = R.dimen.fon_18).value.sp,
-                        color = MaterialTheme.colorScheme.onPrimary
+
+                        fontSize = 18.sp,
+                        color = Color.White
+
                     )
                 } else {
                     Text(
                         text = "Mobile Number not available",
                         fontWeight = FontWeight.Bold,
-                        fontSize = dimensionResource(id = R.dimen.fon_18).value.sp,
-                        color = MaterialTheme.colorScheme.onPrimary
+                        fontSize = 18.sp,
+                        color = Color.White
+
                     )
                 }
+
             }
-            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dim_16)))
-            Row {
+
+            Spacer(modifier = Modifier.height(16.dp))
+            Row (){
+
                 if (mobilenumber != null) {
                     Text(
                         text = " Default Address : $AddressStreet\n $AddressCity",
                         fontWeight = FontWeight.Normal,
-                        fontSize = dimensionResource(id = R.dimen.fon_18).value.sp,
-                        color =MaterialTheme.colorScheme.onPrimary
+                        fontSize = 18.sp,
+                        color = Color.White
+
                     )
                 } else {
                     Text(
                         text = "Mobile Number not available",
                         fontWeight = FontWeight.Bold,
-                        fontSize = dimensionResource(id = R.dimen.fon_18).value.sp,
-                        color = MaterialTheme.colorScheme.onPrimary
+
+                        fontSize = 18.sp,
+                        color = Color.White
                     )
                 }
                 Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.dim_90)))
@@ -274,7 +286,7 @@ fun UserInfo(
                     painter = painterResource(id = R.drawable.baseline_edit_24) ,
                     contentDescription = "EditAddress",
                     modifier = Modifier.clickable(onClick = { navController.navigate("SavedAddress")}),
-                    tint = MaterialTheme.colorScheme.onPrimary
+                    tint = Color.White
                 )
             }
         }

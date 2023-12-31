@@ -18,6 +18,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -43,19 +44,10 @@ fun Order_Details(navController: NavController, item: ListItem, quantity:Int) {
         scrollState.scrollTo( 10000)
     }
 
-    Box(modifier = Modifier
-        .background(colorResource(id = R.color.DarkSurfaceColor))
-        .padding(dimensionResource(id = R.dimen.dim_0),dimensionResource(id = R.dimen.dim_50),dimensionResource(id = R.dimen.dim_0),dimensionResource(id = R.dimen.dim_50) )
-
+    Surface(modifier = Modifier
+        .padding(16.dp),
+        color=MaterialTheme.colorScheme.background
     ) {
-        ElevatedCard(
-            elevation = CardDefaults.cardElevation(
-                defaultElevation = dimensionResource(id = R.dimen.dim_10)
-            ),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(dimensionResource(id = R.dimen.dim_16), dimensionResource(id = R.dimen.dim_16), dimensionResource(id = R.dimen.dim_16), dimensionResource(id = R.dimen.dim_16)),
-        ) {
             Column(
                 modifier = Modifier.fillMaxSize()
                     .padding(dimensionResource(id = R.dimen.dim_16))
@@ -106,8 +98,9 @@ fun Order_Details(navController: NavController, item: ListItem, quantity:Int) {
 
                     }
                 }
-   }}
-}}
+            }
+        }
+    }
 
 
 

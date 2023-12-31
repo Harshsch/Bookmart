@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -32,23 +33,18 @@ fun LoginScreen(navController: NavController,loginViewModel: LoginViewModel = vi
     val context = LocalContext.current
     val scrollState = rememberScrollState()
     LaunchedEffect(scrollState) {
-        // Animate scroll to the top
         scrollState.scrollTo( 10000)
     }
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
         Surface(
             modifier = Modifier
-                .fillMaxSize()
-                .background(Color.White)
-                .padding(dimensionResource(id = R.dimen.dim_28))
-        ) {
+                .fillMaxSize(),
+            color=MaterialTheme.colorScheme.background
 
+        ) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
+                    .padding(16.dp)
                     .verticalScroll(state = scrollState),
             ) {
                 NormalTextComponent(value = stringResource(id = R.string.login))
@@ -114,6 +110,6 @@ fun LoginScreen(navController: NavController,loginViewModel: LoginViewModel = vi
         if(loginViewModel.loginInProgress.value) {
             CircularProgressIndicator()
         }
-    }
+
 }
 

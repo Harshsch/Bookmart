@@ -23,6 +23,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
@@ -68,7 +69,7 @@ fun NormalTextComponent(value: String) {
             fontSize = dimensionResource(id = R.dimen.fon_24).value.sp,
             fontWeight = FontWeight.Normal,
             fontStyle = FontStyle.Normal
-        ), color = colorResource(id = R.color.DarkBackgroundColor),
+        ), color = MaterialTheme.colorScheme.onPrimary,
         textAlign = TextAlign.Center
     )
 }
@@ -84,7 +85,7 @@ fun HeadingTextComponent(value: String) {
             fontSize = dimensionResource(id = R.dimen.fon_30).value.sp,
             fontWeight = FontWeight.Bold,
             fontStyle = FontStyle.Normal
-        ), color = colorResource(id =R.color.DarkBackgroundColor ),
+        ), color = MaterialTheme.colorScheme.onPrimary,
         textAlign = TextAlign.Center
     )
 }
@@ -104,7 +105,8 @@ fun MyTextFieldComponent(
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth(),
-        label = { Text(text = labelValue) },
+        label = { Text(text = labelValue,
+            color=MaterialTheme.colorScheme.onPrimary) },
 
 
         value = textValue.value,
@@ -141,7 +143,8 @@ fun PasswordTextFieldComponent(
         modifier = Modifier
             .fillMaxWidth(),
 
-        label = { Text(text = labelValue) },
+        label = { Text(text = labelValue,
+            color=MaterialTheme.colorScheme.onPrimary) },
         colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedBorderColor = DarkPrimaryColor,
             focusedLabelColor = DarkPrimaryColor,
@@ -224,13 +227,18 @@ fun ClickableTextComponent(value: String, onTextSelected: (String) -> Unit) {
     val termsAndConditionsText = "Term of Use"
 
     val annotatedString = buildAnnotatedString {
-        append(initialText)
-        withStyle(style = SpanStyle(color = DarkPrimaryColor)) {
+        withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.onPrimary)) {
+            append(initialText)
+        }
+        withStyle(style = SpanStyle(color = Color.Blue)) {
             pushStringAnnotation(tag = privacyPolicyText, annotation = privacyPolicyText)
             append(privacyPolicyText)
         }
-        append(andText)
-        withStyle(style = SpanStyle(color = DarkPrimaryColor)) {
+        withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.onPrimary)) {
+            append(andText)
+        }
+
+        withStyle(style = SpanStyle(color = Color.Blue)) {
             pushStringAnnotation(tag = termsAndConditionsText, annotation = termsAndConditionsText)
             append(termsAndConditionsText)
         }
@@ -272,7 +280,7 @@ fun ButtonComponent(value: String,
                 .fillMaxWidth()
                 .heightIn(dimensionResource(id = R.dimen.dim_48))
                 .background(
-                    color = colorResource(id=R.color.DarkBgColor)
+                    color = colorResource(id = R.color.DarkBgColor)
 
                 ),
             contentAlignment = Alignment.Center
@@ -307,8 +315,10 @@ fun DividerTextComponent() {
         Text(
             modifier = Modifier.padding(dimensionResource(id = R.dimen.dim_8)),
             text = stringResource(R.string.or),
-            fontSize = dimensionResource(id = R.dimen.fon_18).value.sp,
-            color = Color.Black
+
+            fontSize = 18.sp,
+            color = MaterialTheme.colorScheme.onPrimary
+
         )
         Divider(
             modifier = Modifier
@@ -327,13 +337,14 @@ fun ClickableLoginTextComponent(tryingToLogin: Boolean = true, onTextSelected: (
     val loginText = if (tryingToLogin) "Login" else "Register"
 
     val annotatedString = buildAnnotatedString {
-        append(initialText)
-        withStyle(style = SpanStyle(color = DarkPrimaryColor)) {
+        withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.onPrimary)) {
+            append(initialText)
+        }
+        withStyle(style = SpanStyle(color = Color.Blue)) {
             pushStringAnnotation(tag = loginText, annotation = loginText)
             append(loginText)
         }
     }
-
     ClickableText(
         modifier = Modifier
             .fillMaxWidth()
@@ -346,7 +357,6 @@ fun ClickableLoginTextComponent(tryingToLogin: Boolean = true, onTextSelected: (
         ),
         text = annotatedString,
         onClick = { offset ->
-
             annotatedString.getStringAnnotations(offset, offset)
                 .firstOrNull()?.also { span ->
                     Log.d("ClickableTextComponent", "{${span.item}}")
@@ -355,7 +365,6 @@ fun ClickableLoginTextComponent(tryingToLogin: Boolean = true, onTextSelected: (
                         onTextSelected(span.item)
                     }
                 }
-
         },
     )
 }
