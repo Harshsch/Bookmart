@@ -1,5 +1,6 @@
 package com.BookMart.bookmart.views.orderflow
 
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -24,6 +25,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -84,26 +86,14 @@ fun AddressCard(navController: NavController, item: ListItem, quantity:Int)
         defaultdatabaseReference.addValueEventListener(valueEventListener)
     }
 
-
-
-        Box(modifier = Modifier
-            .background(colorResource(id = R.color.DarkSurfaceColor))
-            .padding(0.dp, 50.dp, 0.dp, 50.dp)
-
+        Surface(modifier = Modifier,
+            color=MaterialTheme.colorScheme.background
         ) {
-            ElevatedCard(
-                elevation = CardDefaults.cardElevation(
-                    defaultElevation = 10.dp
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp, 16.dp, 16.dp, 16.dp),
-            ) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(16.dp)
-                       .verticalScroll(state = scrollState),
+                        .verticalScroll(state = scrollState),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
@@ -156,7 +146,8 @@ fun AddressCard(navController: NavController, item: ListItem, quantity:Int)
                     }
 
     }
-}}}
+}
+}
 @Composable
 fun ProgressBar(steps: List<String>, currentStep: String) {
     val currentStepIndex = steps.indexOf(currentStep)
@@ -189,7 +180,7 @@ fun ProgressBar(steps: List<String>, currentStep: String) {
 @Composable
 fun StepIndicator(text: String, isCurrent: Boolean, isCompleted: Boolean) {
     val indicatorColor = if (isCurrent) Color.Blue else if (isCompleted) Color.Green else Color.Gray
-    val textColor = if (isCurrent) Color.Black else Color.Gray
+    val textColor = if (isCurrent) Color.Blue else if (isCompleted) Color.Green else Color.Gray
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,

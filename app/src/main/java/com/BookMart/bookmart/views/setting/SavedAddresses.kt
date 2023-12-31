@@ -20,7 +20,9 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -83,73 +85,71 @@ fun SavedAddressesScreen(navController: NavController) {
         }
     })
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(colorResource(id = R.color.DarkPrimaryColor))
-
-    ) {
-        LazyColumn(
+    Surface(color = MaterialTheme.colorScheme.background){
+        Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
-                .background(colorResource(id = R.color.DarkPrimaryColor))
-
         ) {
-            item {
-            NormalTextComponent(value = "Step 1:- Add new address ")
-            AddressTextField("Residential Address", streetAddress) { value ->
-                streetAddress = value
-            }
-            AddressTextField("City, State, Postal Code", city) { value ->
-                city = value
-            }
-            AddressTextField("Mobile Number", Mobile_Number) { value ->
-                Mobile_Number = value
-            }
-
-
-
-            val context = LocalContext.current
-            Button(onClick = {
-
-                val UniqueiddatabaseReference = FirebaseDatabase.getInstance().getReference("addresses")
-                val newAddressRef = UniqueiddatabaseReference.push()
-                val addressId = newAddressRef.key
-                if (streetAddress.isNotEmpty() && city.isNotEmpty() && Mobile_Number.isNotEmpty()) {
-                    isConfirmButtonPressed = true
-                    val useraddress = currentUser?.displayName?.let {
-                        addressId?.let { it1 ->
-                            Address(
-                                id = it1,
-                                name = it,
-                                streetAddress = streetAddress,
-                                city = city,
-                                mobileNumber = Mobile_Number,
-                                // isDefault = true // Set this to true for the default address
-                            )
-                        }
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp)
+            ) {
+                item {
+                    NormalTextComponent(value = "Step 1:- Add new address ")
+                    AddressTextField("Residential Address", streetAddress) { value ->
+                        streetAddress = value
                     }
-                    databaseReference.push().setValue(useraddress)
+                    AddressTextField("City, State, Postal Code", city) { value ->
+                        city = value
+                    }
+                    AddressTextField("Mobile Number", Mobile_Number) { value ->
+                        Mobile_Number = value
+                    }
 
-                    // Clear form fields
 
-                } else {
-                    Toast.makeText(context, "Enter valid address", Toast.LENGTH_SHORT).show()
+                    val context = LocalContext.current
+                    Button(onClick = {
+
+                        val UniqueiddatabaseReference =
+                            FirebaseDatabase.getInstance().getReference("addresses")
+                        val newAddressRef = UniqueiddatabaseReference.push()
+                        val addressId = newAddressRef.key
+                        if (streetAddress.isNotEmpty() && city.isNotEmpty() && Mobile_Number.isNotEmpty()) {
+                            isConfirmButtonPressed = true
+                            val useraddress = currentUser?.displayName?.let {
+                                addressId?.let { it1 ->
+                                    Address(
+                                        id = it1,
+                                        name = it,
+                                        streetAddress = streetAddress,
+                                        city = city,
+                                        mobileNumber = Mobile_Number,
+                                        // isDefault = true // Set this to true for the default address
+                                    )
+                                }
+                            }
+                            databaseReference.push().setValue(useraddress)
+
+                        } else {
+                            Toast.makeText(context, "Enter valid address", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                        navController.navigate("SavedAddress")
+                    }) {
+                        Text(text = "+ Add a new address")
+                    }
+                    NormalTextComponent(value = "Step 2:- Select Address   ")
+
+                    if (savedaddress.isNotEmpty()) {
+                        AddressItemList(savedaddress, navController = navController)
+                    } else {
+                        Text(text = "Your Address is empty.",
+                            color = MaterialTheme.colorScheme.onPrimary)
+                    }
                 }
-                navController.navigate("SavedAddress")
-            }) {
-                Text(text = "+ Add a new address")
-            }
-               NormalTextComponent(value = "Step 2:- Select Address   ")
-
-            if (savedaddress.isNotEmpty()) {
-                AddressItemList(savedaddress, navController = navController)
-            } else {
-                Text(text = "Your Address is empty.")
             }
         }
-    }
     }
 }
 @Composable
@@ -160,18 +160,14 @@ fun AddressItem(address: Address, navController: NavController) {
     var defaultAddress by remember { mutableStateOf<Address?>(null) }
 
     LaunchedEffect(Unit) {
-        // Add a ValueEventListener to fetch and update the data
         val valueEventListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                // Retrieve the Address object from Firebase
                 val value = snapshot.getValue(Address::class.java)
                 if (value != null) {
                     defaultAddress = value
                 }
             }
-
             override fun onCancelled(error: DatabaseError) {
-                // Handle database error here
                 println("Database Error: $error")
             }
         }

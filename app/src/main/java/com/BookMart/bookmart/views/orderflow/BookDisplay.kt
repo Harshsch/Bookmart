@@ -26,6 +26,7 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -66,19 +67,10 @@ fun BookDisplay(navController: NavHostController, item: ListItem) {
         // Animate scroll to the top
         scrollState.scrollTo( 10000)
     }
-    Box(modifier = Modifier
-        .background(colorResource(id = R.color.DarkSurfaceColor))
-        .padding(16.dp)
-
+    Surface(modifier = Modifier
+        .padding(16.dp),
+        color=MaterialTheme.colorScheme.background
     ) {
-        ElevatedCard(
-            elevation = CardDefaults.cardElevation(
-                defaultElevation = 10.dp
-            ),
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(0.dp),
-        ) {
             Column(
                 modifier = Modifier.fillMaxSize()
                     .padding(16.dp)
@@ -101,7 +93,7 @@ fun BookDisplay(navController: NavHostController, item: ListItem) {
                         style = TextStyle(
                             fontSize = 16.sp,
                             fontWeight = FontWeight(600),
-                            color = Color(0xFF19191B),
+                            color = MaterialTheme.colorScheme.onPrimary,
                             textAlign = TextAlign.Center,
                         )
                     )
@@ -111,7 +103,7 @@ fun BookDisplay(navController: NavHostController, item: ListItem) {
                         style = TextStyle(
                             fontSize = 18.sp,
                             fontWeight = FontWeight(600),
-                            color = Color(0xFF19191B),
+                            color = MaterialTheme.colorScheme.onPrimary,
                             textAlign = TextAlign.Center,
                         ),
 
@@ -174,7 +166,7 @@ fun BookDisplay(navController: NavHostController, item: ListItem) {
                     style = TextStyle(
                         fontSize = 18.sp,
                         fontWeight = FontWeight(600),
-                        color = Color(0xFF19191B),
+                        color = MaterialTheme.colorScheme.onPrimary,
                         textAlign = TextAlign.Center,
                     )
                 )
@@ -234,7 +226,7 @@ fun BookDisplay(navController: NavHostController, item: ListItem) {
                     }
                 }
             }
-        }
+
     }
 }
 @Composable

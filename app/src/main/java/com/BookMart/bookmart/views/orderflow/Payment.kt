@@ -19,6 +19,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -103,19 +104,10 @@ fun Payment(navController: NavController, item: ListItem, quantity:Int) {
         }
     }
 
-    Box(modifier = Modifier
-        .background(colorResource(id = R.color.DarkSurfaceColor))
-        .padding(0.dp, 50.dp, 0.dp, 50.dp)
-
+    Surface(modifier = Modifier
+        .padding(16.dp),
+        color=MaterialTheme.colorScheme.background
     ) {
-        ElevatedCard(
-            elevation = CardDefaults.cardElevation(
-                defaultElevation = 10.dp
-            ),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp, 16.dp, 16.dp, 16.dp),
-        ) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -215,7 +207,7 @@ fun Payment(navController: NavController, item: ListItem, quantity:Int) {
                 Text(text = "Confirm Order ")
             }
         }
-    }}
+    }
 }
 @Composable
 fun PaymentOption(

@@ -214,7 +214,7 @@ fun UserInfo(
                 text = "User Information ",
                 fontWeight = FontWeight.Bold,
                 fontSize = 22.sp,
-                color = MaterialTheme.colorScheme.onPrimary
+                color = Color.White
             )
             Row() {
                 if (Name != null) {
@@ -222,14 +222,14 @@ fun UserInfo(
                         text = "Name: $Name",
                         fontWeight = FontWeight.Normal,
                         fontSize = 18.sp,
-                        color = MaterialTheme.colorScheme.onPrimary
+                        color = Color.White
                     )
                 } else {
                     Text(
                         text = "Null",
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp,
-                        color = MaterialTheme.colorScheme.onPrimary
+                        color = Color.White
                     )
                 }
 
@@ -240,32 +240,35 @@ fun UserInfo(
                         text = "Mobile Number : $mobilenumber",
                         fontWeight = FontWeight.Normal,
                         fontSize = 18.sp,
-                        color = MaterialTheme.colorScheme.onPrimary
+                        color = Color.White
                     )
                 } else {
                     Text(
                         text = "Mobile Number not available",
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp,
-                        color = MaterialTheme.colorScheme.onPrimary
+                        color = Color.White
                     )
                 }
+
             }
             Spacer(modifier = Modifier.height(16.dp))
-            Row {
+            Row (){
+
+
                 if (mobilenumber != null) {
                     Text(
                         text = " Default Address : $AddressStreet\n $AddressCity",
                         fontWeight = FontWeight.Normal,
                         fontSize = 18.sp,
-                        color =MaterialTheme.colorScheme.onPrimary
+                        color = Color.White
                     )
                 } else {
                     Text(
                         text = "Mobile Number not available",
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp,
-                        color = MaterialTheme.colorScheme.onPrimary
+                        color = Color.White
                     )
                 }
                 Spacer(modifier = Modifier.width(90.dp))
@@ -273,7 +276,7 @@ fun UserInfo(
                     painter = painterResource(id = R.drawable.baseline_edit_24) ,
                     contentDescription = "EditAddress",
                     modifier = Modifier.clickable(onClick = { navController.navigate("SavedAddress")}),
-                    tint = MaterialTheme.colorScheme.onPrimary
+                    tint = Color.White
                 )
             }
         }
