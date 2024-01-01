@@ -143,12 +143,16 @@ fun BottomBarScreen(
             topBar = {
                 TopAppBar(
                     title = {
-                        Column(verticalArrangement = Arrangement.Center) {
-                            Text(
-                                text = "Howdy ${currentUserinfo?.displayName}  !!",
-                                style = MaterialTheme.typography.titleMedium,
-                                color = Color.White
-                            )
+                        if(currentUserinfo?.displayName!=null) {
+                            Column(verticalArrangement = Arrangement.Center) {
+                                Text(
+                                    text = "Howdy ${currentUserinfo?.displayName}!!",
+                                    style = MaterialTheme.typography.titleMedium,
+                                    color = Color.White
+                                )
+
+                            }
+                        }else{
 
                         }
                     },

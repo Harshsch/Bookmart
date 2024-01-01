@@ -49,9 +49,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.BookMart.bookmart.data.itemList
 import com.BookMart.bookmart.domain.models.products.ListItem
+import com.BookMart.bookmart.viewModels.home.HomeViewModel
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 
@@ -105,7 +107,8 @@ fun HomeScreen(navController: NavHostController)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DepartmentBooks(navController: NavHostController) {
+fun DepartmentBooks(navController: NavHostController,) {
+    val viewmodel:HomeViewModel= viewModel()
     var text by remember { mutableStateOf("") }
     val lazyColumnState = rememberLazyListState()
     val textState = rememberUpdatedState(text)
@@ -138,12 +141,8 @@ fun DepartmentBooks(navController: NavHostController) {
         }
     }
     val searchQuery = text
-    fun searchBooksByName(query: String): List<ListItem> {
-        val lowercaseQuery = query.toLowerCase()
-        return itemList.filter { it.name.toLowerCase().contains(lowercaseQuery) }
-    }
 
-    val results = searchBooksByName(searchQuery)
+    val results = viewmodel.searchBooks(searchQuery)
 
     LazyColumn(state = lazyColumnState)
     {
