@@ -60,6 +60,9 @@ dependencies {
     androidTestImplementation("androidx.test:rules:1.4.0")
 
 
+    implementation ("androidx.compose.runtime:runtime-livedata:1.0.0")
+
+
     implementation ("com.google.accompanist:accompanist-insets:0.18.0")
 
     implementation ("androidx.navigation:navigation-compose:2.7.3")
@@ -102,5 +105,6 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     implementation ("androidx.compose.runtime:runtime:1.5.2")
+
 
 }
