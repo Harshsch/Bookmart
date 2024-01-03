@@ -170,24 +170,7 @@ fun MyOrdersScreen(navController: NavHostController) {
 
 @Composable
 fun CartItemRow(cartItem: CartItem, navController:NavController) {
-    val currentUser = FirebaseAuth.getInstance().currentUser
-    val userId =currentUser?.uid
-    val context = LocalContext.current
-    val CartViewModel = viewModel<CartViewModel>()
-    //val cartlistkey= CartViewModel.cartkey
-//    fun deleteSpecificEntries() {
-//        val cartlistRef = FirebaseDatabase.getInstance().getReference("users/$userId/cartlist/$cartlistkey")
-//
-//        cartlistRef.removeValue()
-//            .addOnSuccessListener {
-//                Toast.makeText(context, "$cartlistkey", Toast.LENGTH_SHORT).show()
-//
-//            }.addOnFailureListener {
-//                Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
-//
-//            }
-   // }
-    ElevatedCard(
+     ElevatedCard(
         elevation = CardDefaults.cardElevation(
             defaultElevation = dimensionResource(id = R.dimen.dim_4)
         ),
