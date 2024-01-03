@@ -105,6 +105,26 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     implementation ("androidx.compose.runtime:runtime:1.5.2")
+    // Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+
+    //Dagger - Hilt
+    implementation("com.google.dagger:hilt-android:2.47")
+    // Kotlin extensions and Room coroutine support
+    implementation("androidx.room:room-ktx:2.5.2")
+
+    //Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+
+    //GSON
+    implementation("com.google.code.gson:gson:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
+
+    //coil
+    implementation("io.coil-kt:coil-compose:2.5.0")
 
 
 }
