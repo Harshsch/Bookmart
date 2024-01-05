@@ -1,13 +1,14 @@
 package com.BookMart.bookmart
 
-import androidx.activity.viewModels
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
@@ -19,13 +20,20 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -36,6 +44,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -57,12 +66,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.BookMart.bookmart.data.itemList
 import com.BookMart.bookmart.domain.models.products.ListItem
+import com.BookMart.bookmart.utils.composables.PageIndicator
 import com.BookMart.bookmart.utils.composables.ShimmerBrush
 import com.BookMart.bookmart.viewModels.home.HomeViewModel
 import com.BookMart.bookmart.viewModels.home.MyViewModel
@@ -70,7 +79,10 @@ import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.harsh.booksapi.model.Booksitem
 import com.harsh.booksapi.model.BooksitemItem
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(navController: NavHostController)
 {
@@ -85,34 +97,112 @@ fun HomeScreen(navController: NavHostController)
         ) {
             var isCardVisible by remember { mutableStateOf(true) }
 
-            if (isCardVisible) {
-                ElevatedCard(
-                    elevation = CardDefaults.cardElevation(
-                        defaultElevation = dimensionResource(id = R.dimen.dim_10)
-                    ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(dimensionResource(id = R.dimen.dim_16)),
-                    colors = CardDefaults.cardColors(
-                        containerColor = colorResource(id = R.color.DarkSecondaryColor),
-                    ),
+
+            val images = listOf(
+                R.drawable.banner1,
+                R.drawable.banner2,
+                R.drawable.banner3,
+                R.drawable.banner4
+            )
+            val pagerState = rememberPagerState (
+                pageCount = {images.size}
+            )
+            LaunchedEffect(Unit) {
+                while (true) {
+                    delay(2000)
+                    val nextPage = (pagerState.currentPage + 1) % pagerState.pageCount
+                    pagerState.scrollToPage(nextPage)
+                }
+            }
+            val scope = rememberCoroutineScope()
+
+            Column(
+                Modifier.wrapContentSize(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Box(modifier = Modifier.wrapContentSize()
+                    //.align(Alignment.CenterHorizontally)
                 ) {
-                    Column(modifier = Modifier.padding(dimensionResource(id = R.dimen.dim_20))) {
-                        Text(
-                            text = stringResource(id = R.string.ready_for_exam),
-                            modifier = Modifier
+                    HorizontalPager(
+                        state = pagerState,
+                        Modifier
+                            .wrapContentSize()
+
+                    ) { currentPage ->
+
+                        Card(
+                            Modifier
+                                .height(250.dp)
                                 .fillMaxWidth()
-                                .heightIn(),
-                            style = TextStyle(
-                                fontSize = dimensionResource(id = R.dimen.fon_30).value.sp,
-                                fontWeight = FontWeight.Bold,
-                                fontStyle = FontStyle.Normal
-                            ), color = colorResource(id = R.color.LightBackgroundColor),
-                            textAlign = TextAlign.Center
+                                .padding(26.dp),
+
+                            elevation = CardDefaults.cardElevation(8.dp)
+                        ) {
+                            Image(
+                                painter = painterResource(id = images[currentPage]),
+                                contentDescription = "",
+                                modifier = Modifier.align(Alignment.CenterHorizontally),
+                            )
+                        }
+                    }
+                    IconButton(
+                        onClick = {
+                            val nextPage = pagerState.currentPage + 1
+                            if (nextPage < images.size) {
+                                scope.launch {
+                                    pagerState.scrollToPage(nextPage)
+                                }
+                            }
+                        },
+                        Modifier
+                            .padding(30.dp)
+                            .size(48.dp)
+                            .align(Alignment.CenterEnd)
+                            .clip(CircleShape),
+                        colors = IconButtonDefaults.iconButtonColors(
+                            containerColor = Color(0x52373737)
+                        )
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.KeyboardArrowRight, contentDescription = "",
+                            Modifier.fillMaxSize(),
+                            tint = Color.LightGray
+                        )
+                    }
+                    IconButton(
+                        onClick = {
+                            val prevPage = pagerState.currentPage -1
+                            if (prevPage >= 0) {
+                                scope.launch {
+                                    pagerState.scrollToPage(prevPage)
+                                }
+                            }
+                        },
+                        Modifier
+                            .padding(30.dp)
+                            .size(48.dp)
+                            .align(Alignment.CenterStart)
+                            .clip(CircleShape),
+                        colors = IconButtonDefaults.iconButtonColors(
+                            containerColor = Color(0x52373737)
+                        )
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.KeyboardArrowLeft, contentDescription = "",
+                            Modifier.fillMaxSize(),
+                            tint = Color.LightGray
                         )
                     }
                 }
+
+                PageIndicator(
+                    pageCount = images.size,
+                    currentPage = pagerState.currentPage,
+
+                )
+
             }
+            
             DepartmentBooks(navController = navController)
         }
     }
@@ -484,6 +574,7 @@ fun mainBooksRow(viewModel: MyViewModel= viewModel()){
     val bookList by remember { viewModel.data }.observeAsState()
 
 
+
     LaunchedEffect(Unit) {
         viewModel.fetchData()
     }
@@ -544,7 +635,8 @@ fun BookListItem(book: BooksitemItem, brush: Brush = ShimmerBrush()) {
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp
                     ),
-                    modifier = Modifier.padding(bottom = 4.dp)
+                    modifier = Modifier.padding(bottom = 4.dp),
+                    color = Color.Black
                 )
 
                 // Book department
