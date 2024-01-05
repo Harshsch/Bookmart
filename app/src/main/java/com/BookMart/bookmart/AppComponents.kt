@@ -28,8 +28,11 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -94,25 +97,20 @@ fun HeadingTextComponent(value: String) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyTextFieldComponent(
-    labelValue: String, painterResource: Painter,
+    labelValue: String,
+    painterResource: Painter,
     onTextChanged: (String) -> Unit,
-     errorStatus: Boolean = false
+    errorStatus: Boolean = false
 ) {
-    val textValue = remember {
-        mutableStateOf("")
-    }
+    var textValue by rememberSaveable { mutableStateOf("") }
 
     OutlinedTextField(
-        modifier = Modifier
-            .fillMaxWidth(),
-        label = { Text(text = labelValue,
-            color=MaterialTheme.colorScheme.onPrimary) },
-
-
-        value = textValue.value,
+        modifier = Modifier.fillMaxWidth(),
+        label = { Text(text = labelValue, color = MaterialTheme.colorScheme.onPrimary) },
+        value = textValue,
         onValueChange = {
-            textValue.value = it
-          onTextChanged(it)
+            textValue = it
+            onTextChanged(it)
         },
         leadingIcon = {
             Icon(painter = painterResource, contentDescription = "")
@@ -120,6 +118,7 @@ fun MyTextFieldComponent(
         isError = !errorStatus
     )
 }
+
 
 
 @OptIn(ExperimentalMaterial3Api::class)

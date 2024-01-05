@@ -44,6 +44,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.BookMart.bookmart.R
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "SuspiciousIndentation")
 @Composable
@@ -55,7 +57,8 @@ fun SettingsScreen(navController: NavHostController) {
         ) { LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .fillMaxSize().padding(dimensionResource(id = R.dimen.dim_16))
+                .fillMaxSize()
+                .padding(dimensionResource(id = R.dimen.dim_16))
 
 
             ){
@@ -162,7 +165,31 @@ fun SettingsScreen(navController: NavHostController) {
             },
         ) {
             Text(text = "Logout")
-        }}}}
+        }}
+            item{
+                val user = Firebase.auth.currentUser!!
+
+
+                    Button(
+                        onClick = {
+                            val user = Firebase.auth.currentUser!!
+
+                            user.delete()
+                                .addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        Log.d(TAG, "User account deleted.")
+                                    }
+                                }
+                            navController.navigate("home_route")
+
+
+                        },
+                    ) {
+                        Text(text = "Delete account")
+                    }
+
+        }
+            }}
 
 
 }
