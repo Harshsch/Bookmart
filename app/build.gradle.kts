@@ -16,8 +16,8 @@ android {
         applicationId = "com.BookMart.bookmart"
         minSdk = 24
         targetSdk = 34
-        versionCode = 6
-        versionName = "6.1"
+        versionCode = 8
+        versionName = "8.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -125,6 +125,9 @@ dependencies {
 
     //coil
     implementation("io.coil-kt:coil-compose:2.5.0")
+
+    implementation ("androidx.compose.material3:material3:1.0.0-alpha04")
+
 
 
 }

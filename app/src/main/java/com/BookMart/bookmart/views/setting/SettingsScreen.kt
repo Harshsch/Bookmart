@@ -29,6 +29,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -43,6 +47,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.BookMart.bookmart.R
+import com.BookMart.bookmart.utils.composables.ConfirmDialog
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -50,6 +55,9 @@ import com.google.firebase.ktx.Firebase
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "SuspiciousIndentation")
 @Composable
 fun SettingsScreen(navController: NavHostController) {
+    var showDialog by remember {
+        mutableStateOf (false)
+    }
     val context = LocalContext.current
 
         Surface(
@@ -167,29 +175,39 @@ fun SettingsScreen(navController: NavHostController) {
             Text(text = "Logout")
         }}
             item{
-                val user = Firebase.auth.currentUser!!
-
-
                     Button(
                         onClick = {
-                            val user = Firebase.auth.currentUser!!
-
-                            user.delete()
-                                .addOnCompleteListener { task ->
-                                    if (task.isSuccessful) {
-                                        Log.d(TAG, "User account deleted.")
-                                    }
-                                }
-                            navController.navigate("home_route")
-
-
+                            showDialog = true
                         },
                     ) {
                         Text(text = "Delete account")
                     }
 
         }
-            }}
+            }
+            if (showDialog) {
+                ConfirmDialog(
+                    onConfirm = {
+                        val user = Firebase.auth.currentUser!!
+
+                        user.delete()
+                            .addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    Log.d(TAG, "User account deleted.")
+                                }
+                            }
+                        navController.navigate("home_route")
+
+                        showDialog = false
+                    },
+                    onCancel = {
+                        // Handle cancellation logic
+                        showDialog = false
+                    }
+                )
+            }
+
+        }
 
 
 }
