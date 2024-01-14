@@ -71,6 +71,7 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.BookMart.bookmart.data.itemList
 import com.BookMart.bookmart.domain.models.products.ListItem
+import com.BookMart.bookmart.utils.composables.BooksCard
 import com.BookMart.bookmart.utils.composables.PageIndicator
 import com.BookMart.bookmart.utils.composables.ShimmerBrush
 import com.BookMart.bookmart.viewModels.home.HomeViewModel
@@ -269,13 +270,13 @@ fun DepartmentBooks(navController: NavHostController,) {
         item {
             LazyRow {
                 items(results) { item ->
-                    BooksRow(navController = navController, item = item)
+                    BooksCard(navController = navController, item = item)
                 }
             }
         }
 
 
-        item{mainBooksRow()}
+        item{mainBooksCard()}
         item {
             Text(
                 text = "First Year",
@@ -293,7 +294,7 @@ fun DepartmentBooks(navController: NavHostController,) {
         item {
             LazyRow {
                 items(itemList.filter { it.department == "First Year" }) { item ->
-                    BooksRow(navController = navController, item = item)
+                    BooksCard(navController = navController, item = item)
                 }
             }
         }
@@ -329,7 +330,7 @@ fun DepartmentBooks(navController: NavHostController,) {
         item {
             LazyRow {
                 items(itemList.filter { it.department=="Computer Science"&& it.year==2 }) { item ->
-                    BooksRow(navController = navController, item = item)
+                    BooksCard(navController = navController, item = item)
                 }
             }
         }
@@ -350,7 +351,7 @@ fun DepartmentBooks(navController: NavHostController,) {
         item {
             LazyRow {
                 items(itemList.filter { it.department=="Computer Science"&& it.year==3 }) { item ->
-                    BooksRow(navController = navController, item = item)
+                    BooksCard(navController = navController, item = item)
                 }
             }
         }
@@ -371,7 +372,7 @@ fun DepartmentBooks(navController: NavHostController,) {
         item {
             LazyRow {
                 items(itemList.filter { it.department=="Computer Science"&& it.year==4 }) { item ->
-                    BooksRow(navController = navController, item = item)
+                    BooksCard(navController = navController, item = item)
                 }
             }
         }
@@ -405,7 +406,7 @@ fun DepartmentBooks(navController: NavHostController,) {
         item {
             LazyRow {
                 items(itemList.filter { it.department=="Information Technology"&& it.year==2 }) { item ->
-                    BooksRow(navController = navController, item = item)
+                    BooksCard(navController = navController, item = item)
                 }
             }
           }
@@ -426,7 +427,7 @@ fun DepartmentBooks(navController: NavHostController,) {
         item {
             LazyRow {
                 items(itemList.filter { it.department=="Information Technology"&& it.year==3 }) { item ->
-                    BooksRow(navController = navController, item = item)
+                    BooksCard(navController = navController, item = item)
                 }
             }
         }
@@ -447,7 +448,7 @@ fun DepartmentBooks(navController: NavHostController,) {
         item {
             LazyRow {
                 items(itemList.filter { it.department=="Information Technology"&& it.year==4 }) { item ->
-                    BooksRow(navController = navController, item = item)
+                    BooksCard(navController = navController, item = item)
                 }
             }
         }
@@ -465,7 +466,7 @@ fun DepartmentBooks(navController: NavHostController,) {
         item {
             LazyRow {
                 items(itemList) { item ->
-                    BooksRow(navController = navController, item = item)
+                    BooksCard(navController = navController, item = item)
                 }
             }
         }
@@ -484,94 +485,9 @@ fun DepartmentBooks(navController: NavHostController,) {
         }
     }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun BooksRow(navController: NavHostController, item: ListItem) {
-    Column {
-        Card(
-            onClick = { navController.navigate("BookDisplay/${item.id}")
-            },
-            modifier = Modifier
-                .padding(dimensionResource(id = R.dimen.dim_5))
-                .shadow(
-                    elevation = dimensionResource(id = R.dimen.dim_14),
-                    spotColor = Color(0x0D06070D),
-                    ambientColor = Color(0x0D06070D)
-                )
-                .width(dimensionResource(id = R.dimen.dim_180))
-                .height(290.60001.dp),
-            colors = CardDefaults.cardColors(
-                containerColor =colorResource(id = R.color.DarkSecondaryColor),
-            ),
-            ) {
-            Image(
-                painter = painterResource(id = item.imageResId),
-                contentDescription = "image description",
-                modifier = Modifier
-                    .shadow(
-                        elevation = dimensionResource(id = R.dimen.dim_14),
-                        spotColor = Color(0x0D06070D),
-                        ambientColor = Color(0x0D06070D)
-                    )
-                    .width(dimensionResource(id = R.dimen.dim_180))
-                    .height(249.60001.dp),
-                contentScale = ContentScale.FillBounds
-            )
-            Text(
-                text = item.name,
-                Modifier,
-                style = TextStyle(
-                    fontSize = dimensionResource(id = R.dimen.fon_16).value.sp,
-                    fontWeight = FontWeight(600),
-                    color = colorResource(id = R.color.LightBackgroundColor),
-                    textAlign = TextAlign.Center,
-                )
-            )
-            Text(
-                text = "Year ${item.year}, Semester ${item.semester}",
-                Modifier
-                    .width(dimensionResource(id = R.dimen.dim_155))
-                    .height(dimensionResource(id = R.dimen.dim_18))
-                    .align(Alignment.CenterHorizontally),
-                style = TextStyle(
-                    fontSize = dimensionResource(id = R.dimen.fon_12).value.sp,
-                    fontWeight = FontWeight(500),
-                    color = Color(0xFFF2F2F2),
-                    textAlign = TextAlign.Center,
-                )
-            )
-            Text(
-                text = "Department: ${item.department}",
-                Modifier
-                    .width(dimensionResource(id = R.dimen.dim_155))
-                    .height(dimensionResource(id = R.dimen.dim_18))
-                    .align(Alignment.CenterHorizontally),
-                style = TextStyle(
-                    fontSize = dimensionResource(id = R.dimen.fon_12).value.sp,
-                    fontWeight = FontWeight(500),
-                    color = Color(0xFF9D9D9D),
-                    textAlign = TextAlign.Center,
-                )
-            )
-            Text(
-                text = "Price: ${item.price}",
-                Modifier
-                    .width(dimensionResource(id = R.dimen.dim_155))
-                    .height(dimensionResource(id = R.dimen.dim_18))
-                    .align(Alignment.CenterHorizontally),
-                style = TextStyle(
-                    fontSize = dimensionResource(id = R.dimen.fon_12).value.sp,
-                    fontWeight = FontWeight(500),
-                    color = Color(0xFF9D9D9D),
-                    textAlign = TextAlign.Center,
-                )
-            )
-        }
-    }
-}
 
 @Composable
-fun mainBooksRow(viewModel: MyViewModel= viewModel()){
+fun mainBooksCard(viewModel: MyViewModel= viewModel()){
     val bookList by remember { viewModel.data }.observeAsState()
 
 
