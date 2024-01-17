@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -67,6 +68,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.BookMart.bookmart.data.itemList
@@ -86,7 +88,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HomeScreen(navController: NavHostController)
+fun HomeScreen(navController: NavController)
 {
     val context = LocalContext.current
     FirebaseApp.initializeApp(context)
@@ -98,8 +100,6 @@ fun HomeScreen(navController: NavHostController)
                 .padding(dimensionResource(id = R.dimen.dim_16))
         ) {
             var isCardVisible by remember { mutableStateOf(true) }
-
-
             val images = listOf(
                 R.drawable.banner1,
                 R.drawable.banner2,
@@ -213,7 +213,7 @@ fun HomeScreen(navController: NavHostController)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DepartmentBooks(navController: NavHostController,) {
+fun DepartmentBooks(navController: NavController,) {
     val viewmodel:HomeViewModel= viewModel()
     var text by remember { mutableStateOf("") }
     val lazyColumnState = rememberLazyListState()
@@ -227,6 +227,7 @@ fun DepartmentBooks(navController: NavHostController,) {
 
         },
         modifier = Modifier
+            .clickable { navController.navigate("SearchSuggestion_route") }
             .fillMaxWidth()
             .padding(dimensionResource(id = R.dimen.dim_20))
             .clip(RoundedCornerShape(dimensionResource(id = R.dimen.dim_30)))

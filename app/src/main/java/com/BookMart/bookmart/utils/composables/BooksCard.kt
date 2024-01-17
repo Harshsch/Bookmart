@@ -23,13 +23,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.BookMart.bookmart.R
 import com.BookMart.bookmart.domain.models.products.ListItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BooksCard(navController: NavHostController, item: ListItem) {
+fun BooksCard(navController: NavController, item: ListItem) {
     Column (modifier = Modifier.padding(4.dp)){
         Card(
             onClick = {
