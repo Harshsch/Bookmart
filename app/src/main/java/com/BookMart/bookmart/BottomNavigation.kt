@@ -3,14 +3,23 @@ package com.BookMart.bookmart
 import android.annotation.SuppressLint
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -31,21 +40,25 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.BookMart.bookmart.views.myorders.MyOrdersScreen
 import com.BookMart.bookmart.views.setting.SettingsScreen
 import com.BookMart.bookmart.config.ui.theme.DarkSurfaceColor
+import com.BookMart.bookmart.data.itemList
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
@@ -132,8 +145,21 @@ fun BottomBarScreen(
             BottomselectedItemIndex = destinationIndex
         }
     }
-    // Initialize Firebase Auth
+    val VpagerState = rememberPagerState(
+        initialPage = 0,
+        initialPageOffsetFraction = 0f
+    ) {
+        itemList.size
+    }
 
+    // Initialize Firebase Auth
+    LaunchedEffect(Unit) {
+        while (true) {
+            delay(2000)
+            val nextPage = (VpagerState.currentPage + 1) % VpagerState.pageCount
+            VpagerState.scrollToPage(nextPage)
+        }
+    }
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -143,7 +169,7 @@ fun BottomBarScreen(
             topBar = {
                 TopAppBar(
                     title = {
-                        if(currentUserinfo?.displayName!=null) {
+                        if (currentUserinfo?.displayName != null) {
                             Column(verticalArrangement = Arrangement.Center) {
                                 Text(
                                     text = "Howdy ${currentUserinfo?.displayName}!!",
@@ -152,13 +178,25 @@ fun BottomBarScreen(
                                 )
 
                             }
-                        }else{
+                        } else {
 
                         }
                     },
                     modifier = Modifier,
 
                     actions = {
+                        Row {
+
+                            Icon(
+                                painter = painterResource(id = R.drawable.baseline_search_24),
+                                contentDescription = "",
+                                modifier = Modifier
+                                    //.align(Alignment.CenterVertically)
+                                    .clickable { navController.navigate("SearchSuggestion_route") },
+                                tint = Color.White
+                            )
+
+                        }
                         IconButton(onClick =
                         {
                             if (currentUserinfo != null) {
@@ -183,7 +221,7 @@ fun BottomBarScreen(
             bottomBar = {
                 NavigationBar(
                     modifier = Modifier
-                    .animateContentSize(),
+                        .animateContentSize(),
                     containerColor = DarkSurfaceColor,
                 ) {
                     items.forEachIndexed { index, item ->
@@ -257,27 +295,26 @@ fun BottomBarScreen(
                     state = pagerState
                 ) { page ->
 
-                        when (page) {
-                            0 -> HomeScreen(navController = navController)
-                            1 ->  if (currentUserinfo != null ) {
-                                MyOrdersScreen(navController = navController)
-                            }
-                            else {
-                                navController.navigate("Signup")
-                            }
-                            2 ->  if (currentUserinfo != null) {
-                                SettingsScreen(navController = navController)
-                            }
-                            else {
-                                navController.navigate("Signup")
-                            }
+                    when (page) {
+                        0 -> HomeScreen(navController = navController)
+                        1 -> if (currentUserinfo != null) {
+                            MyOrdersScreen(navController = navController)
+                        } else {
+                            navController.navigate("Signup")
                         }
 
+                        2 -> if (currentUserinfo != null) {
+                            SettingsScreen(navController = navController)
+                        } else {
+                            navController.navigate("Signup")
+                        }
                     }
+
                 }
             }
         }
     }
+}
 
 
 

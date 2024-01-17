@@ -15,6 +15,8 @@ import com.BookMart.bookmart.data.itemList
 import com.BookMart.bookmart.topbackbar
 import com.BookMart.bookmart.utils.helpers.isInternetConnected
 import com.BookMart.bookmart.views.NoInternetScreen
+import com.BookMart.bookmart.views.SearchView.SearchSuggestion
+import com.BookMart.bookmart.views.SearchView.SearchView
 import com.BookMart.bookmart.views.home.SplashScreen
 import com.BookMart.bookmart.views.myorders.MyOrdersScreen
 import com.BookMart.bookmart.views.orderflow.AddressCard
@@ -273,6 +275,29 @@ fun Navigation() {
                 }
             }
             }
+        }
+
+        composable("Search_View_rout") {
+
+                if(!isInternetConnected(LocalContext.current))
+                {
+                    navController.navigate("no_internet")
+                }
+                else{
+                    SearchView(navController = navController,)
+
+                }
+        }
+        composable("SearchSuggestion_route") {
+
+                if(!isInternetConnected(LocalContext.current))
+                {
+                    navController.navigate("no_internet")
+                }
+                else{
+                    SearchSuggestion(navController = navController)
+
+                }
         }
 
 
